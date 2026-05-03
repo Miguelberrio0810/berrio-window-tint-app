@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Berrio Window Tint</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- <link type="image/png" sizes="16x16" rel="icon" href=".../icons8-coche-pastel_glyph-16.png"> -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+  <div class="page-wrapper">
+
+<!-- Header -->
+    <header>
+      <div class="logo">
+        <img src="img/LogoBerrioTint.jpg" alt="Logo Berrio Window Tint">
+      </div>
+      <nav>
+        <ul>
+          <li><a href="#servicios" data-i18n="servicios">Servicios</a></li>
+          <li><a href="#galeria" data-i18n="galeria">Galería</a></li>
+          <li><a href="#contacto" data-i18n="contacto">Contacto</a></li>
+        </ul>
+        <div class="idioma">
+          <button>🌐EN</button>
+        </div>
+        <a href="#cotizacion" class="btn" data-i18n="cotizar">Cotizar</a>
+      </nav>
+    </header>
+    
+    <!-- Descripcion -->
+<section class="description">
+  <div class="description-text">
+    <h2 class="description-title" data-i18n="descripcionTitle">
+      Te presentamos Berrío Window Tint, una empresa en Gainesville, Florida, dedicada al tinte profesional de ventanas para vehículos, residencias y espacios comerciales.
+    </h2>
+    <p data-i18n="descripcionText">
+      Nuestro propósito es simple: ayudarte a vivir y conducir con mayor comodidad, seguridad y privacidad.
+    </p>
+    <div class="description-buttons">
+      <button class="btn schedule" data-i18n="cotizar">Solicita Tu Cotización Aquí</button>
+      <button class="btn contact" data-i18n="llamanos">Llámanos</button>
+    </div>
+  </div>
+
+  <figure class="description-image">
+    <img src="img/Car.jpg" alt="Carro con polarizado" class="carimg">
+  </figure>
+</section>
+
+    
+    <!-- Why Choose Us -->
+    <section class="whychooseus" id="whychooseus">
+      <h1 class="whychoosetitle" data-i18n="whychooseus">Por Qué Elegirnos</h1>
+      <div class="cards">
+        <article class="card">
+          <div class="icon"><i class="fas fa-certificate"></i></div>
+          <h6 data-i18n="card1title">Instaladores Certificados</h6>
+          <p data-i18n="card1desc">Profesionales capacitados en fábrica</p>
+        </article>
+        <article class="card">
+          <div class="icon"><i class="fas fa-clock"></i></div>
+          <h6 data-i18n="card2title">Servicio el Mismo Día</h6>
+          <p data-i18n="card2desc">Tiempo de respuesta rápido</p>
+        </article>
+        <article class="card">
+          <div class="icon"><i class="fas fa-star"></i></div>
+          <h6 data-i18n="card3title">Calificación 5 Estrellas</h6>
+          <p data-i18n="card3desc">Confianza de miles</p>
+        </article>
+      </div>
+    </section>
+
+<!-- Galería -->
+    <section class="gallery" id="galeria">
+      <h1 class="gallerytitle" data-i18n="gallerytitle">Galería</h1>
+      <button class="prev"><i class="fas fa-chevron-left"></i></button>
+      <div class="galleryimg">
+        <div class="group">
+          <img src="img/carro1.jpeg" alt="carro1">
+          <img src="img/carro1.2.jpeg" alt="carro1.2">
+          <img src="img/carro1.3.jpeg" alt="carro1.3">
+        </div>
+        <div class="group">
+          <img src="img/carro3.3.jpeg" alt="carro3.3">
+          <img src="img/carro3.1.jpeg" alt="carro3.1">
+          <img src="img/carro3.2.jpeg" alt="carro3.2">
+        </div>
+        <div class="group">
+          <img src="img/carro4.jpeg" alt="carro4">
+          <img src="img/carro4.2.jpeg" alt="carro4.2">
+          <img src="img/carro4.3.jpeg" alt="carro4.3">
+        </div>
+        <div class="group">
+          <img src="img/carro5.png" alt="carro5">
+          <img src="img/carro5.1.jpeg" alt="carro5.1">
+          <img src="img/carro5.4.jpeg" alt="carro5.4">
+        </div>
+      </div>
+      <button class="next"><i class="fas fa-chevron-right"></i></button>
+    </section>
+
+
+
+        <!-- Servicios -->
+    <section class="services" id="servicios">
+      <h1 data-i18n="servicestitle">Servicios</h1>
+      <p data-i18n="servicesdesc">Soluciones profesionales de polarizado para cada necesidad</p>
+      <div class="services-container">
+        <article class="scard">
+          <div class="icon"><i class="fas fa-car"></i></div>
+          <h4 class="card-title" data-i18n="serviceAuto">Tintado Automotriz</h4>
+          <ul>
+            <li data-i18n="auto1">Bloquea rayos UV y protege la tapicería.</li>
+            <li data-i18n="auto2">Reduce el calor interior y ahorra combustible.</li>
+            <li data-i18n="auto3">Mayor privacidad y seguridad en el vehículo.</li>
+          </ul>
+          <div class="card-buttons">
+            <button class="schedule" data-i18n="cotizar">Solicita Tu Cotización Aquí</button>
+            <button class="appoint" data-i18n="schedule">Agenda Tu Cita</button>
+          </div>
+        </article>
+                <article class="scard">
+          <div class="icon"><i class="fas fa-home"></i></div>
+          <h4 class="card-title" data-i18n="serviceAuto">Tintado Residencial</h4>
+          <ul>
+            <li data-i18n="res1">Disminuye el consumo de energía en casa.</li>
+            <li data-i18n="res2">Protege muebles y pisos de la decoloración.</li>
+            <li data-i18n="res3">Refuerza la seguridad y brinda privacidad.</li>
+          </ul>
+          <div class="card-buttons">
+            <button class="schedule" data-i18n="cotizar">Solicita Tu Cotización Aquí</button>
+            <button class="appoint" data-i18n="schedule">Agenda Tu Cita</button>
+          </div>
+        </article>
+                <article class="scard">
+          <div class="icon"><i class="fas fa-building"></i></div>
+          <h4 class="card-title" data-i18n="serviceAuto">Tintado Comercial</h4>
+          <ul>
+            <li data-i18n="com1">Mejora la eficiencia energética en oficinas.</li>
+            <li data-i18n="com2">Protege equipos y mobiliario.</li>
+            <li data-i18n="com3">Privacidad y estética profesional.</li>
+          </ul>
+          <div class="card-buttons">
+            <button class="schedule" data-i18n="cotizar">Solicita Tu Cotización Aquí</button>
+            <button class="appoint" data-i18n="schedule">Agenda Tu Cita</button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+<!-- Formulario -->
+<section class="form-section" id="cita">
+  <h1 data-i18n="formtitle">Solicita un presupuesto</h1>
+  <p data-i18n="formdesc">
+    Rellena el formulario de abajo y te devolveremos un presupuesto personalizado para tus necesidades.
+  </p>
+
+  <form class="quote-form">
+    <!-- Tipo de cita -->
+      <legend data-i18n="tipoCita">Tipo de cita</legend>
+      <select id="tipo-cita" name="tipo-cita" required>
+        <option value="" data-i18n="selectOption">Selecciona una opción</option>
+        <option value="automotriz" data-i18n="optAuto">Tintado de ventanas automotrices</option>
+        <option value="eliminacion" data-i18n="optElim">Remoción de tinte</option>
+        <option value="proteccion" data-i18n="optProt">Película de protección de pintura</option>
+        <option value="residencial" data-i18n="optRes">Película para ventanas residenciales</option>
+        <option value="comercial" data-i18n="optCom">Película comercial para ventanas</option>
+      </select>
+
+    <!-- Datos personales -->
+
+      <legend data-i18n="personalInfo">Datos personales</legend>
+      <label for="nombre" data-i18n="nombre">Nombre</label>
+      <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" data-i18n-placeholder="nombrePH" required>
+
+      <label for="apellido" data-i18n="apellido">Apellido</label>
+      <input type="text" id="apellido" name="apellido" placeholder="Tu apellido" data-i18n-placeholder="apellidoPH" required>
+
+      <label for="email" data-i18n="email">Correo electrónico</label>
+      <input type="email" id="email" name="email" placeholder="ejemplo@correo.com" data-i18n-placeholder="emailPH" required>
+
+      <label for="telefono" data-i18n="telefono">Teléfono</label>
+      <input type="tel" id="telefono" name="telefono" placeholder="Tu número de contacto" data-i18n-placeholder="telefonoPH" required>
+
+    <!-- Información del vehículo -->
+      <legend data-i18n="vehInfo">Información del vehículo</legend>
+      <label for="anio" data-i18n="anio">Año del vehículo</label>
+      <select id="anio" name="anio" required>
+        <option value="" data-i18n="selectYear">Selecciona el año</option>
+        <option value="2026">2026</option>
+        <option value="2025">2025</option>
+        <option value="2024">2024</option>
+        <option value="2023">2023</option>
+        <option value="2022">2022</option>
+        <option value="2021">2021</option>
+        <option value="2020">2020</option>
+        <option value="2019">2019</option>
+        <option value="2018">2018</option>
+        <option value="2017">2017</option>
+        <option value="2016">2016</option>
+        <option value="2015">2015</option>
+        <option value="2014">2014</option>
+        <option value="2013">2013</option>
+        <option value="2012">2012</option>
+        <option value="2011">2011</option>
+        <option value="2010">2010</option>
+        <option value="2009">2009</option>
+        <option value="2009">2009</option>
+        <option value="2008">2008</option>
+        <option value="2007">2007</option>
+        <option value="2006">2006</option>
+        <option value="2005">2005</option>
+        <option value="2004">2004</option>
+      </select>
+
+
+      <label for="marca" data-i18n="marca">Marca del vehículo</label>
+      <input type="text" id="marca" name="marca" placeholder="Ejemplo: BMW" required data-i18n-placeholder="marcaPH">
+
+      <label for="modelo" data-i18n="modelo">Modelo del vehículo</label>
+      <input type="text" id="modelo" name="modelo" placeholder="Ejemplo: M3" required data-i18n-placeholder="modeloPH">
+
+
+    <!-- Selección de ventanas -->
+      <legend data-i18n="ventanasTitle">Seleccionar ventanas</legend>
+      <div class="checkbox-group">
+        <label><input type="checkbox" name="ventanas" value="eliminar"> <span data-i18n="ventElim">Remover el tinte existente</span></label>
+        <label><input type="checkbox" name="ventanas" value="completo-sin-parabrisas"> <span data-i18n="ventCompSin">Vehículo completo (excepto parabrisas)</span></label>
+        <label><input type="checkbox" name="ventanas" value="completo-con-parabrisas"> <span data-i18n="ventCompCon">Vehículo completo (incluye parabrisas)</span></label>
+        <label><input type="checkbox" name="ventanas" value="puertas"> <span data-i18n="ventPuertas">Puertas principales</span></label>
+        <label><input type="checkbox" name="ventanas" value="parabrisas"> <span data-i18n="ventParabrisas">Solo parabrisas</span></label>
+        <label><input type="checkbox" name="ventanas" value="trasera"> <span data-i18n="ventTrasera">Solo ventana trasera</span></label>
+        <label><input type="checkbox" name="ventanas" value="techo"> <span data-i18n="ventTecho">Techo solar</span></label>
+        <label><input type="checkbox" name="ventanas" value="techo-panoramico"> <span data-i18n="ventTechoPan">Techo solar panorámico</span></label>
+        <label><input type="checkbox" name="ventanas" value="una"> <span data-i18n="ventUna">Solo una ventana</span></label>
+        <label><input type="checkbox" name="ventanas" value="sunstrip"> <span data-i18n="ventSunstrip">Sunstrip (cejas, tira de parabrisas)</span></label>
+      </div>
+
+    <!-- Método de contacto preferido -->
+      <legend data-i18n="contactPref">Método de contacto preferido *</legend>
+      <div class="radio-group">
+        <label><input type="radio" name="contacto" value="texto" required> <span data-i18n="contactText">Mensaje de texto</span></label>
+        <label><input type="radio" name="contacto" value="llamada"> <span data-i18n="contactCall">Llamada telefónica</span></label>
+        <label><input type="radio" name="contacto" value="email"> <span data-i18n="contactEmail">Correo electrónico</span></label>
+      </div>
+
+    <!-- Notas adicionales -->
+      <legend data-i18n="notesTitle">Notas adicionales</legend>
+      <textarea id="notas" name="notas" rows="4" data-i18n-placeholder="notasPH" placeholder="¿Algún requisito o pregunta especial?"></textarea>
+
+    <!-- Aceptación de términos -->
+    <div class="consent">
+      <input type="checkbox" id="consentimiento">
+      <label for="consentimiento" data-i18n="terms">
+        Acepto los <a href="#" target="_blank">Términos de Servicio</a> y la <a href="#" target="_blank">Política de Privacidad</a>.  
+        Consiento recibir comunicaciones respecto a mi solicitud.
+      </label>
+    </div>
+
+
+    <!-- Botón enviar -->
+    <button type="submit" class="submit-btn">
+      <i class="fas fa-paper-plane"></i> <span data-i18n="sendBtn">Enviar solicitud de presupuesto</span>
+    </button>
+  </form>
+</section>
+
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-container">
+    
+    <!-- Columna 1: Logo y descripción -->
+    <section class="footer-col">
+      <figure>
+        <img src="img/LogoBerrioTint.jpg" alt="Logo Berrío Window Tint" class="footer-logo">
+      </figure>
+      <p data-i18n="footerDesc">
+        Berrío Window Tint, empresa en Gainesville, Florida, dedicada al tinte profesional de ventanas para vehículos, residencias y espacios comerciales.
+      </p>
+      <nav class="social-icons" aria-label="Redes sociales">
+        <a href="https://www.tiktok.com/@berriowindowtint" target="_blank"><i class="fab fa-tiktok"></i></a>
+        <a href="https://www.facebook.com/share/1HMnb6ZbDD" target="_blank"><i class="fab fa-facebook"></i></a>
+        <a href="https://www.instagram.com/berriowindowtint" target="_blank"><i class="fab fa-instagram"></i></a>
+      </nav>
+    </section>
+    
+    <!-- Columna 2: Enlaces rápidos -->
+    <div class="footer-col quick-links">
+      <h3 data-i18n="quicklinks">Enlaces rápidos</h3>
+      <ul>
+        <li><a href="#servicios" data-i18n="servicios">Servicios</a></li>
+        <li><a href="#galeria" data-i18n="galeria">Galería</a></li>
+        <li><a href="#whychooseus" data-i18n="whychooseus">¿Por qué nosotros?</a></li>
+        <li><a href="#cita" data-i18n="schedule">Programar una cita</a></li>
+      </ul>
+    </div>
+
+    
+    <!-- Columna 3: Servicios -->
+    <section class="footer-col">
+      <h3 data-i18n="footerServices">Servicios</h3>
+      <ul>
+        <li data-i18n="footerAuto">Polarizado de automóviles</li>
+        <li data-i18n="footerPaint">Película protectora de pintura</li>
+        <li data-i18n="footerCom">Tintado comercial</li>
+        <li data-i18n="footerRes">Polarizado residencial</li>
+      </ul>
+    </section>
+    
+    <!-- Columna 4: Contacto -->
+    <address class="footer-col">
+      <h3 data-i18n="contactInfo">Información de contacto</h3>
+      <p>Berrío Window Tint: (352) 214-4948</p>
+      <p>Gainesville, Florida</p>
+    </address>
+    
+  </div>
+  
+  <p class="footer-rights" data-i18n="footerRights">&copy; 2026 Berrío Window Tint - Todos los derechos reservados.</p>
+</footer>
+
+</div>
+
+<script src="script.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const { createClient } = supabase;
+  const client = createClient(
+    'https://raofypzhvftlkbkynajo.supabase.co',
+    'sb_publishable_yEjD0d5UrYPFNfv-Ez-zbA_HODArqSw'
+  );
+
+  document.querySelector('.quote-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    if (!document.getElementById('consentimiento').checked) {
+      alert('Debes aceptar los términos y condiciones.');
+      return;
+    }
+
+    const ventanas = Array.from(
+      document.querySelectorAll('input[name="ventanas"]:checked')
+    ).map(cb => cb.value).join(', ');
+
+    const contacto = document.querySelector('input[name="contacto"]:checked');
+
+    const datos = {
+      tipo_servicio:   document.getElementById('tipo-cita').value,
+      nombre:          document.getElementById('nombre').value,
+      apellido:        document.getElementById('apellido').value,
+      email:           document.getElementById('email').value,
+      telefono:        document.getElementById('telefono').value,
+      año_vehiculo:    document.getElementById('anio').value,
+      marca_vehiculo:  document.getElementById('marca').value,
+      modelo_vehiculo: document.getElementById('modelo').value,
+      ventanas:        ventanas,
+      metodo_contacto: contacto ? contacto.value : '',
+      notas:           document.getElementById('notas').value,
+    };
+
+    const { error } = await client
+      .from('cotizaciones')
+      .insert([datos]);
+
+    if (error) {
+      alert('Hubo un error al enviar. Intenta de nuevo.');
+      console.error(error);
+    } else {
+      await client.functions.invoke('enviar-cotizacion', {
+        body: datos
+      });
+      alert('¡Cotización enviada con éxito! Te contactaremos pronto.');
+      e.target.reset();
+    }
+  });
+</script>
+</body>
+</html>
