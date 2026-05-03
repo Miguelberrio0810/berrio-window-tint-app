@@ -163,11 +163,11 @@
       <legend data-i18n="tipoCita">Tipo de cita</legend>
       <select id="tipo-cita" name="tipo-cita" required>
         <option value="" data-i18n="selectOption">Selecciona una opción</option>
-        <option value="automotriz" data-i18n="optAuto">Tintado de ventanas automotrices</option>
-        <option value="remoción" data-i18n="optElim">Remoción de tinte</option>
-        <option value="proteccion" data-i18n="optProt">Película de protección de pintura</option>
-        <option value="residencial" data-i18n="optRes">Película para ventanas residenciales</option>
-        <option value="comercial" data-i18n="optCom">Película comercial para ventanas</option>
+        <option value="Automotriz" data-i18n="optAuto">Tintado de ventanas automotrices</option>
+        <option value="Remoción" data-i18n="optElim">Remoción de tinte</option>
+        <option value="Proteccion" data-i18n="optProt">Película de protección de pintura</option>
+        <option value="Residencial" data-i18n="optRes">Película para ventanas residenciales</option>
+        <option value="Comercial" data-i18n="optCom">Película comercial para ventanas</option>
       </select>
 
     <!-- Datos personales -->
@@ -227,16 +227,16 @@
     <!-- Selección de ventanas -->
       <legend data-i18n="ventanasTitle">Seleccionar ventanas</legend>
       <div class="checkbox-group">
-        <label><input type="checkbox" name="ventanas" value="remocion"> <span data-i18n="ventElim">Remoción del tinte existente</span></label>
-        <label><input type="checkbox" name="ventanas" value="completo-sin-parabrisas"> <span data-i18n="ventCompSin">Vehículo completo (excepto parabrisas)</span></label>
-        <label><input type="checkbox" name="ventanas" value="completo-con-parabrisas"> <span data-i18n="ventCompCon">Vehículo completo (incluye parabrisas)</span></label>
-        <label><input type="checkbox" name="ventanas" value="puertas"> <span data-i18n="ventPuertas">Puertas principales</span></label>
-        <label><input type="checkbox" name="ventanas" value="parabrisas"> <span data-i18n="ventParabrisas">Solo parabrisas</span></label>
-        <label><input type="checkbox" name="ventanas" value="trasera"> <span data-i18n="ventTrasera">Solo ventana trasera</span></label>
-        <label><input type="checkbox" name="ventanas" value="techo"> <span data-i18n="ventTecho">Techo solar</span></label>
-        <label><input type="checkbox" name="ventanas" value="techo-panoramico"> <span data-i18n="ventTechoPan">Techo solar panorámico</span></label>
-        <label><input type="checkbox" name="ventanas" value="una"> <span data-i18n="ventUna">Solo una ventana</span></label>
-        <label><input type="checkbox" name="ventanas" value="sunstrip"> <span data-i18n="ventSunstrip">Sunstrip (cejas, tira de parabrisas)</span></label>
+        <label><input type="checkbox" name="servicios" value="Remocion"> <span data-i18n="ventElim">Remoción del tinte existente</span></label>
+        <label><input type="checkbox" name="servicios" value="Completo-sin-parabrisas"> <span data-i18n="ventCompSin">Vehículo completo (excepto parabrisas)</span></label>
+        <label><input type="checkbox" name="servicios" value="Completo-con-parabrisas"> <span data-i18n="ventCompCon">Vehículo completo (incluye parabrisas)</span></label>
+        <label><input type="checkbox" name="servicios" value="Puertas"> <span data-i18n="ventPuertas">Puertas principales</span></label>
+        <label><input type="checkbox" name="servicios" value="Parabrisas"> <span data-i18n="ventParabrisas">Solo parabrisas</span></label>
+        <label><input type="checkbox" name="servicios" value="Trasera"> <span data-i18n="ventTrasera">Solo ventana trasera</span></label>
+        <label><input type="checkbox" name="servicios" value="Techo"> <span data-i18n="ventTecho">Techo solar</span></label>
+        <label><input type="checkbox" name="servicios" value="Techo-panoramico"> <span data-i18n="ventTechoPan">Techo solar panorámico</span></label>
+        <label><input type="checkbox" name="servicios" value="Una"> <span data-i18n="ventUna">Solo una ventana</span></label>
+        <label><input type="checkbox" name="servicios" value="Sunstrip"> <span data-i18n="ventSunstrip">Sunstrip (cejas, tira de parabrisas)</span></label>
       </div>
 
     <!-- Método de contacto preferido -->
@@ -377,8 +377,8 @@
       return;
     }
 
-    const ventanas = Array.from(
-      document.querySelectorAll('input[name="ventanas"]:checked')
+    const servicios = Array.from(
+        document.querySelectorAll('input[name="servicios"]:checked')
     ).map(cb => cb.value).join(', ');
 
     const contacto = document.querySelector('input[name="contacto"]:checked');

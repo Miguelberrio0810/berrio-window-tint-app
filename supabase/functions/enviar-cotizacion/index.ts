@@ -10,7 +10,7 @@ serve(async (req) => {
     return new Response('ok', { headers: corsHeaders })
   }
 
-  const { nombre, apellido, email, telefono, tipo_servicio, ventanas, notas } = await req.json()
+  const { nombre, apellido, email, telefono, tipo_servicio, servicios, notas } = await req.json()
 
   const res = await fetch('https://api.resend.com/emails', {
     method: 'POST',
@@ -28,7 +28,7 @@ serve(async (req) => {
         <p><strong>Email:</strong> ${email}</p>
         <p><strong>Teléfono:</strong> ${telefono}</p>
         <p><strong>Servicio:</strong> ${tipo_servicio}</p>
-        <p><strong>Ventanas:</strong> ${ventanas}</p>
+        <p><strong>Servicios:</strong> ${servicios}</p>
         <p><strong>Notas:</strong> ${notas}</p>
       `
     })
