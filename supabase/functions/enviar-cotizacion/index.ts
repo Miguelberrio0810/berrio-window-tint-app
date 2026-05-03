@@ -19,8 +19,8 @@ serve(async (req) => {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      from: 'Berrío Window Tint <onboarding@resend.dev>',
-      to: ['miguelanblanco.2000@outlook.com'],
+      from: 'Berrío Window Tint <info@berriowindowtint.com>',
+      to: ['BerrioWindowtintautoservice@gmail.com'],
       subject: `Nueva cotización de ${nombre} ${apellido}`,
       html: `
         <h2>Nueva cotización recibida 🚗</h2>
