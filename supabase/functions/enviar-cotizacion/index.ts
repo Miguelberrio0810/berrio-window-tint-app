@@ -28,7 +28,7 @@ serve(async (req) => {
         <p><strong>Email:</strong> ${email}</p>
         <p><strong>Teléfono:</strong> ${telefono}</p>
         <p><strong>Servicio:</strong> ${tipo_servicio}</p>
-        <p><strong>Tipo de Servicios:</strong> ${servicios}</p>
+        <p><strong>Tipo de Servicio:</strong> ${servicios}</p>
         <p><strong>Año del vehículo:</strong> ${año_vehiculo}</p>
         <p><strong>Marca del vehículo:</strong> ${marca_vehiculo}</p>
         <p><strong>Modelo del vehículo:</strong> ${modelo_vehiculo}</p>
