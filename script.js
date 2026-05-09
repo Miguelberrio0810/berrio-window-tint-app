@@ -222,7 +222,7 @@ const translations = {
 
 
 
-let currentLang = "es";
+let currentLang = "en";
 
 document.querySelector(".idioma button").addEventListener("click", () => {
   currentLang = currentLang === "es" ? "en" : "es";
@@ -250,5 +250,7 @@ function changeLanguage(lang) {
   document.querySelector(".idioma button").textContent = lang === "es" ? "🌐EN" : "🌐ES";
 }
 
+// Cargar idioma inglés por defecto al iniciar
+changeLanguage("en");
 
 
