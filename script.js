@@ -20,6 +20,41 @@ document.querySelector('.next').addEventListener('click', () => {
 showGroup(0);
 
 
+// Lightbox galería
+(function () {
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightbox-img');
+  const closeBtn = document.querySelector('.lightbox-close');
+
+  function openLightbox(src, alt) {
+    lightboxImg.src = src;
+    lightboxImg.alt = alt || '';
+    lightbox.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    lightbox.classList.remove('active');
+    document.body.style.overflow = '';
+    lightboxImg.src = '';
+  }
+
+  document.querySelectorAll('.group img, .description-image img').forEach(img => {
+    img.addEventListener('click', () => openLightbox(img.src, img.alt));
+  });
+
+  closeBtn.addEventListener('click', closeLightbox);
+
+  lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox) closeLightbox();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeLightbox();
+  });
+})();
+
+
 // Diccionario de traducciones
 const translations = {
   es: {
@@ -76,7 +111,9 @@ const translations = {
     ventElim: "Remocion del tinte existente",
     ventCompSin: "Vehículo completo (excepto parabrisas)",
     ventCompCon: "Vehículo completo (incluye parabrisas)",
-    ventPuertas: "Puertas principales",
+    ventDelanteras: "Ventanas delanteras (2 puertas frontales)",
+    ventTrLaterales: "Ventanas traseras (2 puertas traseras)",
+    ventCuatro: "Cuatro ventanas de puertas (delanteras + traseras)",
     ventParabrisas: "Solo parabrisas",
     ventTrasera: "Solo ventana trasera",
     ventTecho: "Techo solar",
@@ -90,6 +127,7 @@ const translations = {
     notesTitle: "Notas adicionales",
     terms: "Acepto los Términos de Servicio y la Política de Privacidad. Consiento recibir comunicaciones respecto a mi solicitud.",
     sendBtn: "Enviar solicitud de presupuesto",
+    whatsappTooltip: "¡Escríbenos!",
     quicklinks: "Enlaces rápidos",
     footerServices: "Servicios",
     footerAuto: "Polarizado de automóviles",
@@ -164,7 +202,9 @@ const translations = {
     ventElim: "Remove existing tint",
     ventCompSin: "Full vehicle (except windshield)",
     ventCompCon: "Full vehicle (includes windshield)",
-    ventPuertas: "Front doors",
+    ventDelanteras: "Front windows (2 front doors)",
+    ventTrLaterales: "Rear side windows (2 rear doors)",
+    ventCuatro: "Four door windows (front + rear)",
     ventParabrisas: "Windshield only",
     ventTrasera: "Rear window only",
     ventTecho: "Sunroof",
@@ -178,6 +218,7 @@ const translations = {
     notesTitle: "Additional notes",
     terms: "I accept the Terms of Service and Privacy Policy. I consent to receive communications regarding my request.",
     sendBtn: "Submit quote request",
+    whatsappTooltip: "Chat with us!",
     quicklinks: "Quick Links",
     footerServices: "Services",
     footerAuto: "Automotive tinting",

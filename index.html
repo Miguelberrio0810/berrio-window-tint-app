@@ -80,23 +80,53 @@
       <div class="galleryimg">
         <div class="group">
           <img src="img/carro1.jpeg" alt="carro1">
+          <img src="img/carro1.1.jpeg" alt="carro1.1">
           <img src="img/carro1.2.jpeg" alt="carro1.2">
-          <img src="img/carro1.3.jpeg" alt="carro1.3">
         </div>
         <div class="group">
-          <img src="img/carro3.3.jpeg" alt="carro3.3">
+          <img src="img/carro1.3.jpeg" alt="carro1.3">
+          <img src="img/carro2.jpeg" alt="carro2">
+          <img src="img/carro2.1.jpeg" alt="carro2.1">
+        </div>
+        <div class="group">
+          <img src="img/carro3.jpeg" alt="carro3">
           <img src="img/carro3.1.jpeg" alt="carro3.1">
           <img src="img/carro3.2.jpeg" alt="carro3.2">
         </div>
         <div class="group">
+          <img src="img/carro3.3.jpeg" alt="carro3.3">
           <img src="img/carro4.jpeg" alt="carro4">
-          <img src="img/carro4.2.jpeg" alt="carro4.2">
-          <img src="img/carro4.3.jpeg" alt="carro4.3">
+          <img src="img/carro4.1.jpeg" alt="carro4.1">
         </div>
         <div class="group">
+          <img src="img/carro4.2.jpeg" alt="carro4.2">
+          <img src="img/carro4.3.jpeg" alt="carro4.3">
           <img src="img/carro5.png" alt="carro5">
+        </div>
+        <div class="group">
           <img src="img/carro5.1.jpeg" alt="carro5.1">
+          <img src="img/carro5.2.png" alt="carro5.2">
+          <img src="img/carro5.3.jpeg" alt="carro5.3">
+        </div>
+        <div class="group">
           <img src="img/carro5.4.jpeg" alt="carro5.4">
+          <img src="img/carro6.jpeg" alt="carro6">
+          <img src="img/carro6.1.jpeg" alt="carro6.1">
+        </div>
+        <div class="group">
+          <img src="img/carro6.2.jpeg" alt="carro6.2">
+          <img src="img/carro6.3.jpeg" alt="carro6.3">
+          <img src="img/carro6.4.jpeg" alt="carro6.4">
+        </div>
+        <div class="group">
+          <img src="img/carro7.jpeg" alt="carro7">
+          <img src="img/carro7.1.jpeg" alt="carro7.1">
+          <img src="img/carro8.jpeg" alt="carro8">
+        </div>
+        <div class="group">
+          <img src="img/carro10.jpeg" alt="carro10">
+          <img src="img/carro10.1.jpeg" alt="carro10.1">
+          <img src="img/carro10.2.jpeg" alt="carro10.2">
         </div>
       </div>
       <button class="next"><i class="fas fa-chevron-right"></i></button>
@@ -234,7 +264,9 @@
         <label><input type="checkbox" name="servicios" value="Remocion"> <span data-i18n="ventElim">Remoción del tinte existente</span></label>
         <label><input type="checkbox" name="servicios" value="Completo-sin-parabrisas"> <span data-i18n="ventCompSin">Vehículo completo (excepto parabrisas)</span></label>
         <label><input type="checkbox" name="servicios" value="Completo-con-parabrisas"> <span data-i18n="ventCompCon">Vehículo completo (incluye parabrisas)</span></label>
-        <label><input type="checkbox" name="servicios" value="Puertas"> <span data-i18n="ventPuertas">Puertas principales</span></label>
+        <label><input type="checkbox" name="servicios" value="Ventanas-delanteras"> <span data-i18n="ventDelanteras">Ventanas delanteras (2 puertas frontales)</span></label>
+        <label><input type="checkbox" name="servicios" value="Ventanas-traseras"> <span data-i18n="ventTrLaterales">Ventanas traseras (2 puertas traseras)</span></label>
+        <label><input type="checkbox" name="servicios" value="Cuatro-ventanas"> <span data-i18n="ventCuatro">Cuatro ventanas de puertas (delanteras + traseras)</span></label>
         <label><input type="checkbox" name="servicios" value="Parabrisas"> <span data-i18n="ventParabrisas">Solo parabrisas</span></label>
         <label><input type="checkbox" name="servicios" value="Trasera"> <span data-i18n="ventTrasera">Solo ventana trasera</span></label>
         <label><input type="checkbox" name="servicios" value="Techo"> <span data-i18n="ventTecho">Techo solar</span></label>
@@ -316,7 +348,7 @@
     </section>
     
     <!-- Columna 4: Contacto -->
-    <address class="footer-col">
+    <address class="footer-col" id="contacto">
       <h3 data-i18n="contactInfo">Información de contacto</h3>
       <p id="numberphone">Berrío Window Tint: (352) 214-4948</p>
       <p>Gainesville, Florida</p>
@@ -331,6 +363,24 @@
   <p class="footer-rights" data-i18n="footerRights">&copy; 2026 Berrío Window Tint - Todos los derechos reservados.</p>
 </footer>
 
+</div>
+
+<!-- Botón flotante WhatsApp -->
+<a
+  href="https://wa.me/13522144948"
+  class="whatsapp-float"
+  target="_blank"
+  rel="noopener noreferrer"
+  aria-label="Contáctanos por WhatsApp"
+>
+  <i class="fab fa-whatsapp"></i>
+  <span class="whatsapp-tooltip" data-i18n="whatsappTooltip">¡Escríbenos!</span>
+</a>
+
+<!-- Lightbox galería -->
+<div id="lightbox" class="lightbox" role="dialog" aria-modal="true">
+  <button class="lightbox-close" aria-label="Cerrar"><i class="fas fa-times"></i></button>
+  <img id="lightbox-img" src="" alt="Imagen ampliada">
 </div>
 
 <!-- Modal de éxito -->
