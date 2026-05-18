@@ -258,12 +258,13 @@
       <input type="text" id="modelo" name="modelo" placeholder="Ejemplo: M3" required data-i18n-placeholder="modeloPH">
 
 
-    <!-- Selección de ventanas -->
-      <legend data-i18n="ventanasTitle">Seleccionar ventanas</legend>
+    <!-- Tipo de servicio -->
+      <legend data-i18n="ventanasTitle">Tipo de servicio</legend>
       <div class="checkbox-group">
-        <label><input type="checkbox" name="servicios" value="Remocion"> <span data-i18n="ventElim">Remoción del tinte existente</span></label>
-        <label><input type="checkbox" name="servicios" value="Completo-sin-parabrisas"> <span data-i18n="ventCompSin">Vehículo completo (excepto parabrisas)</span></label>
-        <label><input type="checkbox" name="servicios" value="Completo-con-parabrisas"> <span data-i18n="ventCompCon">Vehículo completo (incluye parabrisas)</span></label>
+        <label><input type="checkbox" name="servicios" value="Remocion-sin-parabrisas"> <span data-i18n="ventElimSin">Remoción sin parabrisas</span></label>
+        <label><input type="checkbox" name="servicios" value="Remocion-con-parabrisas"> <span data-i18n="ventElimCon">Remoción con parabrisas</span></label>
+        <label><input type="checkbox" name="servicios" value="Instalacion-completa-sin-parabrisas"> <span data-i18n="ventCompSin">Instalación completa sin parabrisas</span></label>
+        <label><input type="checkbox" name="servicios" value="Instalacion-completa-con-parabrisas"> <span data-i18n="ventCompCon">Instalación completa con parabrisas</span></label>
         <label><input type="checkbox" name="servicios" value="Ventanas-delanteras"> <span data-i18n="ventDelanteras">Ventanas delanteras (2 puertas frontales)</span></label>
         <label><input type="checkbox" name="servicios" value="Ventanas-traseras"> <span data-i18n="ventTrLaterales">Ventanas traseras (2 puertas traseras)</span></label>
         <label><input type="checkbox" name="servicios" value="Cuatro-ventanas"> <span data-i18n="ventCuatro">Cuatro ventanas de puertas (delanteras + traseras)</span></label>
@@ -273,6 +274,70 @@
         <label><input type="checkbox" name="servicios" value="Techo-panoramico"> <span data-i18n="ventTechoPan">Techo solar panorámico</span></label>
         <label><input type="checkbox" name="servicios" value="Una"> <span data-i18n="ventUna">Solo una ventana</span></label>
         <label><input type="checkbox" name="servicios" value="Sunstrip"> <span data-i18n="ventSunstrip">Sunstrip (cejas, tira de parabrisas)</span></label>
+      </div>
+
+    <!-- Tipo y porcentaje de lámina -->
+      <legend data-i18n="tipoLaminaTitle">Tipo y porcentaje de lámina</legend>
+      <p class="tint-note" data-i18n="tipoLaminaNote">El porcentaje indica cuánta luz pasa a través del vidrio (VLT). Menor porcentaje = mayor oscuridad.</p>
+
+      <p class="tint-sublabel" data-i18n="tipoLaminaLabel">Tecnología de lámina</p>
+      <div class="tint-type-grid">
+        <label class="tint-type-card">
+          <input type="radio" name="tipo-lamina" value="Ceramico">
+          <div class="tint-type-inner">
+            <i class="fas fa-gem"></i>
+            <strong data-i18n="ceramicoTitle">Cerámico</strong>
+            <small data-i18n="ceramicoDesc">Máximo rechazo de calor y UV. Sin interferencia de señal.</small>
+          </div>
+        </label>
+        <label class="tint-type-card">
+          <input type="radio" name="tipo-lamina" value="Nanocarbon">
+          <div class="tint-type-inner">
+            <i class="fas fa-atom"></i>
+            <strong data-i18n="nanocarbonTitle">Nanocarbon</strong>
+            <small data-i18n="nanocarbonDesc">Excelente durabilidad y tonos profundos de alta calidad.</small>
+          </div>
+        </label>
+      </div>
+
+      <p class="tint-sublabel" data-i18n="porcentajeLabel">Nivel de oscuridad (% VLT)</p>
+      <div class="tint-percent-grid">
+        <label class="tint-percent-card">
+          <input type="radio" name="porcentaje" value="5%">
+          <div class="tint-swatch" style="background:rgba(0,0,0,0.95)"></div>
+          <span class="tint-pct">5%</span>
+          <span class="tint-desc" data-i18n="pct5">Muy oscuro</span>
+        </label>
+        <label class="tint-percent-card">
+          <input type="radio" name="porcentaje" value="15%">
+          <div class="tint-swatch" style="background:rgba(0,0,0,0.85)"></div>
+          <span class="tint-pct">15%</span>
+          <span class="tint-desc" data-i18n="pct15">Oscuro</span>
+        </label>
+        <label class="tint-percent-card">
+          <input type="radio" name="porcentaje" value="20%">
+          <div class="tint-swatch" style="background:rgba(0,0,0,0.80)"></div>
+          <span class="tint-pct">20%</span>
+          <span class="tint-desc" data-i18n="pct20">Semi-oscuro</span>
+        </label>
+        <label class="tint-percent-card">
+          <input type="radio" name="porcentaje" value="30%">
+          <div class="tint-swatch" style="background:rgba(0,0,0,0.70)"></div>
+          <span class="tint-pct">30%</span>
+          <span class="tint-desc" data-i18n="pct30">Medio</span>
+        </label>
+        <label class="tint-percent-card">
+          <input type="radio" name="porcentaje" value="35%">
+          <div class="tint-swatch" style="background:rgba(0,0,0,0.65)"></div>
+          <span class="tint-pct">35%</span>
+          <span class="tint-desc" data-i18n="pct35">Moderado</span>
+        </label>
+        <label class="tint-percent-card">
+          <input type="radio" name="porcentaje" value="50%">
+          <div class="tint-swatch" style="background:rgba(0,0,0,0.50)"></div>
+          <span class="tint-pct">50%</span>
+          <span class="tint-desc" data-i18n="pct50">Claro</span>
+        </label>
       </div>
 
     <!-- Método de contacto preferido -->
@@ -450,8 +515,10 @@
       año_vehiculo:    document.getElementById('anio').value,
       marca_vehiculo:  document.getElementById('marca').value,
       modelo_vehiculo: document.getElementById('modelo').value,
-      servicios:     servicios,
-      metodo_contacto: contacto ? contacto.value : '',
+      servicios:           servicios,
+      tipo_lamina:         document.querySelector('input[name="tipo-lamina"]:checked')?.value || '',
+      porcentaje_polarizado: document.querySelector('input[name="porcentaje"]:checked')?.value || '',
+      metodo_contacto:     contacto ? contacto.value : '',
       notas:           document.getElementById('notas').value,
     };
 
