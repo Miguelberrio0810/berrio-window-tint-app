@@ -1,6 +1,8 @@
+// Galería de imágenes
 const gallery = document.querySelector('.galleryimg');
 const groups = document.querySelectorAll('.group');
 let currentIndex = 0;
+let galleryTimer;
 
 function showGroup(index) {
   if (index < 0) index = groups.length - 1;
@@ -9,15 +11,74 @@ function showGroup(index) {
   gallery.style.transform = `translateX(-${index * 100}%)`;
 }
 
+function resetGalleryTimer() {
+  clearInterval(galleryTimer);
+  galleryTimer = setInterval(() => showGroup(currentIndex + 1), 4000);
+}
+
 document.querySelector('.prev').addEventListener('click', () => {
   showGroup(currentIndex - 1);
+  resetGalleryTimer();
 });
 document.querySelector('.next').addEventListener('click', () => {
   showGroup(currentIndex + 1);
+  resetGalleryTimer();
 });
 
-// Inicial
 showGroup(0);
+resetGalleryTimer();
+
+// Galería de videos — uno por uno, muted, estilo Instagram
+const videoGallery = document.querySelector('.videogalleryimg');
+const videoGroups = document.querySelectorAll('.videogroup');
+let videoIndex = 0;
+
+function showVideoGroup(index) {
+  const currentVideo = videoGroups[videoIndex]?.querySelector('video');
+  if (currentVideo) currentVideo.pause();
+
+  if (index < 0) index = videoGroups.length - 1;
+  if (index >= videoGroups.length) index = 0;
+  videoIndex = index;
+  videoGallery.style.transform = `translateX(-${index * 100}%)`;
+
+  const nextVideo = videoGroups[videoIndex]?.querySelector('video');
+  if (nextVideo) {
+    nextVideo.currentTime = 0;
+    nextVideo.play().catch(() => {});
+  }
+}
+
+function flashTapIcon(wrapper, iconClass) {
+  const tapIcon = wrapper.querySelector('.video-tap-icon');
+  const icon = tapIcon.querySelector('i');
+  icon.className = iconClass;
+  tapIcon.classList.remove('flash');
+  void tapIcon.offsetWidth;
+  tapIcon.classList.add('flash');
+}
+
+document.querySelectorAll('.videogroup video').forEach(video => {
+  video.addEventListener('ended', () => showVideoGroup(videoIndex + 1));
+});
+
+document.querySelectorAll('.video-wrapper').forEach(wrapper => {
+  wrapper.addEventListener('click', () => {
+    const video = wrapper.querySelector('video');
+    if (video.paused) {
+      video.play().catch(() => {});
+      flashTapIcon(wrapper, 'fas fa-play');
+    } else {
+      video.pause();
+      flashTapIcon(wrapper, 'fas fa-pause');
+    }
+  });
+});
+
+document.querySelector('.video-prev').addEventListener('click', () => showVideoGroup(videoIndex - 1));
+document.querySelector('.video-next').addEventListener('click', () => showVideoGroup(videoIndex + 1));
+
+showVideoGroup(0);
 
 
 // Lightbox galería
@@ -43,6 +104,13 @@ showGroup(0);
     img.addEventListener('click', () => openLightbox(img.src, img.alt));
   });
 
+  document.querySelectorAll('.promo-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const img = card.querySelector('img');
+      if (img) openLightbox(img.src, img.alt);
+    });
+  });
+
   closeBtn.addEventListener('click', closeLightbox);
 
   lightbox.addEventListener('click', (e) => {
@@ -60,6 +128,7 @@ const translations = {
   es: {
     servicios: "Servicios",
     galeria: "Galería",
+    videos: "Videos",
     contacto: "Contacto",
     cotizar: "Cotizar",
     llamanos: "Llámanos",
@@ -161,11 +230,17 @@ const translations = {
     telefonoPH: "Tu número de contacto",
     marcaPH: "Ejemplo: BMW",
     modeloPH: "Ejemplo: M3",
-    notasPH: "¿Algún requisito o pregunta especial?"
+    notasPH: "¿Algún requisito o pregunta especial?",
+    videosTitle: "Nuestro Trabajo en Acción",
+    videosSubtitle: "Mira cómo transformamos vehículos con nuestro servicio profesional",
+    promosTitle: "Promociones Especiales",
+    promoOverlay: "Ver Oferta",
+    promoOverlay2: "Ver Oferta"
   },
   en: {
     servicios: "Services",
     galeria: "Gallery",
+    videos: "Videos",
     contacto: "Contact",
     cotizar: "Get a Quote",
     llamanos: "Call Us",
@@ -267,7 +342,12 @@ const translations = {
     telefonoPH: "Your contact number",
     marcaPH: "Example: BMW",
     modeloPH: "Example: M3",
-    notasPH: "Any special requirement or question?"
+    notasPH: "Any special requirement or question?",
+    videosTitle: "Our Work in Action",
+    videosSubtitle: "See how we transform vehicles with our professional service",
+    promosTitle: "Special Promotions",
+    promoOverlay: "View Offer",
+    promoOverlay2: "View Offer"
   }
 };
 
