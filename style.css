@@ -1204,6 +1204,19 @@ textarea:focus {
   color: #38B000;
 }
 
+.footer-address-link {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease, transform 0.2s ease;
+  display: inline-block;
+}
+
+.footer-address-link:hover {
+  color: #38B000;
+  transform: translateX(4px);
+}
+
 .footer-rights {
   text-align: center;
   margin-top: 2.5rem;
