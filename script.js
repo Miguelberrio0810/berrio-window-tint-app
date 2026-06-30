@@ -235,7 +235,21 @@ const translations = {
     videosSubtitle: "Mira cómo transformamos vehículos con nuestro servicio profesional",
     promosTitle: "Promociones Especiales",
     promoOverlay: "Ver Oferta",
-    promoOverlay2: "Ver Oferta"
+    promoOverlay2: "Ver Oferta",
+    featuresEyebrow: "La diferencia Berrío",
+    featuresH1: "Más que Solo Sombra.",
+    featuresH2: "Rendimiento Ingenieril.",
+    featuresDesc: "No solo tintamos ventanas — las mejoramos. Nuestras películas premium transforman el vidrio ordinario en barreras de alto rendimiento contra el calor, el deslumbramiento y el daño.",
+    feat1Title: "Protección UV",
+    feat1Desc: "Bloquea el 99% de los rayos UV dañinos, protegiendo tu piel y previniendo el desvanecimiento interior.",
+    feat2Title: "Rechazo de Calor",
+    feat2Desc: "La tecnología cerámica avanzada mantiene tu espacio considerablemente más fresco, reduciendo el consumo del AC.",
+    feat3Title: "Privacidad Mejorada",
+    feat3Desc: "Ve hacia afuera con total claridad mientras mantienes las miradas externas fuera de tu espacio.",
+    statLabel: "RECHAZO UV",
+    miniStat1: "Calificación",
+    miniStat2: "Clientes",
+    miniStat3: "Años Exp."
   },
   en: {
     servicios: "Services",
@@ -347,7 +361,21 @@ const translations = {
     videosSubtitle: "See how we transform vehicles with our professional service",
     promosTitle: "Special Promotions",
     promoOverlay: "View Offer",
-    promoOverlay2: "View Offer"
+    promoOverlay2: "View Offer",
+    featuresEyebrow: "The Berrío Difference",
+    featuresH1: "More Than Just Shade.",
+    featuresH2: "Engineered Performance.",
+    featuresDesc: "We don't just tint windows — we upgrade them. Our premium films transform ordinary glass into high-performance barriers against heat, glare, and damage.",
+    feat1Title: "UV Protection",
+    feat1Desc: "Block 99% of harmful UV rays, protecting your skin and preventing interior fading.",
+    feat2Title: "Heat Rejection",
+    feat2Desc: "Advanced ceramic tech keeps your space significantly cooler, reducing AC strain.",
+    feat3Title: "Enhanced Privacy",
+    feat3Desc: "See out clearly while keeping prying eyes from seeing in.",
+    statLabel: "UV REJECTION",
+    miniStat1: "Rating",
+    miniStat2: "Clients",
+    miniStat3: "Yrs Exp."
   }
 };
 
@@ -521,6 +549,59 @@ window.addEventListener('scroll', () => {
   }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
 
   document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => obs.observe(el));
+})();
+
+// Features section: in-view class + ring + counters
+(function () {
+  const section = document.querySelector('.features-section');
+  if (!section) return;
+
+  const ringArc  = section.querySelector('.ring-arc');
+  const ringCount = section.querySelector('.ring-count');
+  const miniCounts = section.querySelectorAll('.mini-count');
+  const CIRC = 534; // 2π × 85
+
+  function countUp(el, target, duration) {
+    const start = performance.now();
+    const isFloat = target % 1 !== 0;
+    function tick(now) {
+      const t = Math.min((now - start) / duration, 1);
+      const ease = 1 - Math.pow(1 - t, 3);
+      const val = Math.round(ease * target);
+      el.textContent = val;
+      if (t < 1) requestAnimationFrame(tick);
+      else el.textContent = target;
+    }
+    requestAnimationFrame(tick);
+  }
+
+  let fired = false;
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting && !fired) {
+        fired = true;
+        section.classList.add('in-view');
+
+        // Animate SVG ring (99% filled → dashoffset = 534 × 0.01 ≈ 5.3)
+        if (ringArc) {
+          setTimeout(() => { ringArc.style.strokeDashoffset = (CIRC * 0.01).toFixed(2); }, 300);
+        }
+
+        // Count up main number
+        if (ringCount) countUp(ringCount, parseInt(ringCount.dataset.target), 2000);
+
+        // Count up mini stats
+        miniCounts.forEach(el => {
+          const target = parseInt(el.dataset.target);
+          countUp(el, target, 1800);
+        });
+
+        obs.disconnect();
+      }
+    });
+  }, { threshold: 0.25 });
+
+  obs.observe(section);
 })();
 
 // 3D tilt on cards
