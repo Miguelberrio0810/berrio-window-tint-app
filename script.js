@@ -404,4 +404,138 @@ function changeLanguage(lang) {
 // Cargar idioma inglés por defecto al iniciar
 changeLanguage("en");
 
+// ==========================================
+// MODERN DYNAMIC ENHANCEMENTS
+// ==========================================
+
+// Navbar scroll effect
+window.addEventListener('scroll', () => {
+  document.querySelector('header').classList.toggle('scrolled', window.scrollY > 60);
+}, { passive: true });
+
+// Particle canvas
+(function () {
+  const canvas = document.getElementById('particles-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let particles = [];
+
+  function resize() {
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+  }
+
+  class Particle {
+    constructor() { this.reset(true); }
+    reset(init) {
+      this.x = Math.random() * canvas.width;
+      this.y = init ? Math.random() * canvas.height : (Math.random() < 0.5 ? -4 : canvas.height + 4);
+      this.r = Math.random() * 1.6 + 0.4;
+      this.alpha = Math.random() * 0.55 + 0.08;
+      this.vx = (Math.random() - 0.5) * 0.22;
+      this.vy = (Math.random() - 0.5) * 0.22;
+      this.green = Math.random() > 0.55;
+    }
+    update() {
+      this.x += this.vx;
+      this.y += this.vy;
+      if (this.x < -5 || this.x > canvas.width + 5 || this.y < -5 || this.y > canvas.height + 5) this.reset(false);
+    }
+    draw() {
+      ctx.globalAlpha = this.alpha;
+      ctx.fillStyle = this.green ? '#38B000' : '#70E000';
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
+  function init() {
+    particles = Array.from({ length: 90 }, () => new Particle());
+  }
+
+  function frame() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.globalAlpha = 1;
+
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const d = Math.sqrt(dx * dx + dy * dy);
+        if (d < 90) {
+          ctx.globalAlpha = (1 - d / 90) * 0.1;
+          ctx.strokeStyle = '#38B000';
+          ctx.lineWidth = 0.5;
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.stroke();
+        }
+      }
+    }
+
+    particles.forEach(p => { p.update(); p.draw(); });
+    ctx.globalAlpha = 1;
+    requestAnimationFrame(frame);
+  }
+
+  const ro = new ResizeObserver(() => { resize(); init(); });
+  ro.observe(canvas.parentElement);
+  resize(); init(); frame();
+})();
+
+// Scroll reveal with Intersection Observer
+(function () {
+  const sels = [
+    '.whychoosetitle', '.gallerytitle', '.videos-title', '.videos-subtitle',
+    '.promos-title', '.services h1', '.services > p', '.form-section h1', '.form-section > p'
+  ];
+  sels.forEach(s => document.querySelectorAll(s).forEach(el => el.classList.add('reveal')));
+
+  document.querySelector('.description-text')?.classList.add('reveal-left');
+  document.querySelector('.description-image')?.classList.add('reveal-right');
+
+  document.querySelectorAll('.card').forEach((el, i) => {
+    el.classList.add('reveal');
+    el.style.transitionDelay = (i * 0.1) + 's';
+  });
+
+  document.querySelectorAll('.scard').forEach((el, i) => {
+    el.classList.add('reveal');
+    el.style.transitionDelay = (i * 0.12) + 's';
+  });
+
+  document.querySelectorAll('.promo-card').forEach((el, i) => {
+    el.classList.add('reveal');
+    el.style.transitionDelay = (i * 0.1) + 's';
+  });
+
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+
+  document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => obs.observe(el));
+})();
+
+// 3D tilt on cards
+document.querySelectorAll('.card, .scard').forEach(card => {
+  card.addEventListener('mousemove', (e) => {
+    const r = card.getBoundingClientRect();
+    const dx = (e.clientX - (r.left + r.width / 2)) / (r.width / 2);
+    const dy = (e.clientY - (r.top + r.height / 2)) / (r.height / 2);
+    card.style.transform = `perspective(700px) rotateX(${-dy * 6}deg) rotateY(${dx * 6}deg) translateY(-6px)`;
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.transition = 'transform 0.5s ease, box-shadow 0.4s ease, border-color 0.4s ease';
+    card.style.transform = '';
+    setTimeout(() => { card.style.transition = ''; }, 500);
+  });
+});
+
 
