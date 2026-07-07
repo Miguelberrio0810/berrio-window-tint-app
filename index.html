@@ -619,17 +619,27 @@
 
 </div>
 
-<!-- Botón flotante WhatsApp -->
-<a
-  href="https://wa.me/13522144948"
-  class="whatsapp-float"
-  target="_blank"
-  rel="noopener noreferrer"
-  aria-label="Contáctanos por WhatsApp"
->
-  <i class="fab fa-whatsapp"></i>
-  <span class="whatsapp-tooltip" data-i18n="whatsappTooltip">¡Escríbenos!</span>
-</a>
+<!-- Botón flotante de contacto: alterna entre WhatsApp e iMessage/SMS -->
+<div class="contact-float" id="contact-float">
+  <a
+    href="https://wa.me/13522144948"
+    class="contact-btn whatsapp-float is-active"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Contáctanos por WhatsApp"
+  >
+    <i class="fab fa-whatsapp"></i>
+    <span class="whatsapp-tooltip" data-i18n="whatsappTooltip">¡Escríbenos!</span>
+  </a>
+  <a
+    href="sms:+13522144948"
+    class="contact-btn imessage-float"
+    aria-label="Envíanos un mensaje de texto"
+  >
+    <i class="fas fa-comment-dots"></i>
+    <span class="whatsapp-tooltip" data-i18n="smsTooltip">¡Envíanos un mensaje!</span>
+  </a>
+</div>
 
 <!-- Lightbox galería -->
 <div id="lightbox" class="lightbox" role="dialog" aria-modal="true">

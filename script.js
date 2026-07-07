@@ -212,6 +212,7 @@ const translations = {
     terms: "Acepto los Términos de Servicio y la Política de Privacidad. Consiento recibir comunicaciones respecto a mi solicitud.",
     sendBtn: "Enviar solicitud de presupuesto",
     whatsappTooltip: "¡Escríbenos!",
+    smsTooltip: "¡Envíanos un mensaje!",
     quicklinks: "Enlaces rápidos",
     footerServices: "Servicios",
     footerAuto: "Polarizado de automóviles",
@@ -338,6 +339,7 @@ const translations = {
     terms: "I accept the Terms of Service and Privacy Policy. I consent to receive communications regarding my request.",
     sendBtn: "Submit quote request",
     whatsappTooltip: "Chat with us!",
+    smsTooltip: "Send us a text!",
     quicklinks: "Quick Links",
     footerServices: "Services",
     footerAuto: "Automotive tinting",
@@ -618,5 +620,35 @@ document.querySelectorAll('.card, .scard').forEach(card => {
     setTimeout(() => { card.style.transition = ''; }, 500);
   });
 });
+
+// Botón flotante de contacto: alterna automáticamente entre WhatsApp e iMessage/SMS
+// (nunca se muestran los dos a la vez, con una transición suave entre ambos)
+(function () {
+  const wrapper = document.getElementById('contact-float');
+  if (!wrapper) return;
+  const buttons = wrapper.querySelectorAll('.contact-btn');
+  if (buttons.length < 2) return;
+
+  let activeIndex = 0;
+  let rotateTimer;
+
+  function rotate() {
+    buttons[activeIndex].classList.remove('is-active');
+    activeIndex = (activeIndex + 1) % buttons.length;
+    buttons[activeIndex].classList.add('is-active');
+  }
+
+  function startRotation() {
+    rotateTimer = setInterval(rotate, 6000);
+  }
+
+  function stopRotation() {
+    clearInterval(rotateTimer);
+  }
+
+  startRotation();
+  wrapper.addEventListener('mouseenter', stopRotation);
+  wrapper.addEventListener('mouseleave', startRotation);
+})();
 
 
