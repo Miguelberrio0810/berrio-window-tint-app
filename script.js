@@ -606,6 +606,38 @@ window.addEventListener('scroll', () => {
   obs.observe(section);
 })();
 
+// Botón flotante de contacto: en móvil (sin hover real) se hace una vista previa
+// automática que muestra WhatsApp + SMS un momento y luego colapsa a un solo botón.
+// Después, el primer toque solo revela las dos opciones (sin redirigir); el usuario
+// debe tocar de nuevo una de ellas para abrir WhatsApp o SMS.
+(function () {
+  const wrapper = document.getElementById('contact-float');
+  if (!wrapper) return;
+  const mainBtn = wrapper.querySelector('.whatsapp-float');
+  if (!mainBtn) return;
+
+  const isTouch = window.matchMedia('(hover: none)').matches;
+  if (!isTouch) return;
+
+  setTimeout(() => {
+    wrapper.classList.add('expanded');
+    setTimeout(() => wrapper.classList.remove('expanded'), 2200);
+  }, 1200);
+
+  mainBtn.addEventListener('click', (e) => {
+    if (!wrapper.classList.contains('expanded')) {
+      e.preventDefault();
+      wrapper.classList.add('expanded');
+    }
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!wrapper.contains(e.target)) {
+      wrapper.classList.remove('expanded');
+    }
+  });
+})();
+
 // 3D tilt on cards
 document.querySelectorAll('.card, .scard').forEach(card => {
   card.addEventListener('mousemove', (e) => {
@@ -620,35 +652,5 @@ document.querySelectorAll('.card, .scard').forEach(card => {
     setTimeout(() => { card.style.transition = ''; }, 500);
   });
 });
-
-// Botón flotante de contacto: alterna automáticamente entre WhatsApp e iMessage/SMS
-// (nunca se muestran los dos a la vez, con una transición suave entre ambos)
-(function () {
-  const wrapper = document.getElementById('contact-float');
-  if (!wrapper) return;
-  const buttons = wrapper.querySelectorAll('.contact-btn');
-  if (buttons.length < 2) return;
-
-  let activeIndex = 0;
-  let rotateTimer;
-
-  function rotate() {
-    buttons[activeIndex].classList.remove('is-active');
-    activeIndex = (activeIndex + 1) % buttons.length;
-    buttons[activeIndex].classList.add('is-active');
-  }
-
-  function startRotation() {
-    rotateTimer = setInterval(rotate, 6000);
-  }
-
-  function stopRotation() {
-    clearInterval(rotateTimer);
-  }
-
-  startRotation();
-  wrapper.addEventListener('mouseenter', stopRotation);
-  wrapper.addEventListener('mouseleave', startRotation);
-})();
 
 
