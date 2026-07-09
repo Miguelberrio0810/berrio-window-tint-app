@@ -657,14 +657,13 @@
     </div>
 
     <!-- Título -->
-    <h2 style="font-size:1.5rem; font-weight:bold; color:#000; margin-bottom:0.5rem;">
+    <h2 data-i18n="quoteSuccessTitle" style="font-size:1.5rem; font-weight:bold; color:#000; margin-bottom:0.5rem;">
       ¡Cotización Enviada!
     </h2>
 
     <!-- Subtítulo -->
-    <p style="color:#555; font-size:1rem; margin-bottom:1.5rem; line-height:1.5;">
-      Hemos recibido tu solicitud correctamente.<br>
-      Nos pondremos en contacto contigo muy pronto.
+    <p data-i18n="quoteSuccessDesc" style="color:#555; font-size:1rem; margin-bottom:1.5rem; line-height:1.5;">
+      Hemos recibido tu solicitud correctamente. Nos pondremos en contacto contigo muy pronto.
     </p>
 
     <!-- Divider -->
@@ -672,11 +671,13 @@
 
     <!-- Info -->
     <p style="color:#888; font-size:0.85rem; margin-bottom:1.5rem;">
-      <i class="fas fa-clock" style="color:#38B000;"></i> Tiempo de respuesta estimado: <strong>24 horas</strong>
+      <i class="fas fa-clock" style="color:#38B000;"></i>
+      <span data-i18n="quoteSuccessTimeLabel">Tiempo de respuesta estimado:</span>
+      <strong data-i18n="quoteSuccessTimeValue">24 horas</strong>
     </p>
 
     <!-- Botón -->
-    <button onclick="cerrarModal()" style="background:#38B000; color:#000; border:none; padding:0.8rem 2rem; border-radius:8px; font-size:1rem; font-weight:bold; cursor:pointer; transition:background 0.3s; width:100%;">
+    <button onclick="cerrarModal()" data-i18n="quoteSuccessBtn" style="background:#38B000; color:#000; border:none; padding:0.8rem 2rem; border-radius:8px; font-size:1rem; font-weight:bold; cursor:pointer; transition:background 0.3s; width:100%;">
       Entendido
     </button>
   </div>
@@ -695,7 +696,7 @@
     e.preventDefault();
 
     if (!document.getElementById('consentimiento').checked) {
-      alert('Debes aceptar los términos y condiciones.');
+      alert(translations[currentLang].quoteErrorTerms);
       return;
     }
 
@@ -726,7 +727,7 @@
       .insert([datos]);
 
     if (error) {
-      alert('Hubo un error al enviar. Intenta de nuevo.');
+      alert(translations[currentLang].quoteErrorSubmit);
       console.error(error);
     } else {
       await client.functions.invoke('enviar-cotizacion', {

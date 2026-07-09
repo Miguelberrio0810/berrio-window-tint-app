@@ -250,7 +250,14 @@ const translations = {
     statLabel: "RECHAZO UV",
     miniStat1: "Calificación",
     miniStat2: "Clientes",
-    miniStat3: "Años Exp."
+    miniStat3: "Años Exp.",
+    quoteSuccessTitle: "¡Cotización Enviada!",
+    quoteSuccessDesc: "Hemos recibido tu solicitud correctamente. Nos pondremos en contacto contigo muy pronto.",
+    quoteSuccessTimeLabel: "Tiempo de respuesta estimado:",
+    quoteSuccessTimeValue: "24 horas",
+    quoteSuccessBtn: "Entendido",
+    quoteErrorTerms: "Debes aceptar los términos y condiciones.",
+    quoteErrorSubmit: "Hubo un error al enviar. Intenta de nuevo."
   },
   en: {
     servicios: "Services",
@@ -377,7 +384,14 @@ const translations = {
     statLabel: "UV REJECTION",
     miniStat1: "Rating",
     miniStat2: "Clients",
-    miniStat3: "Yrs Exp."
+    miniStat3: "Yrs Exp.",
+    quoteSuccessTitle: "Quote Sent!",
+    quoteSuccessDesc: "We have successfully received your request. We will contact you shortly.",
+    quoteSuccessTimeLabel: "Estimated response time:",
+    quoteSuccessTimeValue: "24 hours",
+    quoteSuccessBtn: "Got it",
+    quoteErrorTerms: "You must accept the terms and conditions.",
+    quoteErrorSubmit: "There was an error sending your request. Please try again."
   }
 };
 
