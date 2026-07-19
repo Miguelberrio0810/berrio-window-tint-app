@@ -257,7 +257,25 @@ const translations = {
     quoteSuccessTimeValue: "24 horas",
     quoteSuccessBtn: "Entendido",
     quoteErrorTerms: "Debes aceptar los términos y condiciones.",
-    quoteErrorSubmit: "Hubo un error al enviar. Intenta de nuevo."
+    quoteErrorSubmit: "Hubo un error al enviar. Intenta de nuevo.",
+    testimonios: "Testimonios",
+    testimonialsBadgeReviews: "reseñas en Google",
+    testimonialsTitle: "Lo Que Dicen Nuestros Clientes",
+    testimonialsSubtitle: "Calificación 5.0 basada en 38 reseñas verificadas en Google",
+    leerMas: "Leer más",
+    leerMenos: "Leer menos",
+    testimonial1Text: "Tuve una excelente experiencia con esta compañía. Desde el principio fueron muy profesionales, puntuales y muy atentos. Me explicaron todo el proceso claramente.",
+    testimonial2Text: "Quedé muy impresionado con su profesionalismo y la eficiencia con la que se completó el trabajo. La calidad de la instalación es excelente.",
+    testimonial3Text: "Excelente atención y la calidad del trabajo 100/100 como cliente muy satisfecho, Sr Franklin el mejor definitivamente.",
+    testimonial4Text: "Pensé que duraría en entregarme mi auto en 5 horas y fue en tiempo récord. 3 horas ya estaba listo. Recomendado.",
+    testimonial5Text: "Me hizo dos vehículos el mismo día y su trabajo es fenomenal. Además, deja todo limpio y limpia tus ventanas al terminar.",
+    testimonial6Text: "Muy buen servicio, puntual, muy atento, flexible con los precios y confiable. Lo recomiendo ampliamente.",
+    testimonial7Text: "Mi amigo Franklin instaló el polarizado en mi Ford F-150. Todo quedó perfecto y la calidad es excelente.",
+    testimonial8Text: "Berrios tiene el mejor servicio, un gran tipo; definitivamente búscalo para tus necesidades de polarizado.",
+    testimonial9Text: "Hizo un trabajo increíble en mi GMC Acadia 2017, así que volví para que también hiciera mi Town and Country 2007. Frankie conoce muy bien su oficio. Lo recomiendo ampliamente. #TopNotch.",
+    testimonial10Text: "Quiero expresar mi más sincero agradecimiento al señor Franklin por el excelente trabajo realizado. Desde el primer momento demostró profesionalismo, puntualidad y atención a cada detalle.",
+    testimonial11Text: "Una experiencia excepcional y sin complicaciones. Su atención al detalle en el trabajo de polarizado fue excelente, y el tiempo de entrega fue sorprendentemente rápido.",
+    testimonial12Text: "Excelente servicio y atención, recomendado 100%, mi RAV4 quedó excelente."
   },
   en: {
     servicios: "Services",
@@ -391,7 +409,25 @@ const translations = {
     quoteSuccessTimeValue: "24 hours",
     quoteSuccessBtn: "Got it",
     quoteErrorTerms: "You must accept the terms and conditions.",
-    quoteErrorSubmit: "There was an error sending your request. Please try again."
+    quoteErrorSubmit: "There was an error sending your request. Please try again.",
+    testimonios: "Testimonials",
+    testimonialsBadgeReviews: "Google reviews",
+    testimonialsTitle: "What Our Clients Say",
+    testimonialsSubtitle: "5.0 rating based on 38 verified Google reviews",
+    leerMas: "Read more",
+    leerMenos: "Read less",
+    testimonial1Text: "I had an excellent experience with this company. From the start they were very professional, punctual, and attentive. They explained the whole process clearly.",
+    testimonial2Text: "I was very impressed with your professionalism and the efficiency with which the work was completed. The quality of the installation is excellent.",
+    testimonial3Text: "Excellent service and the quality of the work is 100/100 — as a very satisfied customer, Mr. Franklin is definitely the best.",
+    testimonial4Text: "I thought it would take 5 hours to get my car back, but it was done in record time — ready in just 3 hours. Highly recommended.",
+    testimonial5Text: "Got two vehicles done in the same day and he does phenomenal work. He also cleans up after himself and cleans your windows when he is finished.",
+    testimonial6Text: "Very good service, punctual, very helpful, very accommodating in pricing and trustworthy. Highly recommend.",
+    testimonial7Text: "My friend Franklin installed window tint on my Ford F-150. Everything turned out perfect and the quality is excellent.",
+    testimonial8Text: "Berrios has the best service, great guy, definitely see him for your window tinting needs.",
+    testimonial9Text: "Did such an awesome job with my 2017 GMC Acadia, I went back and had him do my 2007 Town and Country. Frankie knows his business. Highly recommend. #TopNotch.",
+    testimonial10Text: "I want to express my sincere gratitude to Mr. Franklin for the excellent work done. From the very first moment he showed professionalism, punctuality, and attention to every detail.",
+    testimonial11Text: "An exceptional, hassle-free experience. Their attention to detail on the tint job was outstanding, and the turnaround time was impressively fast.",
+    testimonial12Text: "Excellent service and attention, 100% recommended — my RAV4 turned out excellent."
   }
 };
 
@@ -443,6 +479,8 @@ function changeLanguage(lang) {
 
   // Cambiar el texto del botón
   document.querySelector(".idioma button").textContent = lang === "es" ? "🌐EN" : "🌐ES";
+
+  document.dispatchEvent(new CustomEvent('languagechange'));
 }
 
 // Cargar idioma inglés por defecto al iniciar
@@ -532,7 +570,7 @@ window.addEventListener('scroll', () => {
 // Scroll reveal with Intersection Observer
 (function () {
   const sels = [
-    '.whychoosetitle', '.gallerytitle', '.videos-title', '.videos-subtitle',
+    '.whychoosetitle', '.testimonialstitle', '.testimonials-subtitle', '.gallerytitle', '.videos-title', '.videos-subtitle',
     '.promos-title', '.services h1', '.services > p', '.form-section h1', '.form-section > p'
   ];
   sels.forEach(s => document.querySelectorAll(s).forEach(el => el.classList.add('reveal')));
@@ -553,6 +591,11 @@ window.addEventListener('scroll', () => {
   document.querySelectorAll('.promo-card').forEach((el, i) => {
     el.classList.add('reveal');
     el.style.transitionDelay = (i * 0.1) + 's';
+  });
+
+  document.querySelectorAll('.testimonial-card').forEach((el, i) => {
+    el.classList.add('reveal');
+    el.style.transitionDelay = (Math.min(i, 5) * 0.08) + 's';
   });
 
   const obs = new IntersectionObserver((entries) => {
@@ -650,6 +693,40 @@ window.addEventListener('scroll', () => {
       wrapper.classList.remove('expanded');
     }
   });
+})();
+
+// Testimonios: mostrar "Leer más" solo si el texto se trunca, y alternar expandido
+(function () {
+  const cards = document.querySelectorAll('.testimonial-card');
+  if (!cards.length) return;
+
+  function checkOverflow() {
+    cards.forEach(card => {
+      const text = card.querySelector('.testimonial-text');
+      const toggle = card.querySelector('.testimonial-toggle');
+      if (!text || !toggle || card.classList.contains('expanded')) return;
+      toggle.classList.toggle('visible', text.scrollHeight > text.clientHeight + 1);
+    });
+  }
+
+  cards.forEach(card => {
+    const toggle = card.querySelector('.testimonial-toggle');
+    if (!toggle) return;
+    toggle.addEventListener('click', () => {
+      const expanded = card.classList.toggle('expanded');
+      const key = expanded ? 'leerMenos' : 'leerMas';
+      toggle.setAttribute('data-i18n', key);
+      toggle.textContent = translations[currentLang][key];
+    });
+  });
+
+  window.addEventListener('load', checkOverflow);
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(checkOverflow, 200);
+  }, { passive: true });
+  document.addEventListener('languagechange', () => setTimeout(checkOverflow, 0));
 })();
 
 // 3D tilt on cards
