@@ -730,6 +730,48 @@ window.addEventListener('scroll', () => {
   document.querySelector('header').classList.toggle('scrolled', window.scrollY > 60);
 }, { passive: true });
 
+// Menú móvil — botón hamburguesa con animación a X, panel deslizante y backdrop
+(function () {
+  const toggle = document.getElementById('nav-toggle');
+  const nav = document.getElementById('main-nav');
+  const backdrop = document.getElementById('nav-backdrop');
+  if (!toggle || !nav || !backdrop) return;
+
+  function openMenu() {
+    toggle.classList.add('open');
+    nav.classList.add('open');
+    backdrop.classList.add('open');
+    toggle.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeMenu() {
+    toggle.classList.remove('open');
+    nav.classList.remove('open');
+    backdrop.classList.remove('open');
+    toggle.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
+
+  toggle.addEventListener('click', () => {
+    nav.classList.contains('open') ? closeMenu() : openMenu();
+  });
+
+  backdrop.addEventListener('click', closeMenu);
+
+  // Cerrar al elegir una sección o el CTA, para no tapar el contenido al navegar
+  nav.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && nav.classList.contains('open')) closeMenu();
+  });
+
+  // Si la ventana vuelve a tamaño de escritorio con el menú abierto, lo cerramos
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 768 && nav.classList.contains('open')) closeMenu();
+  });
+})();
+
 // Particle canvas
 (function () {
   const canvas = document.getElementById('particles-canvas');

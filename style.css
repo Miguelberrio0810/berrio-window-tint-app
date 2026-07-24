@@ -97,6 +97,50 @@ nav ul li a:hover { color: var(--accent-light); }
   color: var(--accent-light);
 }
 
+/* Botón hamburguesa — solo visible en móvil (ver breakpoint responsive) */
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 42px; height: 42px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  z-index: 1001;
+  transition: border-color var(--t);
+}
+
+.nav-toggle:hover { border-color: var(--border-accent); }
+
+.nav-toggle-bar {
+  width: 20px; height: 2px;
+  background: var(--text);
+  border-radius: 2px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.nav-toggle.open .nav-toggle-bar:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-toggle.open .nav-toggle-bar:nth-child(2) { opacity: 0; }
+.nav-toggle.open .nav-toggle-bar:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+.nav-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 999;
+  opacity: 0;
+  transition: opacity var(--t);
+}
+
+.nav-backdrop.open {
+  display: block;
+  opacity: 1;
+}
+
 .btn {
   display: inline-block;
   padding: 0.65rem 1.4rem;
@@ -1037,16 +1081,12 @@ nav ul li a:hover { color: var(--accent-light); }
 /* Carrusel de promociones (reutilizado también dentro del pop-up) */
 .promo-carousel {
   position: relative;
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
   max-width: 1200px;
   margin: 0 auto;
 }
 
 .promo-viewport {
   overflow: hidden;
-  flex: 1;
   /* revela el borde de la siguiente tarjeta para insinuar que hay más contenido */
   mask-image: linear-gradient(to right, transparent 0, #000 14px, #000 calc(100% - 14px), transparent 100%);
 }
@@ -1122,8 +1162,10 @@ nav ul li a:hover { color: var(--accent-light); }
 }
 
 .promo-arrow {
-  position: static;
-  flex-shrink: 0;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
   background: rgba(56,176,0,0.85);
   border: none;
   color: #000;
@@ -1137,9 +1179,12 @@ nav ul li a:hover { color: var(--accent-light); }
   transition: background var(--t), transform var(--t);
 }
 
+.promo-arrow--prev { left: 10px; }
+.promo-arrow--next { right: 10px; }
+
 .promo-arrow:hover {
   background: var(--accent-light);
-  transform: scale(1.1);
+  transform: translateY(-50%) scale(1.1);
 }
 
 .promo-dots {
@@ -2008,11 +2053,39 @@ nav ul li a:hover { color: var(--accent-light); }
 
 @media (max-width: 768px) {
   header { padding: 0.9rem 1.5rem; }
-  nav ul { gap: 1.2rem; }
-  nav ul li a { font-size: 0.85rem; }
+  .nav-toggle { display: flex; }
+
+  /* El menú se convierte en un panel deslizante desde la derecha,
+     oculto por defecto y activado por el botón hamburguesa. */
+  nav {
+    position: fixed;
+    top: 0; right: 0;
+    height: 100vh;
+    width: min(300px, 82vw);
+    background: rgba(9,12,15,0.98);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-left: 1px solid var(--border);
+    box-shadow: -10px 0 40px rgba(0,0,0,0.6);
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 2rem;
+    padding: 6rem 2rem 2rem;
+    transform: translateX(100%);
+    transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+    z-index: 1000;
+  }
+  nav.open { transform: translateX(0); }
+  nav ul { flex-direction: column; gap: 1.5rem; width: 100%; }
+  nav ul li a { font-size: 1.05rem; }
+  .idioma { width: 100%; }
+  .idioma button { width: 100%; }
+  nav .btn.schedule { width: 100%; text-align: center; margin: 0; }
   .group { padding: 0 55px; }
   .group img { height: 160px; }
   .footer-container { grid-template-columns: 1fr 1fr; gap: 2rem; }
+  .promos-section { padding: 3.5rem 1.5rem; }
   .promo-card { height: 250px; }
   .promo-carousel--popup .promo-card { height: 220px; }
   .videos-section { padding: 3.5rem 1.5rem; }
@@ -2021,9 +2094,7 @@ nav ul li a:hover { color: var(--accent-light); }
 
 @media (max-width: 480px) {
   header { padding: 0.7rem 1rem; }
-  nav { gap: 0.5rem; flex-wrap: wrap; }
-  nav ul { gap: 0.8rem; flex-wrap: nowrap; order: -1; width: 100%; justify-content: center; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; margin-bottom: 0.3rem; }
-  nav ul li a { font-size: 0.78rem; }
+  nav { width: 88vw; padding: 5.5rem 1.5rem 2rem; }
   .btn { font-size: 0.8rem; padding: 0.5rem 0.9rem; }
   .group { padding: 0 44px; gap: 0.4rem; }
   .group img { height: 110px; border-radius: 8px; }
@@ -2038,7 +2109,10 @@ nav ul li a:hover { color: var(--accent-light); }
   .video-prev, .video-next { width: 36px; height: 36px; font-size: 1rem; }
   .promo-card { height: 220px; }
   .promo-carousel--popup .promo-card { height: 190px; }
-  .promo-arrow { width: 36px; height: 36px; font-size: 1rem; }
+  /* En móvil la leyenda ocupa casi la mitad de la tarjeta (texto en 2 líneas + botón);
+     las flechas se suben para no taparla, en vez de quedar centradas en toda la tarjeta. */
+  .promo-arrow { width: 36px; height: 36px; font-size: 1rem; top: 40px; }
+  .promo-arrow--prev { left: 4px; } .promo-arrow--next { right: 4px; }
   .promo-overlay { padding: 1.75rem 1rem 1rem; }
   .promo-overlay-text { font-size: 0.85rem; }
   .promo-popup-box { padding: 1.75rem 1.25rem 1.5rem; }
