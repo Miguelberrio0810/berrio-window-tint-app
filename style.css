@@ -1098,8 +1098,14 @@ nav ul li a:hover { color: var(--accent-light); }
   touch-action: pan-y;
 }
 
+/* Las imágenes de promoción son gráficos verticales (1122×1402, ratio 4:5,
+   formato tipo "story"). La tarjeta usa ese mismo aspect-ratio en vez de una
+   altura fija, para no recortar la mayor parte del gráfico con object-fit:cover.
+   El ancho se limita a 320px (con min() para no desbordar en pantallas angostas)
+   y se mantiene igual en todos los breakpoints — esto también deja espacio de
+   sobra entre las flechas centradas y la leyenda inferior, en cualquier tamaño. */
 .promo-slide {
-  min-width: 100%;
+  width: min(320px, 100%);
   flex-shrink: 0;
 }
 
@@ -1109,7 +1115,7 @@ nav ul li a:hover { color: var(--accent-light); }
   border-radius: var(--radius);
   box-shadow: 0 8px 30px rgba(0,0,0,0.5);
   transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.4s ease, border-color 0.4s ease;
-  height: 320px;
+  aspect-ratio: 4 / 5;
   border: 1px solid var(--border);
   will-change: transform;
 }
@@ -1242,6 +1248,8 @@ nav ul li a:hover { color: var(--accent-light); }
   padding: 2.25rem 2rem 2rem;
   max-width: 560px;
   width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
   text-align: center;
   box-shadow: 0 20px 80px rgba(0,0,0,0.8), var(--glow);
   transform: scale(0.94) translateY(10px);
@@ -1283,7 +1291,10 @@ nav ul li a:hover { color: var(--accent-light); }
   letter-spacing: -0.5px;
 }
 
-.promo-carousel--popup .promo-card { height: 260px; }
+/* Tarjeta más compacta dentro del pop-up para que el modal completo (título +
+   carrusel + puntos + banner de vigencia) quepa cómodamente en pantallas de
+   celular sin depender solo del scroll interno de seguridad. */
+.promo-carousel--popup .promo-slide { width: min(220px, 100%); }
 
 .promo-popup-expiry {
   margin: 1.5rem 0 0;
@@ -2086,8 +2097,6 @@ nav ul li a:hover { color: var(--accent-light); }
   .group img { height: 160px; }
   .footer-container { grid-template-columns: 1fr 1fr; gap: 2rem; }
   .promos-section { padding: 3.5rem 1.5rem; }
-  .promo-card { height: 250px; }
-  .promo-carousel--popup .promo-card { height: 220px; }
   .videos-section { padding: 3.5rem 1.5rem; }
   .videogroup { padding: 0 55px; }
 }
@@ -2107,11 +2116,7 @@ nav ul li a:hover { color: var(--accent-light); }
   .checkbox-group { grid-template-columns: 1fr; }
   .videogroup { padding: 0 44px; }
   .video-prev, .video-next { width: 36px; height: 36px; font-size: 1rem; }
-  .promo-card { height: 220px; }
-  .promo-carousel--popup .promo-card { height: 190px; }
-  /* En móvil la leyenda ocupa casi la mitad de la tarjeta (texto en 2 líneas + botón);
-     las flechas se suben para no taparla, en vez de quedar centradas en toda la tarjeta. */
-  .promo-arrow { width: 36px; height: 36px; font-size: 1rem; top: 40px; }
+  .promo-arrow { width: 36px; height: 36px; font-size: 1rem; }
   .promo-arrow--prev { left: 4px; } .promo-arrow--next { right: 4px; }
   .promo-overlay { padding: 1.75rem 1rem 1rem; }
   .promo-overlay-text { font-size: 0.85rem; }
@@ -2127,14 +2132,8 @@ nav ul li a:hover { color: var(--accent-light); }
   .testimonials-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
-/* Tablet+: deja ver parcialmente la siguiente tarjeta para insinuar más contenido */
-@media (min-width: 768px) {
-  .promo-carousel:not(.promo-carousel--popup) .promo-slide { min-width: 62%; }
-}
-
 @media (min-width: 1024px) {
   .group img { height: 340px; }
   .group { padding: 0 80px; gap: 1.5rem; }
   .testimonials-grid { grid-template-columns: repeat(3, 1fr); }
-  .promo-carousel:not(.promo-carousel--popup) .promo-slide { min-width: 46%; }
 }
