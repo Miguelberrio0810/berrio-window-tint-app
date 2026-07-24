@@ -33,6 +33,27 @@ const videoGallery = document.querySelector('.videogalleryimg');
 const videoGroups = document.querySelectorAll('.videogroup');
 let videoIndex = 0;
 
+// Poster de marca reutilizado por todos los videos, evita pantalla negra
+// mientras se carga (data URI, sin petición de red, se aplica al instante).
+const VIDEO_POSTER = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='680' height='383' viewBox='0 0 680 383'%3E%3Crect width='680' height='383' fill='%230c1016'/%3E%3Ccircle cx='340' cy='176' r='54' fill='%2338B000'/%3E%3Cpath d='M322 150 L322 202 L366 176 Z' fill='%23090c0f'/%3E%3Ctext x='340' y='262' font-family='Arial, sans-serif' font-size='20' font-weight='700' fill='%23ffffff' text-anchor='middle' letter-spacing='1'%3EBERRIO WINDOW TINT%3C/text%3E%3C/svg%3E";
+
+document.querySelectorAll('.videogroup video, .promo-card-video').forEach(video => {
+  video.poster = VIDEO_POSTER;
+});
+
+// Carga perezosa: cada <source> guarda el archivo real en data-src y solo
+// se asigna a src (y se llama a .load()) cuando el slide realmente se necesita,
+// para no descargar los 11 videos de golpe.
+function loadVideoSlide(index) {
+  const group = videoGroups[index];
+  if (!group) return;
+  const source = group.querySelector('source[data-src]');
+  if (!source) return;
+  source.src = source.dataset.src;
+  source.removeAttribute('data-src');
+  group.querySelector('video').load();
+}
+
 function showVideoGroup(index) {
   const currentVideo = videoGroups[videoIndex]?.querySelector('video');
   if (currentVideo) currentVideo.pause();
@@ -42,12 +63,37 @@ function showVideoGroup(index) {
   videoIndex = index;
   videoGallery.style.transform = `translateX(-${index * 100}%)`;
 
+  // Precarga el slide actual y sus vecinos para que prev/next se sientan instantáneos
+  loadVideoSlide(videoIndex);
+  loadVideoSlide(videoIndex + 1 >= videoGroups.length ? 0 : videoIndex + 1);
+  loadVideoSlide(videoIndex - 1 < 0 ? videoGroups.length - 1 : videoIndex - 1);
+
   const nextVideo = videoGroups[videoIndex]?.querySelector('video');
   if (nextVideo) {
     nextVideo.currentTime = 0;
     nextVideo.play().catch(() => {});
   }
 }
+
+// Solo empieza a cargar videos cuando la sección realmente entra en el viewport
+// (la sección está bastante abajo en la página, así que no hay razón para
+// descargar nada de video mientras el usuario ve el resto del sitio).
+(function () {
+  const videosSection = document.querySelector('.videos-section');
+  if (!videosSection) return;
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        loadVideoSlide(0);
+        loadVideoSlide(1);
+        const firstVideo = videoGroups[0]?.querySelector('video');
+        if (firstVideo) firstVideo.play().catch(() => {});
+        obs.disconnect();
+      }
+    });
+  }, { threshold: 0.1 });
+  obs.observe(videosSection);
+})();
 
 function flashTapIcon(wrapper, iconClass) {
   const tapIcon = wrapper.querySelector('.video-tap-icon');
@@ -78,8 +124,6 @@ document.querySelectorAll('.video-wrapper').forEach(wrapper => {
 document.querySelector('.video-prev').addEventListener('click', () => showVideoGroup(videoIndex - 1));
 document.querySelector('.video-next').addEventListener('click', () => showVideoGroup(videoIndex + 1));
 
-showVideoGroup(0);
-
 
 // Lightbox galería
 (function () {
@@ -104,11 +148,10 @@ showVideoGroup(0);
     img.addEventListener('click', () => openLightbox(img.src, img.alt));
   });
 
-  document.querySelectorAll('.promo-card').forEach(card => {
-    card.addEventListener('click', () => {
-      const img = card.querySelector('img');
-      if (img) openLightbox(img.src, img.alt);
-    });
+  // Solo la imagen abre el lightbox; el botón "Ver Oferta" navega a #cita
+  // por su cuenta y no debe disparar también el lightbox.
+  document.querySelectorAll('.promo-card img').forEach(img => {
+    img.addEventListener('click', () => openLightbox(img.src, img.alt));
   });
 
   closeBtn.addEventListener('click', closeLightbox);
@@ -119,6 +162,194 @@ showVideoGroup(0);
 
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') closeLightbox();
+  });
+})();
+
+
+// Carrusel de promociones — reutilizable (sección "Promociones Especiales" y pop-up)
+function initPromoCarousel(root, opts = {}) {
+  if (!root) return null;
+  const track = root.querySelector('[data-carousel-track]');
+  const slides = Array.from(root.querySelectorAll('.promo-slide'));
+  const prevBtn = root.querySelector('[data-carousel-prev]');
+  const nextBtn = root.querySelector('[data-carousel-next]');
+  const dotsWrap = root.parentElement.querySelector('[data-carousel-dots]');
+  if (!track || !slides.length) return null;
+
+  const AUTOPLAY_MS = 5000; // suficientemente lento para leer cada promoción
+  let index = 0;
+  let timer = null;
+  let autoplayEnabled = opts.autoplay !== false;
+
+  dotsWrap.innerHTML = '';
+  const dots = slides.map((_, i) => {
+    const dot = document.createElement('button');
+    dot.type = 'button';
+    dot.setAttribute('role', 'tab');
+    dot.setAttribute('aria-label', `Ir a la promoción ${i + 1}`);
+    dot.addEventListener('click', () => { goTo(i); scheduleAutoplay(); });
+    dotsWrap.appendChild(dot);
+    return dot;
+  });
+
+  function updateDots() {
+    dots.forEach((d, i) => {
+      d.classList.toggle('active', i === index);
+      d.setAttribute('aria-selected', i === index ? 'true' : 'false');
+    });
+  }
+
+  function update() {
+    const gap = parseFloat(getComputedStyle(track).gap) || 0;
+    const slideWidth = slides[0].getBoundingClientRect().width + gap;
+    track.style.transform = `translateX(-${index * slideWidth}px)`;
+    updateDots();
+  }
+
+  // Algunas promos usan video en vez de imagen (ej. Promocion5video.mp4);
+  // se carga perezosamente y solo reproduce mientras su slide está activo.
+  function pauseSlideVideo(i) {
+    const video = slides[i]?.querySelector('.promo-card-video');
+    if (video && !video.paused) video.pause();
+  }
+
+  function playSlideVideo(i) {
+    const video = slides[i]?.querySelector('.promo-card-video');
+    if (!video) return;
+    const source = video.querySelector('source[data-src]');
+    if (source) {
+      source.src = source.dataset.src;
+      source.removeAttribute('data-src');
+      video.load();
+    }
+    video.play().catch(() => {});
+  }
+
+  function goTo(i) {
+    pauseSlideVideo(index);
+    index = (i + slides.length) % slides.length;
+    update();
+    playSlideVideo(index);
+  }
+
+  function next() { goTo(index + 1); }
+  function prev() { goTo(index - 1); }
+
+  // Reprograma el ciclo (usado tras cualquier navegación manual); no cambia si el autoplay está habilitado
+  function scheduleAutoplay() {
+    clearInterval(timer);
+    timer = null;
+    if (autoplayEnabled) timer = setInterval(next, AUTOPLAY_MS);
+  }
+
+  // Pausa temporal (hover/touch) sin deshabilitar el autoplay
+  function pauseAutoplay() {
+    clearInterval(timer);
+    timer = null;
+  }
+
+  // API pública: habilita/deshabilita el autoplay por completo (usado al abrir/cerrar el pop-up)
+  function startAutoplay() {
+    autoplayEnabled = true;
+    playSlideVideo(index);
+    scheduleAutoplay();
+  }
+  function stopAutoplay() {
+    autoplayEnabled = false;
+    pauseAutoplay();
+    pauseSlideVideo(index); // no dejar el video de la promo sonando/corriendo oculto (ej. al cerrar el pop-up)
+  }
+
+  prevBtn?.addEventListener('click', () => { prev(); scheduleAutoplay(); });
+  nextBtn?.addEventListener('click', () => { next(); scheduleAutoplay(); });
+
+  // Pausa el autoplay mientras el usuario interactúa, para que no se pierda ninguna promoción
+  root.addEventListener('mouseenter', pauseAutoplay);
+  root.addEventListener('mouseleave', scheduleAutoplay);
+  root.addEventListener('touchstart', pauseAutoplay, { passive: true });
+
+  // Swipe táctil
+  let touchStartX = null;
+  track.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; }, { passive: true });
+  track.addEventListener('touchend', (e) => {
+    if (touchStartX === null) return;
+    const deltaX = e.changedTouches[0].clientX - touchStartX;
+    touchStartX = null;
+    if (Math.abs(deltaX) > 40) { deltaX < 0 ? next() : prev(); }
+    scheduleAutoplay();
+  }, { passive: true });
+
+  window.addEventListener('resize', update);
+
+  update();
+  scheduleAutoplay();
+
+  return { goTo, next, prev, update, resetTimer: startAutoplay, stopTimer: stopAutoplay };
+}
+
+// El carrusel principal solo empieza a autoreproducirse (y a cargar el video de la
+// promo 5) cuando la sección realmente entra en el viewport, igual que los videos
+// de "Nuestro Trabajo en Acción" — así no se descarga nada de video fuera de vista.
+const promoCarouselMain = initPromoCarousel(document.querySelector('.promos-section .promo-carousel'), { autoplay: false });
+const promoCarouselPopup = initPromoCarousel(document.querySelector('.promo-carousel--popup'), { autoplay: false });
+
+(function () {
+  const promosSection = document.querySelector('.promos-section');
+  if (!promosSection || !promoCarouselMain) return;
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        promoCarouselMain.resetTimer();
+        obs.disconnect();
+      }
+    });
+  }, { threshold: 0.1 });
+  obs.observe(promosSection);
+})();
+
+// Pop-up de promociones — una vez por sesión (sessionStorage), vence automáticamente
+// el 31 de julio de 2026 sin necesidad de quitarlo manualmente del código.
+(function () {
+  const popup = document.getElementById('promo-popup');
+  if (!popup) return;
+  const closeBtn = document.getElementById('promo-popup-close');
+  const PROMO_DEADLINE = new Date('2026-08-01T00:00:00');
+
+  function isPromoActive() {
+    return new Date() < PROMO_DEADLINE;
+  }
+
+  function openPopup() {
+    promoCarouselPopup?.goTo(0);
+    promoCarouselPopup?.resetTimer();
+    popup.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closePopup() {
+    popup.classList.remove('active');
+    document.body.style.overflow = '';
+    promoCarouselPopup?.stopTimer();
+  }
+
+  if (isPromoActive() && !sessionStorage.getItem('promoPopupShown')) {
+    sessionStorage.setItem('promoPopupShown', '1');
+    setTimeout(openPopup, 500);
+  }
+
+  closeBtn.addEventListener('click', closePopup);
+
+  popup.addEventListener('click', (e) => {
+    if (e.target === popup) closePopup();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && popup.classList.contains('active')) closePopup();
+  });
+
+  // El CTA "Ver Oferta" cierra el pop-up y deja que el enlace #cita haga scroll al formulario
+  popup.querySelectorAll('[data-promo-popup-cta]').forEach(cta => {
+    cta.addEventListener('click', closePopup);
   });
 })();
 
@@ -236,7 +467,9 @@ const translations = {
     videosSubtitle: "Mira cómo transformamos vehículos con nuestro servicio profesional",
     promosTitle: "Promociones Especiales",
     promoOverlay: "Ver Oferta",
-    promoOverlay2: "Ver Oferta",
+    promoOverlayText: "Promoción especial — contáctanos para más detalles",
+    promoPopupTitle: "¡Promociones Especiales!",
+    promoPopupExpiry: "Promoción válida hasta el 31 de julio de 2026",
     featuresEyebrow: "La diferencia Berrío",
     featuresH1: "Más que Solo Sombra.",
     featuresH2: "Rendimiento Ingenieril.",
@@ -388,7 +621,9 @@ const translations = {
     videosSubtitle: "See how we transform vehicles with our professional service",
     promosTitle: "Special Promotions",
     promoOverlay: "View Offer",
-    promoOverlay2: "View Offer",
+    promoOverlayText: "Special promotion — contact us for details",
+    promoPopupTitle: "Special Promotions!",
+    promoPopupExpiry: "Offer valid through July 31, 2026",
     featuresEyebrow: "The Berrío Difference",
     featuresH1: "More Than Just Shade.",
     featuresH2: "Engineered Performance.",

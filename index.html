@@ -456,54 +456,99 @@
         <button type="button" class="video-prev"><i class="fas fa-chevron-left"></i></button>
         <div class="videogalleryimg">
           <div class="videogroup">
-            <div class="video-wrapper">
-              <video muted preload="metadata">
-                <source src="img/video1.mp4" type="video/mp4">
+            <div class="video-wrapper" aria-label="Video: transformación de vehículo con polarizado">
+              <video muted preload="none">
+                <source data-src="img/video1.mp4" type="video/mp4">
                 Tu navegador no soporta video HTML5
               </video>
               <div class="video-tap-icon"><i class="fas fa-play"></i></div>
             </div>
           </div>
           <div class="videogroup">
-            <div class="video-wrapper">
-              <video muted preload="metadata">
-                <source src="img/video2.mp4" type="video/mp4">
+            <div class="video-wrapper" aria-label="Video: instalación profesional de tinte">
+              <video muted preload="none">
+                <source data-src="img/video2.mp4" type="video/mp4">
                 Tu navegador no soporta video HTML5
               </video>
               <div class="video-tap-icon"><i class="fas fa-play"></i></div>
             </div>
           </div>
           <div class="videogroup">
-            <div class="video-wrapper">
-              <video muted preload="metadata">
-                <source src="img/video3.mp4" type="video/mp4">
+            <div class="video-wrapper" aria-label="Video: detalle del proceso de polarizado">
+              <video muted preload="none">
+                <source data-src="img/video3.mp4" type="video/mp4">
                 Tu navegador no soporta video HTML5
               </video>
               <div class="video-tap-icon"><i class="fas fa-play"></i></div>
             </div>
           </div>
           <div class="videogroup">
-            <div class="video-wrapper">
-              <video muted preload="metadata">
-                <source src="img/video4.mp4" type="video/mp4">
+            <div class="video-wrapper" aria-label="Video: acabado profesional en vehículo">
+              <video muted preload="none">
+                <source data-src="img/video4.mp4" type="video/mp4">
                 Tu navegador no soporta video HTML5
               </video>
               <div class="video-tap-icon"><i class="fas fa-play"></i></div>
             </div>
           </div>
           <div class="videogroup">
-            <div class="video-wrapper">
-              <video muted preload="metadata">
-                <source src="img/video5.mp4" type="video/mp4">
+            <div class="video-wrapper" aria-label="Video: cliente satisfecho con el resultado">
+              <video muted preload="none">
+                <source data-src="img/video5.mp4" type="video/mp4">
                 Tu navegador no soporta video HTML5
               </video>
               <div class="video-tap-icon"><i class="fas fa-play"></i></div>
             </div>
           </div>
           <div class="videogroup">
-            <div class="video-wrapper">
-              <video muted preload="metadata">
-                <source src="img/video6.mp4" type="video/mp4">
+            <div class="video-wrapper" aria-label="Video: instalación de polarizado automotriz">
+              <video muted preload="none">
+                <source data-src="img/video6.mp4" type="video/mp4">
+                Tu navegador no soporta video HTML5
+              </video>
+              <div class="video-tap-icon"><i class="fas fa-play"></i></div>
+            </div>
+          </div>
+          <div class="videogroup">
+            <div class="video-wrapper" aria-label="Video: proceso de tintado profesional">
+              <video muted preload="none">
+                <source data-src="img/video7.mp4" type="video/mp4">
+                Tu navegador no soporta video HTML5
+              </video>
+              <div class="video-tap-icon"><i class="fas fa-play"></i></div>
+            </div>
+          </div>
+          <div class="videogroup">
+            <div class="video-wrapper" aria-label="Video: resultado final del polarizado">
+              <video muted preload="none">
+                <source data-src="img/video8.mp4" type="video/mp4">
+                Tu navegador no soporta video HTML5
+              </video>
+              <div class="video-tap-icon"><i class="fas fa-play"></i></div>
+            </div>
+          </div>
+          <div class="videogroup">
+            <div class="video-wrapper" aria-label="Video: instalación de película de protección">
+              <video muted preload="none">
+                <source data-src="img/video9.mp4" type="video/mp4">
+                Tu navegador no soporta video HTML5
+              </video>
+              <div class="video-tap-icon"><i class="fas fa-play"></i></div>
+            </div>
+          </div>
+          <div class="videogroup">
+            <div class="video-wrapper" aria-label="Video: trabajo de tintado en detalle">
+              <video muted preload="none">
+                <source data-src="img/video10.mp4" type="video/mp4">
+                Tu navegador no soporta video HTML5
+              </video>
+              <div class="video-tap-icon"><i class="fas fa-play"></i></div>
+            </div>
+          </div>
+          <div class="videogroup">
+            <div class="video-wrapper" aria-label="Video: vehículo terminado con polarizado">
+              <video muted preload="none">
+                <source data-src="img/video11.mp4" type="video/mp4">
                 Tu navegador no soporta video HTML5
               </video>
               <div class="video-tap-icon"><i class="fas fa-play"></i></div>
@@ -517,20 +562,66 @@
 <!-- Sección de Promociones -->
     <section class="promos-section" id="promos">
       <h2 class="promos-title" data-i18n="promosTitle">Promociones Especiales</h2>
-      <div class="promos-grid">
-        <div class="promo-card">
-          <img src="img/Promo3.jpeg" alt="Promoción especial">
-          <div class="promo-overlay">
-            <h3 data-i18n="promoOverlay">Ver Oferta</h3>
+
+      <div class="promo-carousel" data-carousel>
+        <button type="button" class="promo-arrow promo-arrow--prev" data-carousel-prev aria-label="Promoción anterior"><i class="fas fa-chevron-left"></i></button>
+
+        <div class="promo-viewport">
+          <div class="promo-track" data-carousel-track>
+            <article class="promo-slide">
+              <div class="promo-card">
+                <img src="img/Promocion1.jpeg" alt="Promoción especial 1" loading="lazy" decoding="async">
+                <div class="promo-overlay">
+                  <p class="promo-overlay-text" data-i18n="promoOverlayText">Promoción especial — contáctanos para más detalles</p>
+                  <a href="#cita" class="btn schedule promo-cta" data-i18n="promoOverlay">Ver Oferta</a>
+                </div>
+              </div>
+            </article>
+            <article class="promo-slide">
+              <div class="promo-card">
+                <img src="img/Promocion2.jpeg" alt="Promoción especial 2" loading="lazy" decoding="async">
+                <div class="promo-overlay">
+                  <p class="promo-overlay-text" data-i18n="promoOverlayText">Promoción especial — contáctanos para más detalles</p>
+                  <a href="#cita" class="btn schedule promo-cta" data-i18n="promoOverlay">Ver Oferta</a>
+                </div>
+              </div>
+            </article>
+            <article class="promo-slide">
+              <div class="promo-card">
+                <img src="img/Promocion3.jpeg" alt="Promoción especial 3" loading="lazy" decoding="async">
+                <div class="promo-overlay">
+                  <p class="promo-overlay-text" data-i18n="promoOverlayText">Promoción especial — contáctanos para más detalles</p>
+                  <a href="#cita" class="btn schedule promo-cta" data-i18n="promoOverlay">Ver Oferta</a>
+                </div>
+              </div>
+            </article>
+            <article class="promo-slide">
+              <div class="promo-card">
+                <img src="img/Promocion4.jpeg" alt="Promoción especial 4" loading="lazy" decoding="async">
+                <div class="promo-overlay">
+                  <p class="promo-overlay-text" data-i18n="promoOverlayText">Promoción especial — contáctanos para más detalles</p>
+                  <a href="#cita" class="btn schedule promo-cta" data-i18n="promoOverlay">Ver Oferta</a>
+                </div>
+              </div>
+            </article>
+            <article class="promo-slide">
+              <div class="promo-card">
+                <video class="promo-card-video" muted loop playsinline preload="none" aria-label="Video de la promoción especial 5">
+                  <source data-src="img/Promocion5video.mp4" type="video/mp4">
+                </video>
+                <div class="promo-overlay">
+                  <p class="promo-overlay-text" data-i18n="promoOverlayText">Promoción especial — contáctanos para más detalles</p>
+                  <a href="#cita" class="btn schedule promo-cta" data-i18n="promoOverlay">Ver Oferta</a>
+                </div>
+              </div>
+            </article>
           </div>
         </div>
-        <div class="promo-card">
-          <img src="img/promo2.jpeg" alt="Promoción especial 2">
-          <div class="promo-overlay">
-            <h3 data-i18n="promoOverlay2">Ver Oferta</h3>
-          </div>
-        </div>
+
+        <button type="button" class="promo-arrow promo-arrow--next" data-carousel-next aria-label="Siguiente promoción"><i class="fas fa-chevron-right"></i></button>
       </div>
+
+      <div class="promo-dots" data-carousel-dots role="tablist" aria-label="Seleccionar promoción"></div>
     </section>
 
 
@@ -859,6 +950,80 @@
 <div id="lightbox" class="lightbox" role="dialog" aria-modal="true">
   <button type="button" class="lightbox-close" aria-label="Cerrar"><i class="fas fa-times"></i></button>
   <img id="lightbox-img" src="" alt="Imagen ampliada">
+</div>
+
+<!-- Pop-up de promociones (una vez por sesión, vence el 31 de julio de 2026) -->
+<div id="promo-popup" class="promo-popup-overlay" role="dialog" aria-modal="true" aria-labelledby="promo-popup-title">
+  <div class="promo-popup-box">
+    <button type="button" class="promo-popup-close" id="promo-popup-close" aria-label="Cerrar promociones"><i class="fas fa-times"></i></button>
+
+    <h2 id="promo-popup-title" class="promo-popup-title" data-i18n="promoPopupTitle">¡Promociones Especiales!</h2>
+
+    <div class="promo-carousel promo-carousel--popup" data-carousel>
+      <button type="button" class="promo-arrow promo-arrow--prev" data-carousel-prev aria-label="Promoción anterior"><i class="fas fa-chevron-left"></i></button>
+
+      <div class="promo-viewport">
+        <div class="promo-track" data-carousel-track>
+          <article class="promo-slide">
+            <div class="promo-card">
+              <img src="img/Promocion1.jpeg" alt="Promoción especial 1" loading="lazy" decoding="async">
+              <div class="promo-overlay">
+                <p class="promo-overlay-text" data-i18n="promoOverlayText">Promoción especial — contáctanos para más detalles</p>
+                <a href="#cita" class="btn schedule promo-cta" data-i18n="promoOverlay" data-promo-popup-cta>Ver Oferta</a>
+              </div>
+            </div>
+          </article>
+          <article class="promo-slide">
+            <div class="promo-card">
+              <img src="img/Promocion2.jpeg" alt="Promoción especial 2" loading="lazy" decoding="async">
+              <div class="promo-overlay">
+                <p class="promo-overlay-text" data-i18n="promoOverlayText">Promoción especial — contáctanos para más detalles</p>
+                <a href="#cita" class="btn schedule promo-cta" data-i18n="promoOverlay" data-promo-popup-cta>Ver Oferta</a>
+              </div>
+            </div>
+          </article>
+          <article class="promo-slide">
+            <div class="promo-card">
+              <img src="img/Promocion3.jpeg" alt="Promoción especial 3" loading="lazy" decoding="async">
+              <div class="promo-overlay">
+                <p class="promo-overlay-text" data-i18n="promoOverlayText">Promoción especial — contáctanos para más detalles</p>
+                <a href="#cita" class="btn schedule promo-cta" data-i18n="promoOverlay" data-promo-popup-cta>Ver Oferta</a>
+              </div>
+            </div>
+          </article>
+          <article class="promo-slide">
+            <div class="promo-card">
+              <img src="img/Promocion4.jpeg" alt="Promoción especial 4" loading="lazy" decoding="async">
+              <div class="promo-overlay">
+                <p class="promo-overlay-text" data-i18n="promoOverlayText">Promoción especial — contáctanos para más detalles</p>
+                <a href="#cita" class="btn schedule promo-cta" data-i18n="promoOverlay" data-promo-popup-cta>Ver Oferta</a>
+              </div>
+            </div>
+          </article>
+          <article class="promo-slide">
+            <div class="promo-card">
+              <video class="promo-card-video" muted loop playsinline preload="none" aria-label="Video de la promoción especial 5">
+                <source data-src="img/Promocion5video.mp4" type="video/mp4">
+              </video>
+              <div class="promo-overlay">
+                <p class="promo-overlay-text" data-i18n="promoOverlayText">Promoción especial — contáctanos para más detalles</p>
+                <a href="#cita" class="btn schedule promo-cta" data-i18n="promoOverlay" data-promo-popup-cta>Ver Oferta</a>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+
+      <button type="button" class="promo-arrow promo-arrow--next" data-carousel-next aria-label="Siguiente promoción"><i class="fas fa-chevron-right"></i></button>
+    </div>
+
+    <div class="promo-dots" data-carousel-dots role="tablist" aria-label="Seleccionar promoción"></div>
+
+    <p class="promo-popup-expiry">
+      <i class="fas fa-clock"></i>
+      <span data-i18n="promoPopupExpiry">Promoción válida hasta el 31 de julio de 2026</span>
+    </p>
+  </div>
 </div>
 
 <!-- Modal de éxito -->
