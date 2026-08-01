@@ -494,7 +494,7 @@ const translations = {
     testimonios: "Testimonios",
     testimonialsBadgeReviews: "reseñas en Google",
     testimonialsTitle: "Lo Que Dicen Nuestros Clientes",
-    testimonialsSubtitle: "Calificación 5.0 basada en 38 reseñas verificadas en Google",
+    testimonialsSubtitle: "Calificación 5.0 basada en 40 reseñas verificadas en Google",
     leerMas: "Leer más",
     leerMenos: "Leer menos",
     testimonial1Text: "Tuve una excelente experiencia con esta compañía. Desde el principio fueron muy profesionales, puntuales y muy atentos. Me explicaron todo el proceso claramente.",
@@ -505,10 +505,12 @@ const translations = {
     testimonial6Text: "Muy buen servicio, puntual, muy atento, flexible con los precios y confiable. Lo recomiendo ampliamente.",
     testimonial7Text: "Mi amigo Franklin instaló el polarizado en mi Ford F-150. Todo quedó perfecto y la calidad es excelente.",
     testimonial8Text: "Berrios tiene el mejor servicio, un gran tipo; definitivamente búscalo para tus necesidades de polarizado.",
-    testimonial9Text: "Hizo un trabajo increíble en mi GMC Acadia 2017, así que volví para que también hiciera mi Town and Country 2007. Frankie conoce muy bien su oficio. Lo recomiendo ampliamente. #TopNotch.",
+    testimonial9Text: "Escuché sobre este señor y decidí darle una oportunidad. Vaya sorpresa. Hizo un trabajo increíble en mi GMC Acadia 2017, así que volví para que también hiciera mi Town and Country 2007. Excelente servicio, acción rápida. Frankie conoce muy bien su oficio. Lo recomiendo ampliamente. #TopNotch.",
     testimonial10Text: "Quiero expresar mi más sincero agradecimiento al señor Franklin por el excelente trabajo realizado. Desde el primer momento demostró profesionalismo, puntualidad y atención a cada detalle.",
     testimonial11Text: "Una experiencia excepcional y sin complicaciones. Su atención al detalle en el trabajo de polarizado fue excelente, y el tiempo de entrega fue sorprendentemente rápido.",
-    testimonial12Text: "Excelente servicio y atención, recomendado 100%, mi RAV4 quedó excelente."
+    testimonial12Text: "Excelente servicio y atención, recomendado 100%, mi RAV4 quedó excelente.",
+    testimonial13Text: "¡Muy rápido y confiable! Hizo un excelente trabajo y usa polarizado cerámico, que es mejor que el polarizado regular. ¡Sin quejas!",
+    testimonial14Text: "Excelente servicio, muy amable y muy profesional. De verdad me encantó cómo me dejó el carro, lo recomiendo. Además tiene excelente precio."
   },
   en: {
     servicios: "Services",
@@ -648,7 +650,7 @@ const translations = {
     testimonios: "Testimonials",
     testimonialsBadgeReviews: "Google reviews",
     testimonialsTitle: "What Our Clients Say",
-    testimonialsSubtitle: "5.0 rating based on 38 verified Google reviews",
+    testimonialsSubtitle: "5.0 rating based on 40 verified Google reviews",
     leerMas: "Read more",
     leerMenos: "Read less",
     testimonial1Text: "I had an excellent experience with this company. From the start they were very professional, punctual, and attentive. They explained the whole process clearly.",
@@ -659,10 +661,12 @@ const translations = {
     testimonial6Text: "Very good service, punctual, very helpful, very accommodating in pricing and trustworthy. Highly recommend.",
     testimonial7Text: "My friend Franklin installed window tint on my Ford F-150. Everything turned out perfect and the quality is excellent.",
     testimonial8Text: "Berrios has the best service, great guy, definitely see him for your window tinting needs.",
-    testimonial9Text: "Did such an awesome job with my 2017 GMC Acadia, I went back and had him do my 2007 Town and Country. Frankie knows his business. Highly recommend. #TopNotch.",
+    testimonial9Text: "Heard about this gentleman and figured I'd give him a try. Man oh man. Did such an awesome job with my 2017 GMC Acadia, I went back and had him do my 2007 Town and Country. Great service, fast action. Frankie knows his business. Highly recommend him. #TopNotch.",
     testimonial10Text: "I want to express my sincere gratitude to Mr. Franklin for the excellent work done. From the very first moment he showed professionalism, punctuality, and attention to every detail.",
     testimonial11Text: "An exceptional, hassle-free experience. Their attention to detail on the tint job was outstanding, and the turnaround time was impressively fast.",
-    testimonial12Text: "Excellent service and attention, 100% recommended — my RAV4 turned out excellent."
+    testimonial12Text: "Excellent service and attention, 100% recommended — my RAV4 turned out excellent.",
+    testimonial13Text: "Very fast and dependable! Did a great job and uses ceramic tint which is better than the regular tint! No complaints here!!",
+    testimonial14Text: "Excellent service, very friendly and very professional. I truly loved how they left my car, I recommend them. Plus, they have excellent prices."
   }
 };
 

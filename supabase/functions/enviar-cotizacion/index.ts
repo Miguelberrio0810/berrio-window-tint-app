@@ -21,6 +21,7 @@ serve(async (req) => {
     body: JSON.stringify({
       from: 'Berrío Window Tint <info@berriowindowtint.com>',
       to: ['BerrioWindowtintautoservice@gmail.com'],
+      reply_to: email,
       subject: `Nueva cotización de ${nombre} ${apellido}`,
       html: `
         <h2>Nueva cotización recibida 🚗</h2>
