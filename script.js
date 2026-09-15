@@ -37,7 +37,7 @@ let videoIndex = 0;
 // mientras se carga (data URI, sin petición de red, se aplica al instante).
 const VIDEO_POSTER = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='680' height='383' viewBox='0 0 680 383'%3E%3Crect width='680' height='383' fill='%230c1016'/%3E%3Ccircle cx='340' cy='176' r='54' fill='%2338B000'/%3E%3Cpath d='M322 150 L322 202 L366 176 Z' fill='%23090c0f'/%3E%3Ctext x='340' y='262' font-family='Arial, sans-serif' font-size='20' font-weight='700' fill='%23ffffff' text-anchor='middle' letter-spacing='1'%3EBERRIO WINDOW TINT%3C/text%3E%3C/svg%3E";
 
-document.querySelectorAll('.videogroup video, .promo-card-video').forEach(video => {
+document.querySelectorAll('.videogroup video').forEach(video => {
   video.poster = VIDEO_POSTER;
 });
 
@@ -148,12 +148,6 @@ document.querySelector('.video-next').addEventListener('click', () => showVideoG
     img.addEventListener('click', () => openLightbox(img.src, img.alt));
   });
 
-  // Solo la imagen abre el lightbox; el botón "Ver Oferta" navega a #cita
-  // por su cuenta y no debe disparar también el lightbox.
-  document.querySelectorAll('.promo-card img').forEach(img => {
-    img.addEventListener('click', () => openLightbox(img.src, img.alt));
-  });
-
   closeBtn.addEventListener('click', closeLightbox);
 
   lightbox.addEventListener('click', (e) => {
@@ -162,194 +156,6 @@ document.querySelector('.video-next').addEventListener('click', () => showVideoG
 
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') closeLightbox();
-  });
-})();
-
-
-// Carrusel de promociones — reutilizable (sección "Promociones Especiales" y pop-up)
-function initPromoCarousel(root, opts = {}) {
-  if (!root) return null;
-  const track = root.querySelector('[data-carousel-track]');
-  const slides = Array.from(root.querySelectorAll('.promo-slide'));
-  const prevBtn = root.querySelector('[data-carousel-prev]');
-  const nextBtn = root.querySelector('[data-carousel-next]');
-  const dotsWrap = root.parentElement.querySelector('[data-carousel-dots]');
-  if (!track || !slides.length) return null;
-
-  const AUTOPLAY_MS = 5000; // suficientemente lento para leer cada promoción
-  let index = 0;
-  let timer = null;
-  let autoplayEnabled = opts.autoplay !== false;
-
-  dotsWrap.innerHTML = '';
-  const dots = slides.map((_, i) => {
-    const dot = document.createElement('button');
-    dot.type = 'button';
-    dot.setAttribute('role', 'tab');
-    dot.setAttribute('aria-label', `Ir a la promoción ${i + 1}`);
-    dot.addEventListener('click', () => { goTo(i); scheduleAutoplay(); });
-    dotsWrap.appendChild(dot);
-    return dot;
-  });
-
-  function updateDots() {
-    dots.forEach((d, i) => {
-      d.classList.toggle('active', i === index);
-      d.setAttribute('aria-selected', i === index ? 'true' : 'false');
-    });
-  }
-
-  function update() {
-    const gap = parseFloat(getComputedStyle(track).gap) || 0;
-    const slideWidth = slides[0].getBoundingClientRect().width + gap;
-    track.style.transform = `translateX(-${index * slideWidth}px)`;
-    updateDots();
-  }
-
-  // Algunas promos usan video en vez de imagen (ej. Promocion5video.mp4);
-  // se carga perezosamente y solo reproduce mientras su slide está activo.
-  function pauseSlideVideo(i) {
-    const video = slides[i]?.querySelector('.promo-card-video');
-    if (video && !video.paused) video.pause();
-  }
-
-  function playSlideVideo(i) {
-    const video = slides[i]?.querySelector('.promo-card-video');
-    if (!video) return;
-    const source = video.querySelector('source[data-src]');
-    if (source) {
-      source.src = source.dataset.src;
-      source.removeAttribute('data-src');
-      video.load();
-    }
-    video.play().catch(() => {});
-  }
-
-  function goTo(i) {
-    pauseSlideVideo(index);
-    index = (i + slides.length) % slides.length;
-    update();
-    playSlideVideo(index);
-  }
-
-  function next() { goTo(index + 1); }
-  function prev() { goTo(index - 1); }
-
-  // Reprograma el ciclo (usado tras cualquier navegación manual); no cambia si el autoplay está habilitado
-  function scheduleAutoplay() {
-    clearInterval(timer);
-    timer = null;
-    if (autoplayEnabled) timer = setInterval(next, AUTOPLAY_MS);
-  }
-
-  // Pausa temporal (hover/touch) sin deshabilitar el autoplay
-  function pauseAutoplay() {
-    clearInterval(timer);
-    timer = null;
-  }
-
-  // API pública: habilita/deshabilita el autoplay por completo (usado al abrir/cerrar el pop-up)
-  function startAutoplay() {
-    autoplayEnabled = true;
-    playSlideVideo(index);
-    scheduleAutoplay();
-  }
-  function stopAutoplay() {
-    autoplayEnabled = false;
-    pauseAutoplay();
-    pauseSlideVideo(index); // no dejar el video de la promo sonando/corriendo oculto (ej. al cerrar el pop-up)
-  }
-
-  prevBtn?.addEventListener('click', () => { prev(); scheduleAutoplay(); });
-  nextBtn?.addEventListener('click', () => { next(); scheduleAutoplay(); });
-
-  // Pausa el autoplay mientras el usuario interactúa, para que no se pierda ninguna promoción
-  root.addEventListener('mouseenter', pauseAutoplay);
-  root.addEventListener('mouseleave', scheduleAutoplay);
-  root.addEventListener('touchstart', pauseAutoplay, { passive: true });
-
-  // Swipe táctil
-  let touchStartX = null;
-  track.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; }, { passive: true });
-  track.addEventListener('touchend', (e) => {
-    if (touchStartX === null) return;
-    const deltaX = e.changedTouches[0].clientX - touchStartX;
-    touchStartX = null;
-    if (Math.abs(deltaX) > 40) { deltaX < 0 ? next() : prev(); }
-    scheduleAutoplay();
-  }, { passive: true });
-
-  window.addEventListener('resize', update);
-
-  update();
-  scheduleAutoplay();
-
-  return { goTo, next, prev, update, resetTimer: startAutoplay, stopTimer: stopAutoplay };
-}
-
-// El carrusel principal solo empieza a autoreproducirse (y a cargar el video de la
-// promo 5) cuando la sección realmente entra en el viewport, igual que los videos
-// de "Nuestro Trabajo en Acción" — así no se descarga nada de video fuera de vista.
-const promoCarouselMain = initPromoCarousel(document.querySelector('.promos-section .promo-carousel'), { autoplay: false });
-const promoCarouselPopup = initPromoCarousel(document.querySelector('.promo-carousel--popup'), { autoplay: false });
-
-(function () {
-  const promosSection = document.querySelector('.promos-section');
-  if (!promosSection || !promoCarouselMain) return;
-  const obs = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        promoCarouselMain.resetTimer();
-        obs.disconnect();
-      }
-    });
-  }, { threshold: 0.1 });
-  obs.observe(promosSection);
-})();
-
-// Pop-up de promociones — una vez por sesión (sessionStorage), vence automáticamente
-// el 31 de julio de 2026 sin necesidad de quitarlo manualmente del código.
-(function () {
-  const popup = document.getElementById('promo-popup');
-  if (!popup) return;
-  const closeBtn = document.getElementById('promo-popup-close');
-  const PROMO_DEADLINE = new Date('2026-08-01T00:00:00');
-
-  function isPromoActive() {
-    return new Date() < PROMO_DEADLINE;
-  }
-
-  function openPopup() {
-    promoCarouselPopup?.goTo(0);
-    promoCarouselPopup?.resetTimer();
-    popup.classList.add('active');
-    document.body.style.overflow = 'hidden';
-  }
-
-  function closePopup() {
-    popup.classList.remove('active');
-    document.body.style.overflow = '';
-    promoCarouselPopup?.stopTimer();
-  }
-
-  if (isPromoActive() && !sessionStorage.getItem('promoPopupShown')) {
-    sessionStorage.setItem('promoPopupShown', '1');
-    setTimeout(openPopup, 500);
-  }
-
-  closeBtn.addEventListener('click', closePopup);
-
-  popup.addEventListener('click', (e) => {
-    if (e.target === popup) closePopup();
-  });
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && popup.classList.contains('active')) closePopup();
-  });
-
-  // El CTA "Ver Oferta" cierra el pop-up y deja que el enlace #cita haga scroll al formulario
-  popup.querySelectorAll('[data-promo-popup-cta]').forEach(cta => {
-    cta.addEventListener('click', closePopup);
   });
 })();
 
@@ -465,11 +271,6 @@ const translations = {
     notasPH: "¿Algún requisito o pregunta especial?",
     videosTitle: "Nuestro Trabajo en Acción",
     videosSubtitle: "Mira cómo transformamos vehículos con nuestro servicio profesional",
-    promosTitle: "Promociones Especiales",
-    promoOverlay: "Ver Oferta",
-    promoOverlayText: "Promoción especial — contáctanos para más detalles",
-    promoPopupTitle: "¡Promociones Especiales!",
-    promoPopupExpiry: "Promoción válida hasta el 31 de julio de 2026",
     featuresEyebrow: "La diferencia Berrío",
     featuresH1: "Más que Solo Sombra.",
     featuresH2: "Rendimiento Ingenieril.",
@@ -494,7 +295,7 @@ const translations = {
     testimonios: "Testimonios",
     testimonialsBadgeReviews: "reseñas en Google",
     testimonialsTitle: "Lo Que Dicen Nuestros Clientes",
-    testimonialsSubtitle: "Calificación 5.0 basada en 40 reseñas verificadas en Google",
+    testimonialsSubtitle: "Calificación 5.0 basada en 50 reseñas verificadas en Google",
     leerMas: "Leer más",
     leerMenos: "Leer menos",
     testimonial1Text: "Tuve una excelente experiencia con esta compañía. Desde el principio fueron muy profesionales, puntuales y muy atentos. Me explicaron todo el proceso claramente.",
@@ -510,7 +311,17 @@ const translations = {
     testimonial11Text: "Una experiencia excepcional y sin complicaciones. Su atención al detalle en el trabajo de polarizado fue excelente, y el tiempo de entrega fue sorprendentemente rápido.",
     testimonial12Text: "Excelente servicio y atención, recomendado 100%, mi RAV4 quedó excelente.",
     testimonial13Text: "¡Muy rápido y confiable! Hizo un excelente trabajo y usa polarizado cerámico, que es mejor que el polarizado regular. ¡Sin quejas!",
-    testimonial14Text: "Excelente servicio, muy amable y muy profesional. De verdad me encantó cómo me dejó el carro, lo recomiendo. Además tiene excelente precio."
+    testimonial14Text: "Excelente servicio, muy amable y muy profesional. De verdad me encantó cómo me dejó el carro, lo recomiendo. Además tiene excelente precio.",
+    testimonial15Text: "Lo hicieron muy rápido. Muy profesionales y con excelente comunicación.",
+    testimonial16Text: "¡Berrío Window Tint hizo un trabajo increíble! El servicio fue profesional, amable y eficiente de principio a fin. Se nota que se sienten orgullosos de su trabajo, y la calidad del polarizado quedó excelente. Todo se ve limpio, parejo e instalado profesionalmente, sin bordes descuidados ni imperfecciones. Estoy muy contento con cómo quedó mi vehículo y definitivamente recomendaría Berrío Window Tint a cualquiera que busque un excelente servicio y trabajo de alta calidad.",
+    testimonial17Text: "Experiencia increíble, muy buen precio, trabajo profesional. Definitivamente lo recomendaré a cualquiera que necesite polarizado.",
+    testimonial18Text: "Hizo un trabajo excepcional, este es mi tercer vehículo y he quedado muy satisfecho. Siempre ha sido profesional y trabaja con integridad; puedo decir que es uno de los mejores de la ciudad.",
+    testimonial19Text: "Me reemplazó el techo solar y no tuvo problema en que yo llevara mi propia pieza. Es muy flexible y puede hacer muchos otros trabajos personalizados bajo pedido. Mientras esperaba, lo vi polarizar una camioneta enorme y puedo dar fe de que es muy hábil en lo que hace.",
+    testimonial20Text: "¡Servicio excepcional! Después de ver el fantástico trabajo que el Sr. Franklin Berrío hizo en nuestro Honda Accord 2008, inmediatamente llevamos nuestro Mitsubishi Outlander 2016 para polarizarlo también. Trabajo rápido, de alta calidad y con gran profesionalismo. El Sr. Franklin Berrío es un maestro en su oficio. ¡Lo recomendamos ampliamente!",
+    testimonial21Text: "Berrío Window Tint es el mejor de Gainesville. Trabajo nítido, limpio y profesional, un polarizado increíble. El Sr. Franklin es el mejor del negocio del polarizado de autos. Muy satisfecho con su trabajo, ¡gracias! 👍",
+    testimonial22Text: "Franklin es un duro tiñando vidrios. Trabajó en mi Toyota Camry 2026, excelente, dedicado, cuidadoso y limpio. Lo recomiendo al 100%. Muy satisfecha.",
+    testimonial23Text: "Son los mejores, me encantó cómo luce mi carrito. Los recomiendo 💯 y los precios súper económicos. ¡Muchas gracias!",
+    testimonial24Text: "Fue rápido, la comunicación fue excelente y muy amable. 10/10 lo recomiendo."
   },
   en: {
     servicios: "Services",
@@ -621,11 +432,6 @@ const translations = {
     notasPH: "Any special requirement or question?",
     videosTitle: "Our Work in Action",
     videosSubtitle: "See how we transform vehicles with our professional service",
-    promosTitle: "Special Promotions",
-    promoOverlay: "View Offer",
-    promoOverlayText: "Special promotion — contact us for details",
-    promoPopupTitle: "Special Promotions!",
-    promoPopupExpiry: "Offer valid through July 31, 2026",
     featuresEyebrow: "The Berrío Difference",
     featuresH1: "More Than Just Shade.",
     featuresH2: "Engineered Performance.",
@@ -650,7 +456,7 @@ const translations = {
     testimonios: "Testimonials",
     testimonialsBadgeReviews: "Google reviews",
     testimonialsTitle: "What Our Clients Say",
-    testimonialsSubtitle: "5.0 rating based on 40 verified Google reviews",
+    testimonialsSubtitle: "5.0 rating based on 50 verified Google reviews",
     leerMas: "Read more",
     leerMenos: "Read less",
     testimonial1Text: "I had an excellent experience with this company. From the start they were very professional, punctual, and attentive. They explained the whole process clearly.",
@@ -666,7 +472,17 @@ const translations = {
     testimonial11Text: "An exceptional, hassle-free experience. Their attention to detail on the tint job was outstanding, and the turnaround time was impressively fast.",
     testimonial12Text: "Excellent service and attention, 100% recommended — my RAV4 turned out excellent.",
     testimonial13Text: "Very fast and dependable! Did a great job and uses ceramic tint which is better than the regular tint! No complaints here!!",
-    testimonial14Text: "Excellent service, very friendly and very professional. I truly loved how they left my car, I recommend them. Plus, they have excellent prices."
+    testimonial14Text: "Excellent service, very friendly and very professional. I truly loved how they left my car, I recommend them. Plus, they have excellent prices.",
+    testimonial15Text: "Got it done very fast. Very professional and communicative.",
+    testimonial16Text: "Berrio Window Tint did an amazing job! The service was professional, friendly, and efficient from start to finish. You can tell they take pride in their work, and the quality of the tint came out excellent. Everything looks clean, even, and professionally installed with no sloppy edges or imperfections. I'm very happy with how my vehicle turned out and would definitely recommend Berrio Window Tint to anyone looking for great service and high-quality work!",
+    testimonial17Text: "Amazing experience, great price, professional job. Will definitely recommend to anyone who needs tinting.",
+    testimonial18Text: "Did an outstanding job, this is my third vehicle and I was very pleased. Has always been professional and works with integrity and I can say one of the best in town.",
+    testimonial19Text: "He replaced my sunroof, and had no issues that I brought my own part. He is super flexible and can do lots of other customized work upon request. While waiting, I saw him tint a huge pickup truck and can attest that he is skilled in what he does.",
+    testimonial20Text: "Outstanding service! After seeing the fantastic job Mr. Franklin Berrio did on our 2008 Honda Accord, we immediately brought back our 2016 Mitsubishi Outlander for tinting. Fast work, high quality, and great professionalism. Mr. Franklin Berrio is a master of his craft. We highly recommend him!",
+    testimonial21Text: "Berrio Window Tint is the best in Gainesville. Sharp, clean and professional work, awesome tinting. Mr Franklin is the best in the business of tinting cars. Very satisfied with his work, thanks 👍",
+    testimonial22Text: "Franklin is the best when it comes to tinting car windows. He did an excellent job on my Toyota Camry 2026, clean, dedicated, careful. I recommend him 100%, number one. Very pleasant person.",
+    testimonial23Text: "They are the best, I loved how my car looks. I recommend them 💯 and the prices are super affordable. Thank you so much!",
+    testimonial24Text: "Was quick, communication was on point, and very kind. 10/10 would recommend."
   }
 };
 
@@ -852,7 +668,7 @@ window.addEventListener('scroll', () => {
 (function () {
   const sels = [
     '.whychoosetitle', '.testimonialstitle', '.testimonials-subtitle', '.gallerytitle', '.videos-title', '.videos-subtitle',
-    '.promos-title', '.services h1', '.services > p', '.form-section h1', '.form-section > p'
+    '.services h1', '.services > p', '.form-section h1', '.form-section > p'
   ];
   sels.forEach(s => document.querySelectorAll(s).forEach(el => el.classList.add('reveal')));
 
@@ -867,11 +683,6 @@ window.addEventListener('scroll', () => {
   document.querySelectorAll('.scard').forEach((el, i) => {
     el.classList.add('reveal');
     el.style.transitionDelay = (i * 0.12) + 's';
-  });
-
-  document.querySelectorAll('.promo-card').forEach((el, i) => {
-    el.classList.add('reveal');
-    el.style.transitionDelay = (i * 0.1) + 's';
   });
 
   document.querySelectorAll('.testimonial-card').forEach((el, i) => {
