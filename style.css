@@ -222,11 +222,7 @@ nav ul li a:hover { color: var(--accent-light); }
   column-gap: 4.5rem;
   transform-style: preserve-3d;
   transform: rotateX(var(--rx)) rotateY(var(--ry));
-  transition: transform 0.2s ease-out;
-}
-
-.hero-layers:not(.is-active) {
-  transition: transform 1s cubic-bezier(.2,.8,.2,1);
+  /* sin transición CSS: el JS suaviza el movimiento cuadro a cuadro */
 }
 
 /* Capa del fondo: el nombre gigante detrás del carro */

@@ -790,22 +790,42 @@ window.addEventListener('scroll', () => {
   if (!scene || !section) return;
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-  const MAX = 9; // grados máximos de inclinación
+  // Movimiento calmado, igual que en los testimonios: inclinación pequeña,
+  // espera un momento antes de reaccionar y sigue al cursor de forma suavizada.
+  const MAX = 4;             // grados máximos de inclinación (antes 9)
+  const EASE = 0.035;        // qué tan rápido alcanza al cursor (más bajo = más calmado)
+  const HOVER_DELAY = 450;   // ms antes de empezar a inclinarse
   const card = scene.querySelector('.hero3d-card');
-  let frame = null;
+  const target = { x: 0, y: 0, mx: 50, my: 50 };
+  const current = { x: 0, y: 0, mx: 50, my: 50 };
+  let rafId = null, tiltEnabled = false, hoverTimer = null;
+
+  function animate() {
+    let moving = false;
+    for (const k of ['x', 'y', 'mx', 'my']) {
+      current[k] += (target[k] - current[k]) * EASE;
+      if (Math.abs(target[k] - current[k]) > 0.01) moving = true;
+    }
+    scene.style.setProperty('--ry', (current.x * MAX).toFixed(2) + 'deg');
+    scene.style.setProperty('--rx', (-current.y * MAX).toFixed(2) + 'deg');
+    scene.style.setProperty('--mx', current.mx.toFixed(1) + '%');
+    scene.style.setProperty('--my', current.my.toFixed(1) + '%');
+    rafId = moving ? requestAnimationFrame(animate) : null;
+  }
 
   function setTilt(x, y, mx, my) {
     // x, y en rango -1..1; mx, my = posición del brillo sobre la imagen en %
-    if (frame) cancelAnimationFrame(frame);
-    frame = requestAnimationFrame(() => {
-      scene.style.setProperty('--ry', (x * MAX).toFixed(2) + 'deg');
-      scene.style.setProperty('--rx', (-y * MAX).toFixed(2) + 'deg');
-      scene.style.setProperty('--mx', (mx ?? (x + 1) * 50).toFixed(1) + '%');
-      scene.style.setProperty('--my', (my ?? (y + 1) * 50).toFixed(1) + '%');
-    });
+    target.x = x;
+    target.y = y;
+    target.mx = mx ?? (x + 1) * 50;
+    target.my = my ?? (y + 1) * 50;
+    if (!rafId) rafId = requestAnimationFrame(animate);
   }
 
   function reset() {
+    clearTimeout(hoverTimer);
+    hoverTimer = null;
+    tiltEnabled = false;
     scene.classList.remove('is-active');
     setTilt(0, 0);
   }
@@ -814,6 +834,10 @@ window.addEventListener('scroll', () => {
 
   section.addEventListener('pointermove', (e) => {
     if (e.pointerType === 'touch') return;
+    if (!tiltEnabled) {
+      if (!hoverTimer) hoverTimer = setTimeout(() => { tiltEnabled = true; }, HOVER_DELAY);
+      return;
+    }
     const r = section.getBoundingClientRect();
     const c = card.getBoundingClientRect();
     const x = ((e.clientX - r.left) / r.width) * 2 - 1;
