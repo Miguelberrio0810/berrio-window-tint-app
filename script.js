@@ -1,49 +1,82 @@
-// Galería de imágenes
+// Deslizar con el dedo en carruseles (móvil)
+function addSwipe(el, onPrev, onNext) {
+  let x0 = null, y0 = null;
+  el.addEventListener('touchstart', (e) => {
+    x0 = e.touches[0].clientX;
+    y0 = e.touches[0].clientY;
+  }, { passive: true });
+  el.addEventListener('touchend', (e) => {
+    if (x0 === null) return;
+    const dx = e.changedTouches[0].clientX - x0;
+    const dy = e.changedTouches[0].clientY - y0;
+    x0 = null;
+    if (Math.abs(dx) < 40 || Math.abs(dx) < Math.abs(dy)) return;
+    if (dx > 0) onPrev(); else onNext();
+  }, { passive: true });
+}
+
+// Galería de imágenes — una foto a la vez
 const gallery = document.querySelector('.galleryimg');
-const groups = document.querySelectorAll('.group');
+const slides = document.querySelectorAll('.gallery-slide');
+const galleryCurrent = document.querySelector('.gallery-current');
 let currentIndex = 0;
 let galleryTimer;
 
+// La misma foto, borrosa, sirve de fondo para rellenar el cuadro
+slides.forEach(slide => {
+  const img = slide.querySelector('img');
+  slide.style.backgroundImage = `url("${img.getAttribute('src')}")`;
+});
+
 function showGroup(index) {
-  if (index < 0) index = groups.length - 1;
-  if (index >= groups.length) index = 0;
+  if (index < 0) index = slides.length - 1;
+  if (index >= slides.length) index = 0;
   currentIndex = index;
   gallery.style.transform = `translateX(-${index * 100}%)`;
+  if (galleryCurrent) galleryCurrent.textContent = index + 1;
 }
 
 function resetGalleryTimer() {
   clearInterval(galleryTimer);
-  galleryTimer = setInterval(() => showGroup(currentIndex + 1), 4000);
+  galleryTimer = setInterval(() => showGroup(currentIndex + 1), 4500);
 }
 
-document.querySelector('.prev').addEventListener('click', () => {
-  showGroup(currentIndex - 1);
+function galleryStep(delta) {
+  showGroup(currentIndex + delta);
   resetGalleryTimer();
-});
-document.querySelector('.next').addEventListener('click', () => {
-  showGroup(currentIndex + 1);
-  resetGalleryTimer();
-});
+}
+
+document.querySelector('.prev').addEventListener('click', () => galleryStep(-1));
+document.querySelector('.next').addEventListener('click', () => galleryStep(1));
+addSwipe(document.querySelector('.gallery-viewport'), () => galleryStep(-1), () => galleryStep(1));
 
 showGroup(0);
 resetGalleryTimer();
 
-// Galería de videos — uno por uno, muted, estilo Instagram
+// Galería de videos — uno por uno, muted, en un cuadro vertical
 const videoGallery = document.querySelector('.videogalleryimg');
 const videoGroups = document.querySelectorAll('.videogroup');
+const videoCurrent = document.querySelector('.video-current');
 let videoIndex = 0;
 
-// Poster de marca reutilizado por todos los videos, evita pantalla negra
-// mientras se carga (data URI, sin petición de red, se aplica al instante).
-const VIDEO_POSTER = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='680' height='383' viewBox='0 0 680 383'%3E%3Crect width='680' height='383' fill='%230c1016'/%3E%3Ccircle cx='340' cy='176' r='54' fill='%2338B000'/%3E%3Cpath d='M322 150 L322 202 L366 176 Z' fill='%23090c0f'/%3E%3Ctext x='340' y='262' font-family='Arial, sans-serif' font-size='20' font-weight='700' fill='%23ffffff' text-anchor='middle' letter-spacing='1'%3EBERRIO WINDOW TINT%3C/text%3E%3C/svg%3E";
+// Poster vertical (9:16) de marca mientras carga, para que no aparezcan barras negras
+const VIDEO_POSTER = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='360' height='640' viewBox='0 0 360 640'%3E%3Crect width='360' height='640' fill='%230c1016'/%3E%3Ccircle cx='180' cy='300' r='48' fill='%2338B000'/%3E%3Cpath d='M164 276 L164 324 L204 300 Z' fill='%23090c0f'/%3E%3Ctext x='180' y='392' font-family='Arial, sans-serif' font-size='18' font-weight='700' fill='%23ffffff' text-anchor='middle' letter-spacing='1'%3EBERRIO WINDOW TINT%3C/text%3E%3C/svg%3E";
+
+// Algunos videos empiezan con una pantalla negra; data-start indica dónde empieza la imagen real
+function videoStart(video) {
+  return parseFloat(video.dataset.start) || 0;
+}
 
 document.querySelectorAll('.videogroup video').forEach(video => {
   video.poster = VIDEO_POSTER;
+  video.addEventListener('loadedmetadata', () => {
+    if (video.currentTime < videoStart(video)) video.currentTime = videoStart(video);
+  });
 });
 
 // Carga perezosa: cada <source> guarda el archivo real en data-src y solo
 // se asigna a src (y se llama a .load()) cuando el slide realmente se necesita,
-// para no descargar los 11 videos de golpe.
+// para no descargar todos los videos de golpe.
 function loadVideoSlide(index) {
   const group = videoGroups[index];
   if (!group) return;
@@ -62,6 +95,8 @@ function showVideoGroup(index) {
   if (index >= videoGroups.length) index = 0;
   videoIndex = index;
   videoGallery.style.transform = `translateX(-${index * 100}%)`;
+  if (videoCurrent) videoCurrent.textContent = index + 1;
+  videoGroups.forEach((g, i) => g.classList.toggle('is-current', i === index));
 
   // Precarga el slide actual y sus vecinos para que prev/next se sientan instantáneos
   loadVideoSlide(videoIndex);
@@ -70,7 +105,7 @@ function showVideoGroup(index) {
 
   const nextVideo = videoGroups[videoIndex]?.querySelector('video');
   if (nextVideo) {
-    nextVideo.currentTime = 0;
+    nextVideo.currentTime = videoStart(nextVideo);
     nextVideo.play().catch(() => {});
   }
 }
@@ -78,8 +113,10 @@ function showVideoGroup(index) {
 // Solo empieza a cargar videos cuando la sección realmente entra en el viewport
 // (la sección está bastante abajo en la página, así que no hay razón para
 // descargar nada de video mientras el usuario ve el resto del sitio).
+videoGroups[0]?.classList.add('is-current');
+
 (function () {
-  const videosSection = document.querySelector('.videos-section');
+  const videosSection = document.getElementById('videos');
   if (!videosSection) return;
   const obs = new IntersectionObserver((entries) => {
     entries.forEach(e => {
@@ -123,6 +160,50 @@ document.querySelectorAll('.video-wrapper').forEach(wrapper => {
 
 document.querySelector('.video-prev').addEventListener('click', () => showVideoGroup(videoIndex - 1));
 document.querySelector('.video-next').addEventListener('click', () => showVideoGroup(videoIndex + 1));
+addSwipe(document.querySelector('.video-viewport'), () => showVideoGroup(videoIndex - 1), () => showVideoGroup(videoIndex + 1));
+
+// Carrusel de servicios — una tarjeta a la vez, con flechas, puntos y avance automático
+(function () {
+  const track = document.querySelector('.services-container');
+  const cards = track ? track.querySelectorAll('.scard') : [];
+  const dotsBox = document.querySelector('.services-dots');
+  if (!cards.length) return;
+
+  let index = 0;
+  let timer;
+
+  const dots = Array.from(cards, (_, i) => {
+    const dot = document.createElement('button');
+    dot.type = 'button';
+    dot.setAttribute('aria-label', `Servicio ${i + 1}`);
+    dot.addEventListener('click', () => { show(i); restart(); });
+    dotsBox?.appendChild(dot);
+    return dot;
+  });
+
+  function show(i) {
+    index = (i + cards.length) % cards.length;
+    track.style.transform = `translateX(-${index * 100}%)`;
+    dots.forEach((d, k) => d.classList.toggle('active', k === index));
+  }
+
+  function restart() {
+    clearInterval(timer);
+    timer = setInterval(() => show(index + 1), 6000);
+  }
+
+  document.querySelector('.svc-prev')?.addEventListener('click', () => { show(index - 1); restart(); });
+  document.querySelector('.svc-next')?.addEventListener('click', () => { show(index + 1); restart(); });
+  addSwipe(document.querySelector('.services-viewport'), () => { show(index - 1); restart(); }, () => { show(index + 1); restart(); });
+
+  // Pausa el avance automático mientras el usuario lee una tarjeta
+  const carousel = document.querySelector('.services-carousel');
+  carousel?.addEventListener('mouseenter', () => clearInterval(timer));
+  carousel?.addEventListener('mouseleave', restart);
+
+  show(0);
+  restart();
+})();
 
 
 // Lightbox galería
@@ -144,7 +225,7 @@ document.querySelector('.video-next').addEventListener('click', () => showVideoG
     lightboxImg.src = '';
   }
 
-  document.querySelectorAll('.group img, .description-image img').forEach(img => {
+  document.querySelectorAll('.gallery-slide img, .description-image img').forEach(img => {
     img.addEventListener('click', () => openLightbox(img.src, img.alt));
   });
 
@@ -277,6 +358,7 @@ const translations = {
     notasPH: "¿Algún requisito o pregunta especial?",
     videosTitle: "Nuestro Trabajo en Acción",
     videosSubtitle: "Mira cómo transformamos vehículos con nuestro servicio profesional",
+    gallerySubtitle: "Algunos de nuestros trabajos recientes",
     featuresEyebrow: "La diferencia Berrío",
     featuresH1: "Más que Solo Sombra.",
     featuresH2: "Rendimiento Ingenieril.",
@@ -302,6 +384,11 @@ const translations = {
     testimonialsBadgeReviews: "reseñas en Google",
     testimonialsTitle: "Lo Que Dicen Nuestros Clientes",
     testimonialsSubtitle: "Calificación 5.0 basada en 50 reseñas verificadas en Google",
+    testimonialsKicker: "Clientes reales · Resultados reales",
+    testimonialsLead: "Cada auto que sale de nuestro taller cuenta una historia de confianza. No lo decimos nosotros: lo dicen quienes ya nos eligieron.",
+    statRating: "Calificación en Google",
+    statReviews: "Reseñas verificadas",
+    statFiveStar: "Cinco estrellas",
     leerMas: "Leer más",
     leerMenos: "Leer menos",
     testimonial1Text: "Tuve una excelente experiencia con esta compañía. Desde el principio fueron muy profesionales, puntuales y muy atentos. Me explicaron todo el proceso claramente.",
@@ -444,6 +531,7 @@ const translations = {
     notasPH: "Any special requirement or question?",
     videosTitle: "Our Work in Action",
     videosSubtitle: "See how we transform vehicles with our professional service",
+    gallerySubtitle: "Some of our recent work",
     featuresEyebrow: "The Berrío Difference",
     featuresH1: "More Than Just Shade.",
     featuresH2: "Engineered Performance.",
@@ -469,6 +557,11 @@ const translations = {
     testimonialsBadgeReviews: "Google reviews",
     testimonialsTitle: "What Our Clients Say",
     testimonialsSubtitle: "5.0 rating based on 50 verified Google reviews",
+    testimonialsKicker: "Real clients · Real results",
+    testimonialsLead: "Every car that leaves our shop tells a story of trust. Don't take our word for it: hear it from the people who already chose us.",
+    statRating: "Google rating",
+    statReviews: "Verified reviews",
+    statFiveStar: "Five stars",
     leerMas: "Read more",
     leerMenos: "Read less",
     testimonial1Text: "I had an excellent experience with this company. From the start they were very professional, punctual, and attentive. They explained the whole process clearly.",
@@ -676,23 +769,26 @@ window.addEventListener('scroll', () => {
   resize(); init(); frame();
 })();
 
-// Hero 3D: la imagen gira siguiendo el mouse (o el giroscopio en celulares)
+// Hero 3D: toda la escena (nombre, textos y carro) gira siguiendo el mouse
+// (o el giroscopio en celulares); cada capa está a distinta profundidad.
 (function () {
   const scene = document.getElementById('hero3d');
-  if (!scene) return;
+  const section = scene?.closest('.description');
+  if (!scene || !section) return;
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-  const MAX = 14; // grados máximos de inclinación
+  const MAX = 9; // grados máximos de inclinación
+  const card = scene.querySelector('.hero3d-card');
   let frame = null;
 
-  function setTilt(x, y) {
-    // x, y en rango -1..1
+  function setTilt(x, y, mx, my) {
+    // x, y en rango -1..1; mx, my = posición del brillo sobre la imagen en %
     if (frame) cancelAnimationFrame(frame);
     frame = requestAnimationFrame(() => {
       scene.style.setProperty('--ry', (x * MAX).toFixed(2) + 'deg');
       scene.style.setProperty('--rx', (-y * MAX).toFixed(2) + 'deg');
-      scene.style.setProperty('--mx', ((x + 1) * 50).toFixed(1) + '%');
-      scene.style.setProperty('--my', ((y + 1) * 50).toFixed(1) + '%');
+      scene.style.setProperty('--mx', (mx ?? (x + 1) * 50).toFixed(1) + '%');
+      scene.style.setProperty('--my', (my ?? (y + 1) * 50).toFixed(1) + '%');
     });
   }
 
@@ -701,15 +797,20 @@ window.addEventListener('scroll', () => {
     setTilt(0, 0);
   }
 
-  scene.addEventListener('pointermove', (e) => {
+  const clamp = (v) => Math.max(-1, Math.min(1, v));
+
+  section.addEventListener('pointermove', (e) => {
     if (e.pointerType === 'touch') return;
-    const r = scene.getBoundingClientRect();
+    const r = section.getBoundingClientRect();
+    const c = card.getBoundingClientRect();
     const x = ((e.clientX - r.left) / r.width) * 2 - 1;
     const y = ((e.clientY - r.top) / r.height) * 2 - 1;
     scene.classList.add('is-active');
-    setTilt(Math.max(-1, Math.min(1, x)), Math.max(-1, Math.min(1, y)));
+    setTilt(clamp(x), clamp(y),
+      ((e.clientX - c.left) / c.width) * 100,
+      ((e.clientY - c.top) / c.height) * 100);
   });
-  scene.addEventListener('pointerleave', reset);
+  section.addEventListener('pointerleave', reset);
 
   // En pantallas táctiles usamos la inclinación del teléfono
   if (window.matchMedia('(hover: none)').matches && 'DeviceOrientationEvent' in window) {
@@ -736,29 +837,21 @@ window.addEventListener('scroll', () => {
 // Scroll reveal with Intersection Observer
 (function () {
   const sels = [
-    '.whychoosetitle', '.testimonialstitle', '.testimonials-subtitle', '.gallerytitle', '.videos-title', '.videos-subtitle',
-    '.services h1', '.services > p', '.location-section h1', '.location-section > p', '.location-container',
+    '.whychoosetitle', '.gallerytitle', '.videos-title', '.videos-subtitle',
+    '.services h1', '.services .section-sub', '.services-carousel', '.location-container',
+    '.media-sub', '.gallery-carousel', '.video-gallery-wrapper',
     '.form-section h1', '.form-section > p'
   ];
   sels.forEach(s => document.querySelectorAll(s).forEach(el => el.classList.add('reveal')));
 
-  document.querySelector('.description-text')?.classList.add('reveal-left');
-  document.querySelector('.description-image')?.classList.add('reveal-right');
 
   document.querySelectorAll('.card').forEach((el, i) => {
     el.classList.add('reveal');
     el.style.transitionDelay = (i * 0.1) + 's';
   });
 
-  document.querySelectorAll('.scard').forEach((el, i) => {
-    el.classList.add('reveal');
-    el.style.transitionDelay = (i * 0.12) + 's';
-  });
-
-  document.querySelectorAll('.testimonial-card').forEach((el, i) => {
-    el.classList.add('reveal');
-    el.style.transitionDelay = (Math.min(i, 5) * 0.08) + 's';
-  });
+  document.querySelector('.testimonials-intro')?.classList.add('reveal-left');
+  document.querySelector('.testimonials-stage')?.classList.add('reveal-right');
 
   const obs = new IntersectionObserver((entries) => {
     entries.forEach(e => {
@@ -889,6 +982,151 @@ window.addEventListener('scroll', () => {
     resizeTimer = setTimeout(checkOverflow, 200);
   }, { passive: true });
   document.addEventListener('languagechange', () => setTimeout(checkOverflow, 0));
+})();
+
+// Testimonios: carrusel 3D, 3 reseñas a la vez en abanico (pétalos de una flor)
+(function () {
+  const stage = document.querySelector('.testimonials-stage');
+  const cards = stage ? Array.from(stage.querySelectorAll('.testimonial-card')) : [];
+  if (!cards.length) return;
+
+  const PER_PAGE = 3;
+  const pages = Math.ceil(cards.length / PER_PAGE);
+  const currentEl = stage.querySelector('.t-current');
+  const totalEl = stage.querySelector('.t-total');
+  if (totalEl) totalEl.textContent = pages;
+
+  let page = 0;
+  let timer;
+
+  function collapse(card) {
+    if (!card.classList.contains('expanded')) return;
+    card.classList.remove('expanded');
+    const toggle = card.querySelector('.testimonial-toggle');
+    if (toggle) {
+      toggle.setAttribute('data-i18n', 'leerMas');
+      toggle.textContent = translations[currentLang].leerMas;
+    }
+  }
+
+  function pageCards(p) {
+    return cards.slice(p * PER_PAGE, p * PER_PAGE + PER_PAGE);
+  }
+
+  function show(next, first) {
+    next = (next + pages) % pages;
+
+    if (!first) {
+      // Las tarjetas actuales salen girando; al terminar vuelven (sin animación) al estado oculto
+      pageCards(page).forEach(card => {
+        collapse(card);
+        card.style.transitionDelay = '';
+        card.classList.remove('petal-0', 'petal-1', 'petal-2');
+        card.classList.add('is-leaving');
+        setTimeout(() => {
+          if (card.classList.contains('is-leaving')) {
+            card.classList.add('no-anim');
+            card.classList.remove('is-leaving');
+            void card.offsetWidth;
+            card.classList.remove('no-anim');
+          }
+        }, 800);
+      });
+    }
+
+    page = next;
+    pageCards(page).forEach((card, i) => {
+      card.classList.remove('is-leaving', 'no-anim');
+      card.style.transitionDelay = first ? '' : (0.12 + i * 0.09) + 's';
+      card.classList.add('petal-' + i);
+    });
+    if (currentEl) currentEl.textContent = page + 1;
+  }
+
+  function restart() {
+    clearInterval(timer);
+    timer = setInterval(() => show(page + 1), 7000);
+  }
+
+  function step(delta) {
+    show(page + delta);
+    restart();
+  }
+
+  stage.querySelector('.t-prev')?.addEventListener('click', () => step(-1));
+  stage.querySelector('.t-next')?.addEventListener('click', () => step(1));
+  addSwipe(stage.querySelector('.testimonials-fan'), () => step(-1), () => step(1));
+
+  // Pausa mientras el usuario lee. El abanico se inclina poco y con calma:
+  // espera un momento antes de reaccionar y sigue al mouse de forma suavizada.
+  const fan = stage.querySelector('.testimonials-fan');
+  const TILT_Y = 5, TILT_X = 3;     // grados máximos (antes 12 y 8)
+  const EASE = 0.035;               // qué tan rápido alcanza al mouse (más bajo = más calmado)
+  const HOVER_DELAY = 450;          // ms antes de empezar a inclinarse
+  let target = { x: 0, y: 0 }, current = { x: 0, y: 0 };
+  let tiltEnabled = false, hoverTimer = null, rafId = null;
+
+  function animateTilt() {
+    current.x += (target.x - current.x) * EASE;
+    current.y += (target.y - current.y) * EASE;
+    stage.style.setProperty('--tilt-y', current.y.toFixed(2) + 'deg');
+    stage.style.setProperty('--tilt-x', current.x.toFixed(2) + 'deg');
+    const settled = Math.abs(target.x - current.x) < 0.01 && Math.abs(target.y - current.y) < 0.01;
+    rafId = settled ? null : requestAnimationFrame(animateTilt);
+  }
+
+  function kickTilt() {
+    if (!rafId) rafId = requestAnimationFrame(animateTilt);
+  }
+
+  stage.addEventListener('mouseenter', () => {
+    clearInterval(timer);
+    hoverTimer = setTimeout(() => { tiltEnabled = true; }, HOVER_DELAY);
+  });
+  stage.addEventListener('mouseleave', () => {
+    restart();
+    clearTimeout(hoverTimer);
+    tiltEnabled = false;
+    target = { x: 0, y: 0 };
+    kickTilt();
+  });
+  stage.addEventListener('mousemove', (e) => {
+    if (!tiltEnabled) return;
+    const r = fan.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width - 0.5;
+    const y = (e.clientY - r.top) / r.height - 0.5;
+    target = { x: -y * TILT_X * 2, y: x * TILT_Y * 2 };
+    kickTilt();
+  });
+
+  // Al expandir una reseña, las demás de la página se cierran
+  cards.forEach(card => {
+    card.querySelector('.testimonial-toggle')?.addEventListener('click', () => {
+      clearInterval(timer);
+      pageCards(page).forEach(c => { if (c !== card) collapse(c); });
+    });
+  });
+
+  // Clic en una reseña de los lados: pasa al centro y la del centro toma su lugar
+  cards.forEach(card => {
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('.testimonial-toggle')) return;
+      const slot = ['petal-0', 'petal-2'].find(c => card.classList.contains(c));
+      if (!slot) return;
+      const center = pageCards(page).find(c => c.classList.contains('petal-1'));
+      pageCards(page).forEach(collapse);
+      card.style.transitionDelay = '';
+      card.classList.replace(slot, 'petal-1');
+      if (center) {
+        center.style.transitionDelay = '';
+        center.classList.replace('petal-1', slot);
+      }
+      clearInterval(timer);
+    });
+  });
+
+  show(0, true);
+  restart();
 })();
 
 // 3D tilt on cards
