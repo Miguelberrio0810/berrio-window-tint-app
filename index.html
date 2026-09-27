@@ -105,7 +105,16 @@
   </div>
 
   <figure class="description-image">
-    <img src="img/Car.jpg" alt="Carro con polarizado" class="carimg">
+    <div class="hero3d" id="hero3d">
+      <div class="hero3d-card">
+        <img src="img/carlogo.jpg" alt="Carro con polarizado en diferentes porcentajes" class="carimg">
+        <div class="hero3d-shine"></div>
+        <span class="hero3d-chip chip-1"><i class="fas fa-sun"></i> 99% UV</span>
+        <span class="hero3d-chip chip-2"><i class="fas fa-temperature-low"></i> <span data-i18n="chipHeat">-60% Calor</span></span>
+        <span class="hero3d-chip chip-3"><i class="fas fa-shield-alt"></i> <span data-i18n="chipWarranty">Garantía</span></span>
+      </div>
+      <div class="hero3d-floor"></div>
+    </div>
   </figure>
   <div class="scroll-indicator">
     <div class="scroll-line"></div>
@@ -885,6 +894,36 @@
             <a href="#numberphone" class="appoint btn contact" data-i18n="schedule">Agenda Tu Cita</a>
           </div>
         </article>
+      </div>
+    </section>
+
+    <!-- Ubicación -->
+    <section class="location-section" id="ubicacion">
+      <h1 data-i18n="locationTitle">Visítanos</h1>
+      <p data-i18n="locationDesc">Encuéntranos en Gainesville, Florida</p>
+      <div class="location-container">
+        <div class="location-map">
+          <iframe
+            src="https://www.google.com/maps?q=2625+N+Main+St,+Gainesville,+FL+32609&output=embed"
+            title="Mapa de Berrío Window Tint"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            allowfullscreen></iframe>
+        </div>
+        <div class="location-card">
+          <div class="location-pin"><i class="fas fa-map-marker-alt"></i></div>
+          <h3>Berrío Window Tint</h3>
+          <p class="location-address">2625 N Main St<br>Gainesville, FL 32609</p>
+          <p class="location-phone"><i class="fas fa-phone"></i> (352) 214-4948</p>
+          <div class="location-buttons">
+            <a href="https://www.google.com/maps/dir/?api=1&destination=2625+N+Main+St,+Gainesville,+FL+32609" target="_blank" rel="noopener noreferrer" class="btn schedule">
+              <i class="fas fa-directions"></i> <span data-i18n="getDirections">Cómo llegar</span>
+            </a>
+            <a href="https://maps.google.com/?q=2625+N+Main+St,+Gainesville,+FL+32609" target="_blank" rel="noopener noreferrer" class="btn contact">
+              <i class="fab fa-google"></i> <span data-i18n="openMaps">Abrir en Google Maps</span>
+            </a>
+          </div>
+        </div>
       </div>
     </section>
 

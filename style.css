@@ -234,17 +234,110 @@ nav ul li a:hover { color: var(--accent-light); }
   margin: 0;
 }
 
-.carimg {
-  width: 100%;
-  border-radius: var(--radius);
-  box-shadow: 0 20px 80px rgba(0,0,0,0.7), var(--glow);
-  transition: transform 0.4s ease, box-shadow 0.4s ease;
-  cursor: pointer;
+/* Escena 3D del hero: el JS actualiza --rx / --ry / --mx / --my según el mouse o el giroscopio */
+.hero3d {
+  --rx: 0deg;
+  --ry: 0deg;
+  --mx: 50%;
+  --my: 50%;
+  position: relative;
+  perspective: 1200px;
+  padding: 1.5rem 1rem 3rem;
+  animation: hero3d-float 6s ease-in-out infinite;
 }
 
-.carimg:hover {
-  transform: scale(1.02) translateY(-5px);
-  box-shadow: 0 30px 100px rgba(0,0,0,0.8), 0 0 60px rgba(56,176,0,0.3);
+.hero3d-card {
+  position: relative;
+  transform-style: preserve-3d;
+  transform: rotateX(var(--rx)) rotateY(var(--ry));
+  transition: transform 0.15s ease-out;
+  border-radius: var(--radius);
+}
+
+.hero3d:not(.is-active) .hero3d-card {
+  transition: transform 0.8s cubic-bezier(.2,.8,.2,1);
+}
+
+.carimg {
+  display: block;
+  width: 100%;
+  border-radius: var(--radius);
+  box-shadow: 0 30px 80px rgba(0,0,0,0.7), var(--glow);
+  transform: translateZ(0);
+  cursor: pointer;
+  transition: box-shadow 0.4s ease;
+}
+
+.hero3d.is-active .carimg {
+  box-shadow: 0 40px 100px rgba(0,0,0,0.8), 0 0 70px rgba(56,176,0,0.35);
+}
+
+/* Brillo que sigue al cursor, simula el reflejo de un vidrio */
+.hero3d-shine {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius);
+  pointer-events: none;
+  transform: translateZ(1px);
+  background: radial-gradient(circle at var(--mx) var(--my), rgba(255,255,255,0.35), rgba(255,255,255,0) 45%);
+  mix-blend-mode: overlay;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.hero3d.is-active .hero3d-shine { opacity: 1; }
+
+/* Etiquetas que "salen" de la imagen en profundidad */
+.hero3d-chip {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.55rem 0.95rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text);
+  white-space: nowrap;
+  background: rgba(9,12,15,0.72);
+  border: 1px solid var(--border-accent);
+  border-radius: 999px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.45), 0 0 20px rgba(56,176,0,0.2);
+  pointer-events: none;
+}
+
+.hero3d-chip i { color: var(--accent-light); }
+
+.chip-1 { top: 8%;  left: -4%;  transform: translateZ(90px); }
+.chip-2 { top: 42%; right: -6%; transform: translateZ(120px); }
+.chip-3 { bottom: 10%; left: 6%; transform: translateZ(70px); }
+
+/* Sombra/plataforma bajo la tarjeta */
+.hero3d-floor {
+  position: absolute;
+  left: 12%; right: 12%;
+  bottom: 0.5rem;
+  height: 24px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(56,176,0,0.45), rgba(56,176,0,0) 70%);
+  filter: blur(6px);
+  animation: hero3d-floor 6s ease-in-out infinite;
+}
+
+@keyframes hero3d-float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-12px); }
+}
+
+@keyframes hero3d-floor {
+  0%, 100% { transform: scaleX(1);    opacity: 0.9; }
+  50%      { transform: scaleX(0.85); opacity: 0.55; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero3d, .hero3d-floor { animation: none; }
+  .hero3d-card { transition: none; }
 }
 
 /* Scroll indicator */
@@ -1691,6 +1784,115 @@ nav ul li a:hover { color: var(--accent-light); }
   border: 6px solid transparent;
   border-right: none;
   border-left-color: rgba(15,19,24,0.9);
+}
+
+/* ── UBICACIÓN / MAPA ── */
+.location-section {
+  padding: 6rem 2rem;
+  background: var(--bg-main);
+  text-align: center;
+}
+
+.location-section h1 {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 800;
+  margin-bottom: 0.75rem;
+  color: var(--text);
+  letter-spacing: -0.5px;
+}
+
+.location-section > p {
+  color: var(--text-muted);
+  font-size: 1rem;
+  margin-bottom: 3rem;
+}
+
+.location-container {
+  position: relative;
+  max-width: 1100px;
+  margin: 0 auto;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5), var(--glow);
+}
+
+.location-map iframe {
+  display: block;
+  width: 100%;
+  height: 460px;
+  border: 0;
+}
+
+.location-card {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  width: 300px;
+  padding: 1.75rem 1.5rem;
+  text-align: left;
+  color: var(--text);
+  background: rgba(9,12,15,0.9);
+  border: 1px solid var(--border-accent);
+  border-radius: var(--radius);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.5);
+}
+
+.location-pin {
+  width: 48px; height: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+  background: rgba(56,176,0,0.12);
+  border: 1px solid rgba(56,176,0,0.25);
+  border-radius: 12px;
+}
+
+.location-pin i { color: var(--accent-light); font-size: 1.3rem; }
+
+.location-card h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.location-address,
+.location-phone {
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 0.75rem;
+}
+
+.location-phone i { color: var(--accent-light); margin-right: 0.35rem; }
+
+.location-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  margin-top: 1.25rem;
+}
+
+.location-buttons .btn {
+  text-align: center;
+  justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .location-section { padding: 4.5rem 1rem; }
+  .location-map iframe { height: 320px; }
+  .location-card {
+    position: static;
+    width: auto;
+    border: none;
+    border-top: 1px solid var(--border-accent);
+    border-radius: 0;
+  }
+  .chip-1 { left: 0; }
+  .chip-2 { right: 0; }
+  .hero3d-chip { font-size: 0.75rem; padding: 0.45rem 0.75rem; }
 }
 
 /* ── SCROLL REVEAL ANIMATIONS ── */

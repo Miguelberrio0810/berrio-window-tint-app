@@ -182,6 +182,12 @@ const translations = {
     gallerytitle: "Galería",
     servicestitle: "Servicios",
     servicesdesc: "Soluciones profesionales de polarizado para cada necesidad",
+    chipHeat: "-60% Calor",
+    chipWarranty: "Garantía",
+    locationTitle: "Visítanos",
+    locationDesc: "Encuéntranos en Gainesville, Florida",
+    getDirections: "Cómo llegar",
+    openMaps: "Abrir en Google Maps",
     serviceAuto: "Tintado Automotriz",
     auto1: "Bloquea rayos UV y protege la tapicería.",
     auto2: "Reduce el calor interior y ahorra combustible.",
@@ -343,6 +349,12 @@ const translations = {
     gallerytitle: "Gallery",
     servicestitle: "Services",
     servicesdesc: "Professional tinting solutions for every need",
+    chipHeat: "-60% Heat",
+    chipWarranty: "Warranty",
+    locationTitle: "Visit Us",
+    locationDesc: "Find us in Gainesville, Florida",
+    getDirections: "Get Directions",
+    openMaps: "Open in Google Maps",
     serviceAuto: "Automotive Tinting",
     auto1: "Blocks UV rays and protects upholstery.",
     auto2: "Reduces interior heat and saves fuel.",
@@ -664,11 +676,69 @@ window.addEventListener('scroll', () => {
   resize(); init(); frame();
 })();
 
+// Hero 3D: la imagen gira siguiendo el mouse (o el giroscopio en celulares)
+(function () {
+  const scene = document.getElementById('hero3d');
+  if (!scene) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  const MAX = 14; // grados máximos de inclinación
+  let frame = null;
+
+  function setTilt(x, y) {
+    // x, y en rango -1..1
+    if (frame) cancelAnimationFrame(frame);
+    frame = requestAnimationFrame(() => {
+      scene.style.setProperty('--ry', (x * MAX).toFixed(2) + 'deg');
+      scene.style.setProperty('--rx', (-y * MAX).toFixed(2) + 'deg');
+      scene.style.setProperty('--mx', ((x + 1) * 50).toFixed(1) + '%');
+      scene.style.setProperty('--my', ((y + 1) * 50).toFixed(1) + '%');
+    });
+  }
+
+  function reset() {
+    scene.classList.remove('is-active');
+    setTilt(0, 0);
+  }
+
+  scene.addEventListener('pointermove', (e) => {
+    if (e.pointerType === 'touch') return;
+    const r = scene.getBoundingClientRect();
+    const x = ((e.clientX - r.left) / r.width) * 2 - 1;
+    const y = ((e.clientY - r.top) / r.height) * 2 - 1;
+    scene.classList.add('is-active');
+    setTilt(Math.max(-1, Math.min(1, x)), Math.max(-1, Math.min(1, y)));
+  });
+  scene.addEventListener('pointerleave', reset);
+
+  // En pantallas táctiles usamos la inclinación del teléfono
+  if (window.matchMedia('(hover: none)').matches && 'DeviceOrientationEvent' in window) {
+    function onOrientation(e) {
+      if (e.gamma == null || e.beta == null) return;
+      const x = Math.max(-1, Math.min(1, e.gamma / 30));
+      const y = Math.max(-1, Math.min(1, (e.beta - 45) / 30));
+      scene.classList.add('is-active');
+      setTilt(x, y);
+    }
+    // iOS pide permiso explícito, que solo se puede solicitar tras un toque
+    if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+      scene.addEventListener('click', () => {
+        DeviceOrientationEvent.requestPermission()
+          .then(state => { if (state === 'granted') window.addEventListener('deviceorientation', onOrientation); })
+          .catch(() => {});
+      }, { once: true });
+    } else {
+      window.addEventListener('deviceorientation', onOrientation);
+    }
+  }
+})();
+
 // Scroll reveal with Intersection Observer
 (function () {
   const sels = [
     '.whychoosetitle', '.testimonialstitle', '.testimonials-subtitle', '.gallerytitle', '.videos-title', '.videos-subtitle',
-    '.services h1', '.services > p', '.form-section h1', '.form-section > p'
+    '.services h1', '.services > p', '.location-section h1', '.location-section > p', '.location-container',
+    '.form-section h1', '.form-section > p'
   ];
   sels.forEach(s => document.querySelectorAll(s).forEach(el => el.classList.add('reveal')));
 
