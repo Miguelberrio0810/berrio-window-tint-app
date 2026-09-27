@@ -1062,6 +1062,7 @@ nav ul li a:hover { color: var(--accent-light); }
 .testimonial-card.no-anim { transition: none; }
 
 .testimonial-card.petal-0,
+.testimonial-card.petal-1,
 .testimonial-card.petal-2 { cursor: pointer; }
 
 /* Al pasar el mouse por un pétalo lateral solo se ilumina un poco (sin saltar hacia adelante) */

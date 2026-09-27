@@ -1107,22 +1107,17 @@ window.addEventListener('scroll', () => {
     });
   });
 
-  // Clic en una reseña de los lados: pasa al centro y la del centro toma su lugar
+  // Clic en cualquier reseña: se abre al frente y centrada (igual que "Leer más").
+  // Otro clic en ella, o un clic fuera de las tarjetas, la cierra.
   cards.forEach(card => {
     card.addEventListener('click', (e) => {
       if (e.target.closest('.testimonial-toggle')) return;
-      const slot = ['petal-0', 'petal-2'].find(c => card.classList.contains(c));
-      if (!slot) return;
-      const center = pageCards(page).find(c => c.classList.contains('petal-1'));
-      pageCards(page).forEach(collapse);
-      card.style.transitionDelay = '';
-      card.classList.replace(slot, 'petal-1');
-      if (center) {
-        center.style.transitionDelay = '';
-        center.classList.replace('petal-1', slot);
-      }
-      clearInterval(timer);
+      card.querySelector('.testimonial-toggle')?.click();
     });
+  });
+
+  fan.addEventListener('click', (e) => {
+    if (!e.target.closest('.testimonial-card')) pageCards(page).forEach(collapse);
   });
 
   show(0, true);
