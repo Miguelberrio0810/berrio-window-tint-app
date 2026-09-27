@@ -608,7 +608,6 @@
 
       <div class="testimonials-controls">
         <button type="button" class="t-prev" aria-label="Reseñas anteriores"><i class="fas fa-chevron-left"></i></button>
-        <span class="t-counter"><span class="t-current">1</span> / <span class="t-total">8</span></span>
         <button type="button" class="t-next" aria-label="Reseñas siguientes"><i class="fas fa-chevron-right"></i></button>
       </div>
     </div>
@@ -618,268 +617,306 @@
 
 <!-- Galería -->
     <section class="media-section" id="galeria">
+      <div class="media-head">
+        <span class="media-kicker"><i class="fas fa-images"></i> <span data-i18n="gallerytitle">Galería</span> &amp; Videos</span>
+        <h1 class="videos-title" data-i18n="videosTitle">Nuestro Trabajo en Acción</h1>
+        <p class="media-sub" data-i18n="videosSubtitle">Mira cómo transformamos vehículos con nuestro servicio profesional</p>
+      </div>
+
       <div class="media-grid">
-        <div class="media-col gallery-col">
-          <h1 class="gallerytitle" data-i18n="gallerytitle">Galería</h1>
-          <p class="media-sub" data-i18n="gallerySubtitle">Algunos de nuestros trabajos recientes</p>
-          <div class="gallery-carousel">
-            <button type="button" class="prev" aria-label="Foto anterior"><i class="fas fa-chevron-left"></i></button>
-            <div class="gallery-viewport">
-              <div class="galleryimg">
-                <div class="gallery-slide"><img src="img/carro1.jpeg" alt="carro1" loading="lazy"></div>
-                <div class="gallery-slide"><img src="img/carro1.1.jpeg" alt="carro1.1" loading="lazy"></div>
-                <div class="gallery-slide"><img src="img/carro1.2.jpeg" alt="carro1.2" loading="lazy"></div>
-                <div class="gallery-slide"><img src="img/carro1.3.jpeg" alt="carro1.3" loading="lazy"></div>
-                <div class="gallery-slide"><img src="img/carro2.jpeg" alt="carro2" loading="lazy"></div>
-                <div class="gallery-slide"><img src="img/carro2.1.jpeg" alt="carro2.1" loading="lazy"></div>
-                <div class="gallery-slide"><img src="img/carro3.jpeg" alt="carro3" loading="lazy"></div>
-                <div class="gallery-slide"><img src="img/carro3.1.jpeg" alt="carro3.1" loading="lazy"></div>
-                <div class="gallery-slide"><img src="img/carro3.2.jpeg" alt="carro3.2" loading="lazy"></div>
-                <div class="gallery-slide"><img src="img/carro3.3.jpeg" alt="carro3.3" loading="lazy"></div>
-                <div class="gallery-slide"><img src="img/carro4.jpeg" alt="carro4" loading="lazy"></div>
-                <div class="gallery-slide"><img src="img/carro4.1.jpeg" alt="carro4.1" loading="lazy"></div>
-                <div class="gallery-slide"><img src="img/carro4.2.jpeg" alt="carro4.2" loading="lazy"></div>
-                <div class="gallery-slide"><img src="img/carro4.3.jpeg" alt="carro4.3" loading="lazy"></div>
-                <div class="gallery-slide"><img src="img/carro5.png" alt="carro5" loading="lazy"></div>
-                <div class="gallery-slide"><img src="img/carro5.1.jpeg" alt="carro5.1" loading="lazy"></div>
-                <div class="gallery-slide"><img src="img/carro5.2.png" alt="carro5.2" loading="lazy"></div>
-                <div class="gallery-slide"><img src="img/carro5.3.jpeg" alt="carro5.3" loading="lazy"></div>
-                <div class="gallery-slide"><img src="img/carro5.4.jpeg" alt="carro5.4" loading="lazy"></div>
-                <div class="gallery-slide"><img src="img/carro6.jpeg" alt="carro6" loading="lazy"></div>
-                <div class="gallery-slide"><img src="img/carro6.1.jpeg" alt="carro6.1" loading="lazy"></div>
-                <div class="gallery-slide"><img src="img/carro6.2.jpeg" alt="carro6.2" loading="lazy"></div>
-                <div class="gallery-slide"><img src="img/carro6.3.jpeg" alt="carro6.3" loading="lazy"></div>
-                <div class="gallery-slide"><img src="img/carro6.4.jpeg" alt="carro6.4" loading="lazy"></div>
-                <div class="gallery-slide"><img src="img/carro7.jpeg" alt="carro7" loading="lazy"></div>
-                <div class="gallery-slide"><img src="img/carro7.1.jpeg" alt="carro7.1" loading="lazy"></div>
-                <div class="gallery-slide"><img src="img/carro8.jpeg" alt="carro8" loading="lazy"></div>
-                <div class="gallery-slide"><img src="img/carro10.jpeg" alt="carro10" loading="lazy"></div>
-                <div class="gallery-slide"><img src="img/carro10.1.jpeg" alt="carro10.1" loading="lazy"></div>
-                <div class="gallery-slide"><img src="img/carro10.2.jpeg" alt="carro10.2" loading="lazy"></div>
-                <div class="gallery-slide"><img src="img/car11.jpeg" alt="car11" loading="lazy"></div>
-                <div class="gallery-slide"><img src="img/car11.1.jpeg" alt="car11.1" loading="lazy"></div>
-                <div class="gallery-slide"><img src="img/car11.2.jpeg" alt="car11.2" loading="lazy"></div>
-                <div class="gallery-slide"><img src="img/Imgnueva1.jpeg" alt="Imgnueva1" loading="lazy"></div>
-                <div class="gallery-slide"><img src="img/Imgnueva2.jpeg" alt="Imgnueva2" loading="lazy"></div>
-                <div class="gallery-slide"><img src="img/Imgnueva2.1.jpeg" alt="Imgnueva2.1" loading="lazy"></div>
-                <div class="gallery-slide"><img src="img/Imgnueva2.2.jpeg" alt="Imgnueva2.2" loading="lazy"></div>
-              </div>
+        <!-- Fotos: una a la vez, con miniaturas para navegar -->
+        <div class="media-panel gallery-panel">
+          <div class="gallery-viewport">
+            <div class="galleryimg">
+              <div class="gallery-slide"><img src="img/carro1.jpeg" alt="carro1" loading="lazy"></div>
+              <div class="gallery-slide"><img src="img/carro1.1.jpeg" alt="carro1.1" loading="lazy"></div>
+              <div class="gallery-slide"><img src="img/carro1.2.jpeg" alt="carro1.2" loading="lazy"></div>
+              <div class="gallery-slide"><img src="img/carro1.3.jpeg" alt="carro1.3" loading="lazy"></div>
+              <div class="gallery-slide"><img src="img/carro2.jpeg" alt="carro2" loading="lazy"></div>
+              <div class="gallery-slide"><img src="img/carro2.1.jpeg" alt="carro2.1" loading="lazy"></div>
+              <div class="gallery-slide"><img src="img/carro3.jpeg" alt="carro3" loading="lazy"></div>
+              <div class="gallery-slide"><img src="img/carro3.1.jpeg" alt="carro3.1" loading="lazy"></div>
+              <div class="gallery-slide"><img src="img/carro3.2.jpeg" alt="carro3.2" loading="lazy"></div>
+              <div class="gallery-slide"><img src="img/carro3.3.jpeg" alt="carro3.3" loading="lazy"></div>
+              <div class="gallery-slide"><img src="img/carro4.jpeg" alt="carro4" loading="lazy"></div>
+              <div class="gallery-slide"><img src="img/carro4.1.jpeg" alt="carro4.1" loading="lazy"></div>
+              <div class="gallery-slide"><img src="img/carro4.2.jpeg" alt="carro4.2" loading="lazy"></div>
+              <div class="gallery-slide"><img src="img/carro4.3.jpeg" alt="carro4.3" loading="lazy"></div>
+              <div class="gallery-slide"><img src="img/carro5.png" alt="carro5" loading="lazy"></div>
+              <div class="gallery-slide"><img src="img/carro5.1.jpeg" alt="carro5.1" loading="lazy"></div>
+              <div class="gallery-slide"><img src="img/carro5.2.png" alt="carro5.2" loading="lazy"></div>
+              <div class="gallery-slide"><img src="img/carro5.3.jpeg" alt="carro5.3" loading="lazy"></div>
+              <div class="gallery-slide"><img src="img/carro5.4.jpeg" alt="carro5.4" loading="lazy"></div>
+              <div class="gallery-slide"><img src="img/carro6.jpeg" alt="carro6" loading="lazy"></div>
+              <div class="gallery-slide"><img src="img/carro6.1.jpeg" alt="carro6.1" loading="lazy"></div>
+              <div class="gallery-slide"><img src="img/carro6.2.jpeg" alt="carro6.2" loading="lazy"></div>
+              <div class="gallery-slide"><img src="img/carro6.3.jpeg" alt="carro6.3" loading="lazy"></div>
+              <div class="gallery-slide"><img src="img/carro6.4.jpeg" alt="carro6.4" loading="lazy"></div>
+              <div class="gallery-slide"><img src="img/carro7.jpeg" alt="carro7" loading="lazy"></div>
+              <div class="gallery-slide"><img src="img/carro7.1.jpeg" alt="carro7.1" loading="lazy"></div>
+              <div class="gallery-slide"><img src="img/carro8.jpeg" alt="carro8" loading="lazy"></div>
+              <div class="gallery-slide"><img src="img/carro10.jpeg" alt="carro10" loading="lazy"></div>
+              <div class="gallery-slide"><img src="img/carro10.1.jpeg" alt="carro10.1" loading="lazy"></div>
+              <div class="gallery-slide"><img src="img/carro10.2.jpeg" alt="carro10.2" loading="lazy"></div>
+              <div class="gallery-slide"><img src="img/car11.jpeg" alt="car11" loading="lazy"></div>
+              <div class="gallery-slide"><img src="img/car11.1.jpeg" alt="car11.1" loading="lazy"></div>
+              <div class="gallery-slide"><img src="img/car11.2.jpeg" alt="car11.2" loading="lazy"></div>
+              <div class="gallery-slide"><img src="img/Imgnueva1.jpeg" alt="Imgnueva1" loading="lazy"></div>
+              <div class="gallery-slide"><img src="img/Imgnueva2.jpeg" alt="Imgnueva2" loading="lazy"></div>
+              <div class="gallery-slide"><img src="img/Imgnueva2.1.jpeg" alt="Imgnueva2.1" loading="lazy"></div>
+              <div class="gallery-slide"><img src="img/Imgnueva2.2.jpeg" alt="Imgnueva2.2" loading="lazy"></div>
             </div>
-            <button type="button" class="next" aria-label="Foto siguiente"><i class="fas fa-chevron-right"></i></button>
           </div>
-          <div class="gallery-counter"><span class="gallery-current">1</span> / <span class="gallery-total">37</span></div>
+          <button type="button" class="prev" aria-label="Foto anterior"><i class="fas fa-chevron-left"></i></button>
+          <button type="button" class="next" aria-label="Foto siguiente"><i class="fas fa-chevron-right"></i></button>
+          <div class="gallery-thumbs">
+            <button type="button" class="gallery-thumb" aria-label="Ver foto 1"><img src="img/carro1.jpeg" alt="" loading="lazy"></button>
+            <button type="button" class="gallery-thumb" aria-label="Ver foto 2"><img src="img/carro1.1.jpeg" alt="" loading="lazy"></button>
+            <button type="button" class="gallery-thumb" aria-label="Ver foto 3"><img src="img/carro1.2.jpeg" alt="" loading="lazy"></button>
+            <button type="button" class="gallery-thumb" aria-label="Ver foto 4"><img src="img/carro1.3.jpeg" alt="" loading="lazy"></button>
+            <button type="button" class="gallery-thumb" aria-label="Ver foto 5"><img src="img/carro2.jpeg" alt="" loading="lazy"></button>
+            <button type="button" class="gallery-thumb" aria-label="Ver foto 6"><img src="img/carro2.1.jpeg" alt="" loading="lazy"></button>
+            <button type="button" class="gallery-thumb" aria-label="Ver foto 7"><img src="img/carro3.jpeg" alt="" loading="lazy"></button>
+            <button type="button" class="gallery-thumb" aria-label="Ver foto 8"><img src="img/carro3.1.jpeg" alt="" loading="lazy"></button>
+            <button type="button" class="gallery-thumb" aria-label="Ver foto 9"><img src="img/carro3.2.jpeg" alt="" loading="lazy"></button>
+            <button type="button" class="gallery-thumb" aria-label="Ver foto 10"><img src="img/carro3.3.jpeg" alt="" loading="lazy"></button>
+            <button type="button" class="gallery-thumb" aria-label="Ver foto 11"><img src="img/carro4.jpeg" alt="" loading="lazy"></button>
+            <button type="button" class="gallery-thumb" aria-label="Ver foto 12"><img src="img/carro4.1.jpeg" alt="" loading="lazy"></button>
+            <button type="button" class="gallery-thumb" aria-label="Ver foto 13"><img src="img/carro4.2.jpeg" alt="" loading="lazy"></button>
+            <button type="button" class="gallery-thumb" aria-label="Ver foto 14"><img src="img/carro4.3.jpeg" alt="" loading="lazy"></button>
+            <button type="button" class="gallery-thumb" aria-label="Ver foto 15"><img src="img/carro5.png" alt="" loading="lazy"></button>
+            <button type="button" class="gallery-thumb" aria-label="Ver foto 16"><img src="img/carro5.1.jpeg" alt="" loading="lazy"></button>
+            <button type="button" class="gallery-thumb" aria-label="Ver foto 17"><img src="img/carro5.2.png" alt="" loading="lazy"></button>
+            <button type="button" class="gallery-thumb" aria-label="Ver foto 18"><img src="img/carro5.3.jpeg" alt="" loading="lazy"></button>
+            <button type="button" class="gallery-thumb" aria-label="Ver foto 19"><img src="img/carro5.4.jpeg" alt="" loading="lazy"></button>
+            <button type="button" class="gallery-thumb" aria-label="Ver foto 20"><img src="img/carro6.jpeg" alt="" loading="lazy"></button>
+            <button type="button" class="gallery-thumb" aria-label="Ver foto 21"><img src="img/carro6.1.jpeg" alt="" loading="lazy"></button>
+            <button type="button" class="gallery-thumb" aria-label="Ver foto 22"><img src="img/carro6.2.jpeg" alt="" loading="lazy"></button>
+            <button type="button" class="gallery-thumb" aria-label="Ver foto 23"><img src="img/carro6.3.jpeg" alt="" loading="lazy"></button>
+            <button type="button" class="gallery-thumb" aria-label="Ver foto 24"><img src="img/carro6.4.jpeg" alt="" loading="lazy"></button>
+            <button type="button" class="gallery-thumb" aria-label="Ver foto 25"><img src="img/carro7.jpeg" alt="" loading="lazy"></button>
+            <button type="button" class="gallery-thumb" aria-label="Ver foto 26"><img src="img/carro7.1.jpeg" alt="" loading="lazy"></button>
+            <button type="button" class="gallery-thumb" aria-label="Ver foto 27"><img src="img/carro8.jpeg" alt="" loading="lazy"></button>
+            <button type="button" class="gallery-thumb" aria-label="Ver foto 28"><img src="img/carro10.jpeg" alt="" loading="lazy"></button>
+            <button type="button" class="gallery-thumb" aria-label="Ver foto 29"><img src="img/carro10.1.jpeg" alt="" loading="lazy"></button>
+            <button type="button" class="gallery-thumb" aria-label="Ver foto 30"><img src="img/carro10.2.jpeg" alt="" loading="lazy"></button>
+            <button type="button" class="gallery-thumb" aria-label="Ver foto 31"><img src="img/car11.jpeg" alt="" loading="lazy"></button>
+            <button type="button" class="gallery-thumb" aria-label="Ver foto 32"><img src="img/car11.1.jpeg" alt="" loading="lazy"></button>
+            <button type="button" class="gallery-thumb" aria-label="Ver foto 33"><img src="img/car11.2.jpeg" alt="" loading="lazy"></button>
+            <button type="button" class="gallery-thumb" aria-label="Ver foto 34"><img src="img/Imgnueva1.jpeg" alt="" loading="lazy"></button>
+            <button type="button" class="gallery-thumb" aria-label="Ver foto 35"><img src="img/Imgnueva2.jpeg" alt="" loading="lazy"></button>
+            <button type="button" class="gallery-thumb" aria-label="Ver foto 36"><img src="img/Imgnueva2.1.jpeg" alt="" loading="lazy"></button>
+            <button type="button" class="gallery-thumb" aria-label="Ver foto 37"><img src="img/Imgnueva2.2.jpeg" alt="" loading="lazy"></button>
+          </div>
         </div>
 
-        <div class="media-col videos-col" id="videos">
-          <h1 class="videos-title" data-i18n="videosTitle">Nuestro Trabajo en Acción</h1>
-          <p class="media-sub videos-subtitle" data-i18n="videosSubtitle">Mira cómo transformamos vehículos con nuestro servicio profesional</p>
-          <div class="video-gallery-wrapper">
-            <button type="button" class="video-prev" aria-label="Video anterior"><i class="fas fa-chevron-left"></i></button>
-            <div class="video-viewport">
+        <!-- Videos: cuadro vertical, uno a la vez -->
+        <div class="media-panel video-panel" id="videos">
+          <div class="video-viewport">
             <div class="videogalleryimg">
-            <div class="videogroup">
-              <div class="video-wrapper is-cropped" style="--crop-top:0.289;--crop-h:0.422;aspect-ratio:576/432" aria-label="Video: transformación de vehículo con polarizado">
-                <video muted playsinline preload="none" data-start="0.5">
-                  <source data-src="img/video1.mp4" type="video/mp4">
-                  Tu navegador no soporta video HTML5
-                </video>
-                <div class="video-tap-icon"><i class="fas fa-play"></i></div>
+              <div class="videogroup">
+                <div class="video-wrapper is-cropped" style="--crop-top:0.289;--crop-h:0.422;aspect-ratio:576/432" aria-label="Video: transformación de vehículo con polarizado">
+                  <video muted playsinline preload="none" data-start="0.5">
+                    <source data-src="img/video1.mp4" type="video/mp4">
+                    Tu navegador no soporta video HTML5
+                  </video>
+                  <div class="video-tap-icon"><i class="fas fa-play"></i></div>
+                </div>
+              </div>
+              <div class="videogroup">
+                <div class="video-wrapper" aria-label="Video: instalación profesional de tinte">
+                  <video muted playsinline preload="none" data-start="0.5">
+                    <source data-src="img/video2.mp4" type="video/mp4">
+                    Tu navegador no soporta video HTML5
+                  </video>
+                  <div class="video-tap-icon"><i class="fas fa-play"></i></div>
+                </div>
+              </div>
+              <div class="videogroup">
+                <div class="video-wrapper" aria-label="Video: detalle del proceso de polarizado">
+                  <video muted playsinline preload="none" data-start="0.5">
+                    <source data-src="img/video3.mp4" type="video/mp4">
+                    Tu navegador no soporta video HTML5
+                  </video>
+                  <div class="video-tap-icon"><i class="fas fa-play"></i></div>
+                </div>
+              </div>
+              <div class="videogroup">
+                <div class="video-wrapper" aria-label="Video: acabado profesional en vehículo">
+                  <video muted playsinline preload="none" data-start="1">
+                    <source data-src="img/video4.mp4" type="video/mp4">
+                    Tu navegador no soporta video HTML5
+                  </video>
+                  <div class="video-tap-icon"><i class="fas fa-play"></i></div>
+                </div>
+              </div>
+              <div class="videogroup">
+                <div class="video-wrapper" aria-label="Video: cliente satisfecho con el resultado">
+                  <video muted playsinline preload="none" data-start="1">
+                    <source data-src="img/video5.mp4" type="video/mp4">
+                    Tu navegador no soporta video HTML5
+                  </video>
+                  <div class="video-tap-icon"><i class="fas fa-play"></i></div>
+                </div>
+              </div>
+              <div class="videogroup">
+                <div class="video-wrapper" aria-label="Video: instalación de polarizado automotriz">
+                  <video muted playsinline preload="none">
+                    <source data-src="img/video6.mp4" type="video/mp4">
+                    Tu navegador no soporta video HTML5
+                  </video>
+                  <div class="video-tap-icon"><i class="fas fa-play"></i></div>
+                </div>
+              </div>
+              <div class="videogroup">
+                <div class="video-wrapper" aria-label="Video: proceso de tintado profesional">
+                  <video muted playsinline preload="none" data-start="0.5">
+                    <source data-src="img/video7.mp4" type="video/mp4">
+                    Tu navegador no soporta video HTML5
+                  </video>
+                  <div class="video-tap-icon"><i class="fas fa-play"></i></div>
+                </div>
+              </div>
+              <div class="videogroup">
+                <div class="video-wrapper" aria-label="Video: resultado final del polarizado">
+                  <video muted playsinline preload="none">
+                    <source data-src="img/video8.mp4" type="video/mp4">
+                    Tu navegador no soporta video HTML5
+                  </video>
+                  <div class="video-tap-icon"><i class="fas fa-play"></i></div>
+                </div>
+              </div>
+              <div class="videogroup">
+                <div class="video-wrapper" aria-label="Video: instalación de película de protección">
+                  <video muted playsinline preload="none">
+                    <source data-src="img/video9.mp4" type="video/mp4">
+                    Tu navegador no soporta video HTML5
+                  </video>
+                  <div class="video-tap-icon"><i class="fas fa-play"></i></div>
+                </div>
+              </div>
+              <div class="videogroup">
+                <div class="video-wrapper" aria-label="Video: trabajo de tintado en detalle">
+                  <video muted playsinline preload="none">
+                    <source data-src="img/video10.mp4" type="video/mp4">
+                    Tu navegador no soporta video HTML5
+                  </video>
+                  <div class="video-tap-icon"><i class="fas fa-play"></i></div>
+                </div>
+              </div>
+              <div class="videogroup">
+                <div class="video-wrapper" aria-label="Video: vehículo terminado con polarizado">
+                  <video muted playsinline preload="none">
+                    <source data-src="img/video11.mp4" type="video/mp4">
+                    Tu navegador no soporta video HTML5
+                  </video>
+                  <div class="video-tap-icon"><i class="fas fa-play"></i></div>
+                </div>
+              </div>
+              <div class="videogroup">
+                <div class="video-wrapper" aria-label="Video: trabajo de polarizado en vehículo">
+                  <video muted playsinline preload="none">
+                    <source data-src="img/video13.mp4" type="video/mp4">
+                    Tu navegador no soporta video HTML5
+                  </video>
+                  <div class="video-tap-icon"><i class="fas fa-play"></i></div>
+                </div>
+              </div>
+              <div class="videogroup">
+                <div class="video-wrapper" aria-label="Video: instalación profesional de polarizado">
+                  <video muted playsinline preload="none" data-start="0.5">
+                    <source data-src="img/video14.mp4" type="video/mp4">
+                    Tu navegador no soporta video HTML5
+                  </video>
+                  <div class="video-tap-icon"><i class="fas fa-play"></i></div>
+                </div>
+              </div>
+              <div class="videogroup">
+                <div class="video-wrapper" aria-label="Video: detalle del proceso de tintado">
+                  <video muted playsinline preload="none">
+                    <source data-src="img/video15.mp4" type="video/mp4">
+                    Tu navegador no soporta video HTML5
+                  </video>
+                  <div class="video-tap-icon"><i class="fas fa-play"></i></div>
+                </div>
+              </div>
+              <div class="videogroup">
+                <div class="video-wrapper" aria-label="Video: acabado profesional del vehículo">
+                  <video muted playsinline preload="none">
+                    <source data-src="img/video16.mp4" type="video/mp4">
+                    Tu navegador no soporta video HTML5
+                  </video>
+                  <div class="video-tap-icon"><i class="fas fa-play"></i></div>
+                </div>
+              </div>
+              <div class="videogroup">
+                <div class="video-wrapper" aria-label="Video: cliente satisfecho con el resultado">
+                  <video muted playsinline preload="none">
+                    <source data-src="img/video17.mp4" type="video/mp4">
+                    Tu navegador no soporta video HTML5
+                  </video>
+                  <div class="video-tap-icon"><i class="fas fa-play"></i></div>
+                </div>
+              </div>
+              <div class="videogroup">
+                <div class="video-wrapper" aria-label="Video: resultado final del polarizado">
+                  <video muted playsinline preload="none">
+                    <source data-src="img/video18.mp4" type="video/mp4">
+                    Tu navegador no soporta video HTML5
+                  </video>
+                  <div class="video-tap-icon"><i class="fas fa-play"></i></div>
+                </div>
+              </div>
+              <div class="videogroup">
+                <div class="video-wrapper" aria-label="Video: trabajo de polarizado en vehículo">
+                  <video muted playsinline preload="none">
+                    <source data-src="img/Vidnuevo1.mp4" type="video/mp4">
+                    Tu navegador no soporta video HTML5
+                  </video>
+                  <div class="video-tap-icon"><i class="fas fa-play"></i></div>
+                </div>
+              </div>
+              <div class="videogroup">
+                <div class="video-wrapper" aria-label="Video: instalación profesional de polarizado">
+                  <video muted playsinline preload="none">
+                    <source data-src="img/Vidnuevo1.1.mp4" type="video/mp4">
+                    Tu navegador no soporta video HTML5
+                  </video>
+                  <div class="video-tap-icon"><i class="fas fa-play"></i></div>
+                </div>
+              </div>
+              <div class="videogroup">
+                <div class="video-wrapper" aria-label="Video: detalle del proceso de tintado">
+                  <video muted playsinline preload="none" data-start="1">
+                    <source data-src="img/Vidnuevo2.mp4" type="video/mp4">
+                    Tu navegador no soporta video HTML5
+                  </video>
+                  <div class="video-tap-icon"><i class="fas fa-play"></i></div>
+                </div>
+              </div>
+              <div class="videogroup">
+                <div class="video-wrapper" aria-label="Video: acabado profesional del vehículo">
+                  <video muted playsinline preload="none" data-start="0.5">
+                    <source data-src="img/Vidnuevo3.mp4" type="video/mp4">
+                    Tu navegador no soporta video HTML5
+                  </video>
+                  <div class="video-tap-icon"><i class="fas fa-play"></i></div>
+                </div>
+              </div>
+              <div class="videogroup">
+                <div class="video-wrapper" aria-label="Video: cliente satisfecho con el resultado">
+                  <video muted playsinline preload="none">
+                    <source data-src="img/Vidnuevo4.mp4" type="video/mp4">
+                    Tu navegador no soporta video HTML5
+                  </video>
+                  <div class="video-tap-icon"><i class="fas fa-play"></i></div>
+                </div>
               </div>
             </div>
-            <div class="videogroup">
-              <div class="video-wrapper" aria-label="Video: instalación profesional de tinte">
-                <video muted playsinline preload="none" data-start="0.5">
-                  <source data-src="img/video2.mp4" type="video/mp4">
-                  Tu navegador no soporta video HTML5
-                </video>
-                <div class="video-tap-icon"><i class="fas fa-play"></i></div>
-              </div>
-            </div>
-            <div class="videogroup">
-              <div class="video-wrapper" aria-label="Video: detalle del proceso de polarizado">
-                <video muted playsinline preload="none" data-start="0.5">
-                  <source data-src="img/video3.mp4" type="video/mp4">
-                  Tu navegador no soporta video HTML5
-                </video>
-                <div class="video-tap-icon"><i class="fas fa-play"></i></div>
-              </div>
-            </div>
-            <div class="videogroup">
-              <div class="video-wrapper" aria-label="Video: acabado profesional en vehículo">
-                <video muted playsinline preload="none" data-start="1">
-                  <source data-src="img/video4.mp4" type="video/mp4">
-                  Tu navegador no soporta video HTML5
-                </video>
-                <div class="video-tap-icon"><i class="fas fa-play"></i></div>
-              </div>
-            </div>
-            <div class="videogroup">
-              <div class="video-wrapper" aria-label="Video: cliente satisfecho con el resultado">
-                <video muted playsinline preload="none" data-start="1">
-                  <source data-src="img/video5.mp4" type="video/mp4">
-                  Tu navegador no soporta video HTML5
-                </video>
-                <div class="video-tap-icon"><i class="fas fa-play"></i></div>
-              </div>
-            </div>
-            <div class="videogroup">
-              <div class="video-wrapper" aria-label="Video: instalación de polarizado automotriz">
-                <video muted playsinline preload="none">
-                  <source data-src="img/video6.mp4" type="video/mp4">
-                  Tu navegador no soporta video HTML5
-                </video>
-                <div class="video-tap-icon"><i class="fas fa-play"></i></div>
-              </div>
-            </div>
-            <div class="videogroup">
-              <div class="video-wrapper" aria-label="Video: proceso de tintado profesional">
-                <video muted playsinline preload="none" data-start="0.5">
-                  <source data-src="img/video7.mp4" type="video/mp4">
-                  Tu navegador no soporta video HTML5
-                </video>
-                <div class="video-tap-icon"><i class="fas fa-play"></i></div>
-              </div>
-            </div>
-            <div class="videogroup">
-              <div class="video-wrapper" aria-label="Video: resultado final del polarizado">
-                <video muted playsinline preload="none">
-                  <source data-src="img/video8.mp4" type="video/mp4">
-                  Tu navegador no soporta video HTML5
-                </video>
-                <div class="video-tap-icon"><i class="fas fa-play"></i></div>
-              </div>
-            </div>
-            <div class="videogroup">
-              <div class="video-wrapper" aria-label="Video: instalación de película de protección">
-                <video muted playsinline preload="none">
-                  <source data-src="img/video9.mp4" type="video/mp4">
-                  Tu navegador no soporta video HTML5
-                </video>
-                <div class="video-tap-icon"><i class="fas fa-play"></i></div>
-              </div>
-            </div>
-            <div class="videogroup">
-              <div class="video-wrapper" aria-label="Video: trabajo de tintado en detalle">
-                <video muted playsinline preload="none">
-                  <source data-src="img/video10.mp4" type="video/mp4">
-                  Tu navegador no soporta video HTML5
-                </video>
-                <div class="video-tap-icon"><i class="fas fa-play"></i></div>
-              </div>
-            </div>
-            <div class="videogroup">
-              <div class="video-wrapper" aria-label="Video: vehículo terminado con polarizado">
-                <video muted playsinline preload="none">
-                  <source data-src="img/video11.mp4" type="video/mp4">
-                  Tu navegador no soporta video HTML5
-                </video>
-                <div class="video-tap-icon"><i class="fas fa-play"></i></div>
-              </div>
-            </div>
-            <div class="videogroup">
-              <div class="video-wrapper" aria-label="Video: trabajo de polarizado en vehículo">
-                <video muted playsinline preload="none">
-                  <source data-src="img/video13.mp4" type="video/mp4">
-                  Tu navegador no soporta video HTML5
-                </video>
-                <div class="video-tap-icon"><i class="fas fa-play"></i></div>
-              </div>
-            </div>
-            <div class="videogroup">
-              <div class="video-wrapper" aria-label="Video: instalación profesional de polarizado">
-                <video muted playsinline preload="none" data-start="0.5">
-                  <source data-src="img/video14.mp4" type="video/mp4">
-                  Tu navegador no soporta video HTML5
-                </video>
-                <div class="video-tap-icon"><i class="fas fa-play"></i></div>
-              </div>
-            </div>
-            <div class="videogroup">
-              <div class="video-wrapper" aria-label="Video: detalle del proceso de tintado">
-                <video muted playsinline preload="none">
-                  <source data-src="img/video15.mp4" type="video/mp4">
-                  Tu navegador no soporta video HTML5
-                </video>
-                <div class="video-tap-icon"><i class="fas fa-play"></i></div>
-              </div>
-            </div>
-            <div class="videogroup">
-              <div class="video-wrapper" aria-label="Video: acabado profesional del vehículo">
-                <video muted playsinline preload="none">
-                  <source data-src="img/video16.mp4" type="video/mp4">
-                  Tu navegador no soporta video HTML5
-                </video>
-                <div class="video-tap-icon"><i class="fas fa-play"></i></div>
-              </div>
-            </div>
-            <div class="videogroup">
-              <div class="video-wrapper" aria-label="Video: cliente satisfecho con el resultado">
-                <video muted playsinline preload="none">
-                  <source data-src="img/video17.mp4" type="video/mp4">
-                  Tu navegador no soporta video HTML5
-                </video>
-                <div class="video-tap-icon"><i class="fas fa-play"></i></div>
-              </div>
-            </div>
-            <div class="videogroup">
-              <div class="video-wrapper" aria-label="Video: resultado final del polarizado">
-                <video muted playsinline preload="none">
-                  <source data-src="img/video18.mp4" type="video/mp4">
-                  Tu navegador no soporta video HTML5
-                </video>
-                <div class="video-tap-icon"><i class="fas fa-play"></i></div>
-              </div>
-            </div>
-            <div class="videogroup">
-              <div class="video-wrapper" aria-label="Video: trabajo de polarizado en vehículo">
-                <video muted playsinline preload="none">
-                  <source data-src="img/Vidnuevo1.mp4" type="video/mp4">
-                  Tu navegador no soporta video HTML5
-                </video>
-                <div class="video-tap-icon"><i class="fas fa-play"></i></div>
-              </div>
-            </div>
-            <div class="videogroup">
-              <div class="video-wrapper" aria-label="Video: instalación profesional de polarizado">
-                <video muted playsinline preload="none">
-                  <source data-src="img/Vidnuevo1.1.mp4" type="video/mp4">
-                  Tu navegador no soporta video HTML5
-                </video>
-                <div class="video-tap-icon"><i class="fas fa-play"></i></div>
-              </div>
-            </div>
-            <div class="videogroup">
-              <div class="video-wrapper" aria-label="Video: detalle del proceso de tintado">
-                <video muted playsinline preload="none" data-start="1">
-                  <source data-src="img/Vidnuevo2.mp4" type="video/mp4">
-                  Tu navegador no soporta video HTML5
-                </video>
-                <div class="video-tap-icon"><i class="fas fa-play"></i></div>
-              </div>
-            </div>
-            <div class="videogroup">
-              <div class="video-wrapper" aria-label="Video: acabado profesional del vehículo">
-                <video muted playsinline preload="none" data-start="0.5">
-                  <source data-src="img/Vidnuevo3.mp4" type="video/mp4">
-                  Tu navegador no soporta video HTML5
-                </video>
-                <div class="video-tap-icon"><i class="fas fa-play"></i></div>
-              </div>
-            </div>
-            <div class="videogroup">
-              <div class="video-wrapper" aria-label="Video: cliente satisfecho con el resultado">
-                <video muted playsinline preload="none">
-                  <source data-src="img/Vidnuevo4.mp4" type="video/mp4">
-                  Tu navegador no soporta video HTML5
-                </video>
-                <div class="video-tap-icon"><i class="fas fa-play"></i></div>
-              </div>
-            </div>
-            </div>
-            </div>
-            <button type="button" class="video-next" aria-label="Video siguiente"><i class="fas fa-chevron-right"></i></button>
           </div>
-          <div class="gallery-counter video-counter"><span class="video-current">1</span> / <span>22</span></div>
+          <button type="button" class="video-prev" aria-label="Video anterior"><i class="fas fa-chevron-left"></i></button>
+          <button type="button" class="video-next" aria-label="Video siguiente"><i class="fas fa-chevron-right"></i></button>
+          <div class="video-progress"><span></span></div>
         </div>
       </div>
     </section>

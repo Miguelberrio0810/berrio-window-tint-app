@@ -18,7 +18,8 @@ function addSwipe(el, onPrev, onNext) {
 // Galería de imágenes — una foto a la vez
 const gallery = document.querySelector('.galleryimg');
 const slides = document.querySelectorAll('.gallery-slide');
-const galleryCurrent = document.querySelector('.gallery-current');
+const thumbs = document.querySelectorAll('.gallery-thumb');
+const thumbStrip = document.querySelector('.gallery-thumbs');
 let currentIndex = 0;
 let galleryTimer;
 
@@ -33,7 +34,13 @@ function showGroup(index) {
   if (index >= slides.length) index = 0;
   currentIndex = index;
   gallery.style.transform = `translateX(-${index * 100}%)`;
-  if (galleryCurrent) galleryCurrent.textContent = index + 1;
+
+  // Miniatura activa, centrada dentro de la tira (sin mover la página)
+  thumbs.forEach((t, i) => t.classList.toggle('active', i === index));
+  const active = thumbs[index];
+  if (active && thumbStrip) {
+    thumbStrip.scrollLeft = active.offsetLeft - (thumbStrip.clientWidth - active.offsetWidth) / 2;
+  }
 }
 
 function resetGalleryTimer() {
@@ -49,6 +56,7 @@ function galleryStep(delta) {
 document.querySelector('.prev').addEventListener('click', () => galleryStep(-1));
 document.querySelector('.next').addEventListener('click', () => galleryStep(1));
 addSwipe(document.querySelector('.gallery-viewport'), () => galleryStep(-1), () => galleryStep(1));
+thumbs.forEach((t, i) => t.addEventListener('click', () => { showGroup(i); resetGalleryTimer(); }));
 
 showGroup(0);
 resetGalleryTimer();
@@ -56,7 +64,7 @@ resetGalleryTimer();
 // Galería de videos — uno por uno, muted, en un cuadro vertical
 const videoGallery = document.querySelector('.videogalleryimg');
 const videoGroups = document.querySelectorAll('.videogroup');
-const videoCurrent = document.querySelector('.video-current');
+const videoProgress = document.querySelector('.video-progress span');
 let videoIndex = 0;
 
 // Poster vertical (9:16) de marca mientras carga, para que no aparezcan barras negras
@@ -67,8 +75,13 @@ function videoStart(video) {
   return parseFloat(video.dataset.start) || 0;
 }
 
-document.querySelectorAll('.videogroup video').forEach(video => {
+document.querySelectorAll('.videogroup video').forEach((video, i) => {
   video.poster = VIDEO_POSTER;
+  // Barra de avance del video visible
+  video.addEventListener('timeupdate', () => {
+    if (i !== videoIndex || !videoProgress || !video.duration) return;
+    videoProgress.style.transform = `scaleX(${(video.currentTime / video.duration).toFixed(4)})`;
+  });
   video.addEventListener('loadedmetadata', () => {
     if (video.currentTime < videoStart(video)) video.currentTime = videoStart(video);
   });
@@ -95,7 +108,7 @@ function showVideoGroup(index) {
   if (index >= videoGroups.length) index = 0;
   videoIndex = index;
   videoGallery.style.transform = `translateX(-${index * 100}%)`;
-  if (videoCurrent) videoCurrent.textContent = index + 1;
+  if (videoProgress) videoProgress.style.transform = 'scaleX(0)';
   videoGroups.forEach((g, i) => g.classList.toggle('is-current', i === index));
 
   // Precarga el slide actual y sus vecinos para que prev/next se sientan instantáneos
@@ -837,9 +850,8 @@ window.addEventListener('scroll', () => {
 // Scroll reveal with Intersection Observer
 (function () {
   const sels = [
-    '.whychoosetitle', '.gallerytitle', '.videos-title', '.videos-subtitle',
+    '.whychoosetitle', '.media-head',
     '.services h1', '.services .section-sub', '.services-carousel', '.location-container',
-    '.media-sub', '.gallery-carousel', '.video-gallery-wrapper',
     '.form-section h1', '.form-section > p'
   ];
   sels.forEach(s => document.querySelectorAll(s).forEach(el => el.classList.add('reveal')));
@@ -848,6 +860,11 @@ window.addEventListener('scroll', () => {
   document.querySelectorAll('.card').forEach((el, i) => {
     el.classList.add('reveal');
     el.style.transitionDelay = (i * 0.1) + 's';
+  });
+
+  document.querySelectorAll('.media-panel').forEach((el, i) => {
+    el.classList.add('reveal');
+    el.style.transitionDelay = (i * 0.12) + 's';
   });
 
   document.querySelector('.testimonials-intro')?.classList.add('reveal-left');
@@ -992,9 +1009,6 @@ window.addEventListener('scroll', () => {
 
   const PER_PAGE = 3;
   const pages = Math.ceil(cards.length / PER_PAGE);
-  const currentEl = stage.querySelector('.t-current');
-  const totalEl = stage.querySelector('.t-total');
-  if (totalEl) totalEl.textContent = pages;
 
   let page = 0;
   let timer;
@@ -1040,7 +1054,6 @@ window.addEventListener('scroll', () => {
       card.style.transitionDelay = first ? '' : (0.12 + i * 0.09) + 's';
       card.classList.add('petal-' + i);
     });
-    if (currentEl) currentEl.textContent = page + 1;
   }
 
   function restart() {
