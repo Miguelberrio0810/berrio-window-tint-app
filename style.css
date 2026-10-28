@@ -2571,3 +2571,122 @@ nav ul li a:hover { color: var(--accent-light); }
   .quote-form { padding: 2rem 1.2rem; }
 }
 
+
+/* ── PROMOCIÓN ── */
+.promo-section {
+  position: relative;
+  padding: 6rem 2rem;
+  background: radial-gradient(ellipse at top, rgba(56,176,0,0.10) 0%, transparent 60%), var(--bg-alt);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.promo-inner {
+  max-width: 1000px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.promo-eyebrow {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--accent);
+  padding: 0.3rem 0.9rem;
+  border: 1px solid var(--border-accent);
+  border-radius: 20px;
+  margin-bottom: 1.4rem;
+}
+
+.promo-title {
+  font-size: clamp(1.7rem, 4vw, 2.6rem);
+  line-height: 1.2;
+  color: var(--text);
+  margin-bottom: 1rem;
+}
+
+.promo-lead {
+  color: var(--text-muted);
+  max-width: 680px;
+  margin: 0 auto 2.5rem;
+  line-height: 1.6;
+}
+
+.promo-prices {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.promo-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-accent);
+  border-radius: var(--radius);
+  padding: 2rem 1.5rem;
+  box-shadow: var(--glow);
+  transition: transform var(--t);
+}
+
+.promo-card:hover { transform: translateY(-4px); }
+
+.promo-icon {
+  font-size: 2rem;
+  color: var(--accent-light);
+  margin-bottom: 0.6rem;
+}
+
+.promo-card h4 {
+  color: var(--text);
+  font-size: 1.15rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.promo-price {
+  font-size: clamp(2.6rem, 6vw, 3.4rem);
+  font-weight: 800;
+  color: var(--accent-light);
+  margin: 0.4rem 0;
+}
+
+.promo-includes {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.promo-benefits {
+  list-style: none;
+  padding: 0;
+  margin: 0 auto 2.5rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.8rem 1.5rem;
+  text-align: left;
+}
+
+.promo-benefits li {
+  color: var(--text);
+  font-size: 0.95rem;
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+}
+
+.promo-cta { margin-bottom: 1rem; }
+
+.promo-cta .btn { font-size: 1rem; padding: 0.85rem 1.8rem; }
+
+.promo-note {
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  font-style: italic;
+}
+
+@media (max-width: 760px) {
+  .promo-section { padding: 4rem 1rem; }
+  .promo-prices { grid-template-columns: 1fr; }
+  .promo-benefits { grid-template-columns: 1fr; }
+}
